@@ -29,29 +29,29 @@ import java.util.List;
  * <p>
  * The primary responsibilities of the {@code AbstractCluster} include:</p>
  * <ul>
- *  <li>
- *      Managing a list of {@code Cell} objects.
- *  </li>
- *  <li>
- *      Providing methods to add, remove, and query {@code Cell} objects within
- *      the cluster.
- *  </li>
- *  <li>
- *      Handling the active and closed states, controlling when modifications are
- *      allowed.
- *  </li>
- *  <li>
- *      Offering utility methods such as retrieving the first and last cells, or
- *      concatenating the contents of all cells into a single string.
- *  </li>
- *  <li>
- *      Supporting operations to clear or forcefully clear the cluster's contents
- *      depending on its state.
- *  </li>
- *  <li>
- *      Validating the internal state of the cluster upon closure to ensure
- *      consistency.
- *  </li>
+ * <li>
+ * Managing a list of {@code Cell} objects.
+ * </li>
+ * <li>
+ * Providing methods to add, remove, and query {@code Cell} objects within the
+ * cluster.
+ * </li>
+ * <li>
+ * Handling the active and closed states, controlling when modifications are
+ * allowed.
+ * </li>
+ * <li>
+ * Offering utility methods such as retrieving the first and last cells, or
+ * concatenating the contents of all cells into a single string.
+ * </li>
+ * <li>
+ * Supporting operations to clear or forcefully clear the cluster's contents
+ * depending on its state.
+ * </li>
+ * <li>
+ * Validating the internal state of the cluster upon closure to ensure
+ * consistency.
+ * </li>
  * </ul>
  *
  * <p>
@@ -181,6 +181,23 @@ public abstract class AbstractCluster implements CellCluster {
         return -1;
     }
 
+    /**
+     * Retrieves the {@code Cell} at the specified index within the cluster.
+     *
+     * <p>
+     * This method checks if the provided index is within the valid range (0
+     * inclusive to the size of the cluster exclusive). If the index is out of
+     * bounds, an {@code IllegalArgumentException} is thrown.</p>
+     *
+     * @param index the position of the cell to retrieve, must be between 0
+     * (inclusive) and the current size of the cluster (exclusive).
+     *
+     * @return the {@code Cell} at the specified index in the cluster.
+     *
+     * @throws IllegalArgumentException if the index is out of bounds,
+     * indicating that it is either negative or greater than or equal to the
+     * current size of the cluster.
+     */
     @Override
     public Cell getCellAt(int index) {
         if (index < 0 || index >= cells.size()) {
@@ -249,6 +266,9 @@ public abstract class AbstractCluster implements CellCluster {
     // ---------------------------- API Methods ----------------------------- //
     /**
      * Adds a {@code Cell} to the cluster.
+     *
+     * <b>Important Note: </b> This method should ONLY be called by a
+     * {@code Cell} object when it is added to a cluster.
      *
      * @param cell the {@code Cell} to be added to the cluster. Must not be
      * {@code null}.
