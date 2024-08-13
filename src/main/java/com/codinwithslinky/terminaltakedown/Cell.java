@@ -32,7 +32,8 @@ import javafx.scene.text.Font;
  * </p>
  *
  * @author Kheagen Haskins
- * @version 1.0
+ * 
+ * @version 2.0
  * @since 2024-08-12
  */
 public interface Cell {

@@ -10,7 +10,16 @@ import java.util.List;
  * instance would thus happen in the context of retrieving a cluster from a
  * given {@code Cell} in order to perform an operation on the cluster.
  *
+ * @see Cell
+ * @see AbstractCluster
+ * @see SymbolCluster
+ * @see LetterCluster
+ * 
+ * @see ClusterCloseException
+ * 
  * @author Kheagen Haskins
+ * @version 2.0
+ * @since 2024/08/12
  */
 public interface CellCluster {
 
@@ -187,8 +196,8 @@ public interface CellCluster {
      * cluster is in an invalid state for the requested operation.
      *
      * @version 1.1
-     * @since 2024-07-01
-     * @author Kheagen Haskins
+     * @since   2024-07-01
+     * @author  Kheagen Haskins
      */
     public class ClusterCloseException extends IllegalStateException {
 
