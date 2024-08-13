@@ -261,6 +261,9 @@ public abstract class AbstractCluster implements CellCluster {
     @Override
     public void setActive(boolean newState) {
         this.active = newState;
+        for (Cell cell : cells) {
+            cell.setActive(newState);
+        }
     }
 
     // ---------------------------- API Methods ----------------------------- //
