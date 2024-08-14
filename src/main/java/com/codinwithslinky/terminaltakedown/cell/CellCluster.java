@@ -1,4 +1,4 @@
-package com.codinwithslinky.terminaltakedown;
+package com.codinwithslinky.terminaltakedown.cell;
 
 import java.util.List;
 

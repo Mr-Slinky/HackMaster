@@ -1,4 +1,4 @@
-package com.codinwithslinky.terminaltakedown;
+package com.codinwithslinky.terminaltakedown.cell;
 
 /**
  * The {@code SymbolCluster} class extends {@code AbstractCluster} and is
