@@ -170,6 +170,7 @@ public class SymbolCell extends AbstractCell {
         }
 
         clusters.add(cluster);
+        cluster.addCell(this);
     }
 
     /**
