@@ -50,6 +50,7 @@ public class LetterCell extends AbstractCell {
         }
 
         this.cluster = (LetterCluster) cluster;
+        cluster.addCell(this);
 
     }
 
