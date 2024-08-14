@@ -20,5 +20,3 @@ Similarly, the `CellCluster` interface is implemented by the `AbstractCluster` c
 The `CellController` interface defines the contract for classes responsible for managing and clustering `Cell` objects. Currently, the only concrete implementation of this interface is the `CellMaster` class.
 
 The `CellMaster` class is constructed with a `SymbolClusterStrategy`, provided through dependency injection. This strategy defines the rules for clustering symbols into `SymbolCluster` objects. A similar strategy is not required for letters due to the straightforward nature of clustering letters.
-
-By understanding these key components—`Cell`, `CellCluster`, and `CellMaster`—you'll gain a comprehensive view of how the program structures and manages its core interactive elements.

@@ -1,4 +1,4 @@
-package com.codinwithslinky.terminaltakedown;
+package com.codinwithslinky.terminaltakedown.cell;
 
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
