@@ -1,8 +1,5 @@
 package com.codinwithslinky.terminaltakedown.cell;
 
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-
 /**
  * The {@code AbstractCell} class serves as an abstract base implementation for
  * cells used within a grid or matrix. It implements the {@code Cell} interface,
@@ -44,24 +41,7 @@ public abstract class AbstractCell implements Cell {
      */
     private boolean active;
 
-    /**
-     * The colour of the cell, used to determine its visual appearance.
-     */
-    private Color color;
-
-    /**
-     * The background of the cell, used to define its visual appearance when it
-     * is in a normal state.
-     */
-    private Background background;
-
-    /**
-     * The background of the cell when it is hovered over, used to define its
-     * visual appearance during a hover state.
-     */
-    private Background hoverBackground;
-
-// --------------------------- Constructors ----------------------------- //
+    // --------------------------- Constructors ----------------------------- //
     /**
      * Constructs a new {@code AbstractCell} instance with the specified
      * character content. The character must be a valid ASCII character between
@@ -76,7 +56,7 @@ public abstract class AbstractCell implements Cell {
         this.content = content;
     }
 
-// ------------------------------ Getters ------------------------------- //
+    // ------------------------------ Getters ------------------------------- //
     /**
      * Retrieves the character content of this cell.
      *
@@ -85,36 +65,6 @@ public abstract class AbstractCell implements Cell {
     @Override
     public char getContent() {
         return content;
-    }
-
-    /**
-     * Retrieves the colour of this cell.
-     *
-     * @return the colour of this cell.
-     */
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * Retrieves the background of this cell.
-     *
-     * @return the background of this cell.
-     */
-    @Override
-    public Background getBackground() {
-        return background;
-    }
-
-    /**
-     * Retrieves the hover background of this cell.
-     *
-     * @return the hover background of this cell.
-     */
-    @Override
-    public Background getHoverBackground() {
-        return hoverBackground;
     }
 
     /**
@@ -127,7 +77,7 @@ public abstract class AbstractCell implements Cell {
         return active;
     }
 
-// ------------------------------ Setters ------------------------------- //
+    // ------------------------------ Setters ------------------------------- //
     /**
      * Sets the character content of this cell.
      *
@@ -136,36 +86,6 @@ public abstract class AbstractCell implements Cell {
     @Override
     public void setContent(char content) {
         this.content = content;
-    }
-
-    /**
-     * Sets the colour of this cell.
-     *
-     * @param color the colour to set for this cell.
-     */
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    /**
-     * Sets the background of this cell.
-     *
-     * @param bg the background to set for this cell.
-     */
-    @Override
-    public void setBackground(Background bg) {
-        this.background = bg;
-    }
-
-    /**
-     * Sets the hover background of this cell.
-     *
-     * @param hoverBg the hover background to set for this cell.
-     */
-    @Override
-    public void setHoverBackground(Background hoverBg) {
-        this.hoverBackground = hoverBg;
     }
 
     /**
@@ -178,7 +98,7 @@ public abstract class AbstractCell implements Cell {
         this.active = newState;
     }
 
-// -------------------------- Helper Methods ---------------------------- //
+    // -------------------------- Helper Methods ---------------------------- //
     /**
      * Validates that the provided character is a valid ASCII character between
      * 33 and 126. If the character is outside this range, an

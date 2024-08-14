@@ -1,12 +1,5 @@
 package com.codinwithslinky.terminaltakedown.cell;
 
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-
 /**
  * Represents the fundamental interactive unit within the game. A {@code Cell}
  * serves as the smallest element that a player can interact with during
@@ -19,11 +12,6 @@ import javafx.scene.text.Font;
  * <ul>
  * <li>Contain a letter, symbol, or other character.</li>
  * <li>Be associated with a group, cluster, or exist in isolation.</li>
- * <li>Change its colour when highlighted or hovered over.</li>
- * <li>Emit a sound when a player interacts with it via a click or hover
- * action.</li>
- * <li>Be clickable, but trigger an action only if it is part of an active
- * cluster.</li>
  * </ul>
  *
  * <p>
@@ -32,38 +20,11 @@ import javafx.scene.text.Font;
  * </p>
  *
  * @author Kheagen Haskins
- * 
- * @version 2.0
+ *
+ * @version 3.0
  * @since 2024-08-12
  */
 public interface Cell {
-
-    // ------------------------------ Static -------------------------------- //
-    /**
-     * The main colour used in this Cell's rendering. This colour will be used
-     * to draw text when the cell is inactive and paint the background when the
-     * cell is active.
-     */
-    static final Color DEFAULT_COLOR = Color.GREEN;
-
-    /**
-     * The background to paint the cell when it is hovered over.
-     */
-    static final Background DEFAULT_HOVER_BACKGROUND = new Background(
-            new BackgroundFill(DEFAULT_COLOR, new CornerRadii(0), Insets.EMPTY)
-    );
-
-    /**
-     * The background to paint the cell when it inactive or at rest.
-     */
-    static final Background DEFAULT_BACKGROUND = new Background(
-            new BackgroundFill(Color.DARKGREEN.darker(), new CornerRadii(0), Insets.EMPTY)
-    );
-
-    /**
-     * The default font used to render the content of each Cell.
-     */
-    static final Font DEFAULT_FONT = Font.font("Courier Prime", 12);
 
     // ------------------------------ Getters ------------------------------- //
     /**
@@ -73,28 +34,6 @@ public interface Cell {
      */
     char getContent();
 
-    /**
-     * Retrieves the current colour of this {@code Cell}.
-     *
-     * @return the colour of this {@code Cell}.
-     */
-    Color getColor();
-
-    /**
-     * Retrieves the background configuration of this {@code Cell}.
-     *
-     * @return the background of this {@code Cell}.
-     */
-    Background getBackground();
-
-    /**
-     * Retrieves the background configuration that is applied when this
-     * {@code Cell} is hovered over.
-     *
-     * @return the hover background of this {@code Cell}.
-     */
-    Background getHoverBackground();
-
     // ------------------------------ Setters ------------------------------- //
     /**
      * Sets the content (a character) of this {@code Cell}.
@@ -103,29 +42,6 @@ public interface Cell {
      * {@code Cell}.
      */
     void setContent(char content);
-
-    /**
-     * Sets the colour of this {@code Cell}.
-     *
-     * @param color the colour to be applied to this {@code Cell}.
-     */
-    void setColor(Color color);
-
-    /**
-     * Sets the background of this {@code Cell}.
-     *
-     * @param bg the background configuration to be applied to this
-     * {@code Cell}.
-     */
-    void setBackground(Background bg);
-
-    /**
-     * Sets the background that will be applied when this {@code Cell} is
-     * hovered over.
-     *
-     * @param bg the hover background configuration for this {@code Cell}.
-     */
-    void setHoverBackground(Background bg);
 
     /**
      * Changes the state of the cell. This changes the visual properties of the
@@ -142,7 +58,15 @@ public interface Cell {
      * @param cluster the {@code CellCluster} to which this {@code Cell} will be
      * added.
      */
-    void addToCluster(CellCluster cluster);
+    boolean addToCluster(CellCluster cluster);
+
+    /**
+     * Removes this {@code Cell} from the specified {@code CellCluster}.
+     *
+     * @param cluster the {@code CellCluster} to which this {@code Cell} will be
+     * removed.
+     */
+    boolean removeCluster(CellCluster cluster);
 
     /**
      * Retrieves the primary cluster that this {@code Cell} is associated with.
