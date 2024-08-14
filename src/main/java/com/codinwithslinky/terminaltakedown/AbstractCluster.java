@@ -269,9 +269,10 @@ public abstract class AbstractCluster implements CellCluster {
     // ---------------------------- API Methods ----------------------------- //
     /**
      * Adds a {@code Cell} to the cluster.
-     *
+     * <p>
      * <b>Important Note: </b> This method should ONLY be called by a
      * {@code Cell} object when it is added to a cluster.
+     * </p>
      *
      * @param cell the {@code Cell} to be added to the cluster. Must not be
      * {@code null}.
