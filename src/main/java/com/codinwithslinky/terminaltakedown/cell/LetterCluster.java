@@ -48,9 +48,13 @@ public class LetterCluster extends AbstractCluster {
      */
     @Override
     public boolean validate() {
+        if (isEmpty()) {
+            return false;
+        }
+        
         for (Cell cell : getCells()) {
             if (!Character.isLetter(cell.getContent())) {
-                return false;
+                throw new ClusterCloseException(this, "Cannot close LetterCluster because it is invalid as it contains non-letter characters");
             }
         }
 
