@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  The {@code SymbolCell} class is a specialised subclass of
- *  {@code AbstractCell} designed to hold non-letter ASCII characters,
- *  particularly symbols. It supports functionality to identify and manage
- *  bracket types (both opening and closing) and interacts with
- *  {@code CellCluster} instances, allowing for cluster-related operations
- *  specific to symbol cells.
+ * The {@code SymbolCell} class is a specialised subclass of
+ * {@code AbstractCell} designed to hold non-letter ASCII characters,
+ * particularly symbols. It supports functionality to identify and manage
+ * bracket types (both opening and closing) and interacts with
+ * {@code CellCluster} instances, allowing for cluster-related operations
+ * specific to symbol cells.
  *
  * <p>
- *  This class ensures that only valid non-letter ASCII characters can be set as
- *  the content of the cell, and it throws an exception if an invalid character
- *  (such as a letter) is added. It also provides methods to determine if the
- *  cell contains an opening or closing bracket and to manage its membership
- *  within {@code CellCluster} instances.
+ * This class ensures that only valid non-letter ASCII characters can be set as
+ * the content of the cell, and it throws an exception if an invalid character
+ * (such as a letter) is added. It also provides methods to determine if the
+ * cell contains an opening or closing bracket and to manage its membership
+ * within {@code CellCluster} instances.
  * </p>
  *
  * <p>
- *  The {@code SymbolCell} can only be added to clusters that are instances of
- *  {@code SymbolCluster}, and it offers functionality to check if it is part of
- *  any active or non-active clusters.
+ * The {@code SymbolCell} can only be added to clusters that are instances of
+ * {@code SymbolCluster}, and it offers functionality to check if it is part of
+ * any active or non-active clusters.
  * </p>
  *
  *
@@ -159,18 +159,63 @@ public class SymbolCell extends AbstractCell {
     // ---------------------------- API Methods ----------------------------- //
     /**
      * Adds this {@code SymbolCell} to the specified {@code CellCluster}.
+     * <p>
+     * This method allows a {@code SymbolCell} to be part of multiple clusters
+     * at the same time. It checks if the provided cluster is a
+     * {@code SymbolCluster}. If it is, the cell is added to the cluster. If
+     * not, an {@code IllegalArgumentException} is thrown.
+     * </p>
+     * <p>
+     * The method also adds the provided cluster to this cell's internal list of
+     * clusters, keeping track of all the clusters this cell belongs to.
+     * </p>
      *
-     * @param cluster the {@code CellCluster} to which this {@code SymbolCell}
-     * will be added.
+     * @param cluster The {@code CellCluster} to which this {@code SymbolCell}
+     * should be added. Must be an instance of {@code SymbolCluster}.
+     * @throws IllegalArgumentException If the given {@code CellCluster} is not
+     * a {@code SymbolCluster}.
+     * @return {@code true} if the cell was successfully added to the cluster.
      */
     @Override
-    public void addToCluster(CellCluster cluster) {
+    public boolean addToCluster(CellCluster cluster) {
         if (!(cluster instanceof SymbolCluster)) {
-            throw new IllegalArgumentException("Cannot add a SymbolCluster to a " + cluster.getClass().getName());
+            throw new IllegalArgumentException("Cannot add a SymbolCell to a " + cluster.getClass().getName());
         }
 
         clusters.add(cluster);
-        cluster.addCell(this);
+        return cluster.addCell(this);
+    }
+
+    /**
+     * Removes this {@code SymbolCell} from the specified {@code CellCluster}.
+     * <p>
+     * This method removes the provided cluster from this cell's internal list
+     * of clusters, effectively disassociating the cell from that cluster. If
+     * the cell is not part of the given cluster, the method does nothing.
+     * </p>
+     * <p>
+     * Since a {@code SymbolCell} can belong to multiple clusters, this method
+     * ensures that only the specified cluster is removed, leaving the cell's
+     * membership in other clusters unaffected.
+     * </p>
+     * <p>
+     * <strong>Note:</strong> This method only removes the reference to the
+     * cluster from the cell but does not remove the cell from the cluster. This
+     * is by design, as this method should be invoked by the owning cluster when
+     * it is being cleared or when the cluster itself is managing the removal
+     * process. The actual removal of the cell from the cluster should be
+     * handled by the cluster's management logic.
+     * </p>
+     *
+     * @param cluster The {@code CellCluster} from which this {@code SymbolCell}
+     * should be removed.
+     * @return {@code true} if the cluster was successfully removed from the
+     * list of clusters, or {@code false} if the cell was not part of the
+     * cluster.
+     */
+    @Override
+    public boolean removeCluster(CellCluster cluster) {
+        return clusters.remove(cluster);
     }
 
     /**

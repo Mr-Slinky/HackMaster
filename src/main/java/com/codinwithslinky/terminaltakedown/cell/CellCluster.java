@@ -14,9 +14,9 @@ import java.util.List;
  * @see AbstractCluster
  * @see SymbolCluster
  * @see LetterCluster
- * 
+ *
  * @see ClusterCloseException
- * 
+ *
  * @author Kheagen Haskins
  * @version 2.0
  * @since 2024/08/12
@@ -160,8 +160,8 @@ public interface CellCluster {
      * Closes and validates the cluster, meaning no more cells can be added,
      * removed, or cleared. The content of the cells can still be modified.
      *
-     * @return false if the cell did not close for any reason, indicating an
-     * invalid cluster.
+     * @return {@code false} if the cluster is empty, indicating an invalid
+     * cluster, {@code true} if the cluster closes successfully.
      */
     public boolean close();
 
@@ -196,8 +196,8 @@ public interface CellCluster {
      * cluster is in an invalid state for the requested operation.
      *
      * @version 1.1
-     * @since   2024-07-01
-     * @author  Kheagen Haskins
+     * @since 2024-07-01
+     * @author Kheagen Haskins
      */
     public class ClusterCloseException extends IllegalStateException {
 
