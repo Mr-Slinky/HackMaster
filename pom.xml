@@ -53,7 +53,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                 </configuration>
@@ -189,7 +189,7 @@
                                 <argument>--win-menu</argument>
                                 <argument>--win-shortcut</argument>
                                 <argument>--module-path</argument>
-                                <argument>${project.build.directory};C:\Program Files\Java\javafx-jmods-21.0.4</argument>
+                                <argument>${project.build.directory};C:\Program Files\Java\javafx-jmods</argument>
                                 <argument>--add-modules</argument>
                                 <argument>javafx.controls,javafx.fxml</argument>
                             </arguments>
