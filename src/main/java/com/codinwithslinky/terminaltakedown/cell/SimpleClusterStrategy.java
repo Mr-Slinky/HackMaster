@@ -210,7 +210,7 @@ public class SimpleClusterStrategy implements ClusterStrategy {
                     cluster = new SymbolCluster();
                     for (int k = i; k < closingIndex; k++) {
                         // Will throw error if LetterCell is added
-                        cluster.addCell(cellRow.get(k));
+                        cellRow.get(k).addToCluster(cluster);
                     }
 
                     cluster.close(); // will throw exception if cluster is invalid
