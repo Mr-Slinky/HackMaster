@@ -29,7 +29,7 @@ public class LetterCell extends AbstractCell {
     // ------------------------------ Setters ------------------------------- //
     @Override
     public final void setContent(char content) {
-        if (!Character.isLetter(content) || content != VALID_SYMBOL) {
+        if (!Character.isLetter(content) && content != VALID_SYMBOL) {
             throw new IllegalCharAddition("Cannot add a non-alphabetic character to a LetterCell: '" + content + "'");
         }
 
@@ -60,8 +60,16 @@ public class LetterCell extends AbstractCell {
      */
     @Override
     public boolean addToCluster(CellCluster cluster) {
+        if (cluster == null) {
+            throw new IllegalArgumentException("Cannot add LetterCell to a null cluster");
+        }
+        
         if (!(cluster instanceof LetterCluster)) {
             throw new IllegalArgumentException("Cannot add a LetterCell to a " + cluster.getClass().getName());
+        }
+        
+        if (cluster.contains(this)) {
+            return true;
         }
 
         this.cluster = (LetterCluster) cluster;
