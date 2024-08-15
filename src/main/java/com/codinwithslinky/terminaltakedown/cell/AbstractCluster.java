@@ -354,13 +354,15 @@ public abstract class AbstractCluster implements CellCluster {
      */
     @Override
     public void clear() {
-        if (!closed) {
-            for (Cell cell : cells) {
-                cell.removeCluster(this);
-            }
-            
-            cells.clear();
+        if (isEmpty() || closed) {
+            return;
         }
+
+        for (Cell cell : cells) {
+            cell.removeCluster(this);
+        }
+
+        cells.clear();
     }
 
     /**
