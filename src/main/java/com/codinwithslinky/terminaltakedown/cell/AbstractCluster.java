@@ -363,6 +363,7 @@ public abstract class AbstractCluster implements CellCluster {
         }
 
         cells.clear();
+        closed = false;
     }
 
     /**
@@ -372,7 +373,8 @@ public abstract class AbstractCluster implements CellCluster {
      */
     @Override
     public void forceClear() {
-        cells.clear();
+        closed = false;
+        clear();
     }
 
     /**
