@@ -103,7 +103,7 @@ public class LetterCell extends AbstractCell {
         }
 
         // Calls super to bypass redundant validation
-        super.setContent(content);
+        super.setContent(Character.toUpperCase(content));
     }
 
     // ------------------------------ Setters ------------------------------- //
