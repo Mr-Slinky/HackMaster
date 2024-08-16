@@ -114,4 +114,26 @@ public abstract class AbstractCell implements Cell {
         }
     }
 
+    /**
+     * Compares this {@code Cell} with the specified {@code Cell} to determine
+     * if their content is identical.
+     * <p>
+     * This method returns {@code true} if the specified {@code Cell} is of the
+     * same subclass and their content matches. If the cells are of different
+     * subclasses, it returns {@code false}.
+     * </p>
+     *
+     * @param cell The {@code Cell} to compare with this {@code Cell}.
+     * @return {@code true} if the cells are of the same subclass and have
+     * identical content; {@code false} otherwise.
+     */
+    @Override
+    public boolean matches(Cell cell) {
+        if (!cell.getClass().getName().equals(getClass().getName())) {
+            return false;
+        }
+
+        return cell.getContent() == content;
+    }
+
 }
