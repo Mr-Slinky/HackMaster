@@ -116,6 +116,30 @@ public interface Cell {
     boolean inCluster();
 
     /**
+     * Determines whether the content of this {@code Cell} matches the content
+     * of the specified {@code Cell}.
+     * <p>
+     * This method compares the content of the two {@code Cell} instances. If
+     * the {@code Cell}s belong to different subclasses, this method will
+     * automatically return {@code false}, ensuring that only cells of the same
+     * type are considered comparable.
+     * </p>
+     * <p>
+     * For most subclasses, including {@code LetterCell}, this method checks if
+     * the content of both cells is identical. However, for more specialized
+     * subclasses like {@code SymbolCell}, the implementation may involve more
+     * nuanced rules, such as determining whether certain types of symbols are
+     * considered equivalent, even if their content differs.
+     * </p>
+     *
+     * @param cell The {@code Cell} whose content is to be compared with this
+     * {@code Cell}.
+     * @return {@code true} if the content of the two {@code Cell}s matches and
+     * they belong to the same subclass; {@code false} otherwise.
+     */
+    boolean matches(Cell cell);
+
+    /**
      * The {@code IllegalCharAddition} class is a specific type of
      * {@code IllegalArgumentException} that is thrown when an invalid character
      * is added to a cell. This exception indicates that the character being
