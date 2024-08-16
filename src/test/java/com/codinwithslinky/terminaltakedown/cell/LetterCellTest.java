@@ -42,7 +42,7 @@ public class LetterCellTest {
 
     @ParameterizedTest
     @ValueSource(chars
-             = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
                 LetterCell.VALID_SYMBOL}
     )
@@ -59,19 +59,6 @@ public class LetterCellTest {
                 () -> validCell.setContent(content), "Expected failure for content " + content + " being set to LetterCell"
         );
     }
-
-    private static Stream<Arguments> provideLetterClusterImplementations() {
-        LetterCluster arg1 = new LetterCluster(); // empty
-        LetterCluster arg2 = new LetterCluster(); // non-empty
-        new LetterCell('B').addToCluster(arg2);
-        new LetterCell('C').addToCluster(arg2);
-        new LetterCell('D').addToCluster(arg2);
-        return Stream.of(
-                Arguments.of(arg1),
-                Arguments.of(arg2)
-        // Add any new implementations here
-        );
-    } // Used below
 
     @ParameterizedTest
     @MethodSource("provideLetterClusterImplementations")
@@ -128,7 +115,41 @@ public class LetterCellTest {
                 () -> assertDoesNotThrow(() -> validCell.setActive(newState)),
                 () -> assertEquals(validCell.isActive(), newState)
         );
-
     }
 
+    @ParameterizedTest
+    @MethodSource("provideContentForMatchesTest")
+    public void testMatches_VariedInput_ReturnsExpected(char content, char matchingContent, boolean expected) {
+        boolean result = new LetterCell(content).matches(new LetterCell(matchingContent));
+        assertEquals(expected, result, content + " matches " + matchingContent + " : " + result + ", but expected " + expected);
+    }
+
+    // -------------------------- Method Sources ---------------------------- //
+    private static Stream<Arguments> provideContentForMatchesTest() {
+        return Stream.of(
+                Arguments.of('A', 'A', true),
+                Arguments.of('B', 'B', true),
+                Arguments.of('C', 'C', true),
+                Arguments.of('x', 'x', true),
+                Arguments.of('y', 'y', true),
+                Arguments.of('z', 'z', true),
+                Arguments.of('A', 'a', true),
+                Arguments.of('Z', 'z', true),
+                Arguments.of('A', 'B', false),
+                Arguments.of('x', 'y', false)
+        );
+    }
+
+    private static Stream<Arguments> provideLetterClusterImplementations() {
+        LetterCluster arg1 = new LetterCluster(); // empty
+        LetterCluster arg2 = new LetterCluster(); // non-empty
+        new LetterCell('B').addToCluster(arg2);
+        new LetterCell('C').addToCluster(arg2);
+        new LetterCell('D').addToCluster(arg2);
+        return Stream.of(
+                Arguments.of(arg1),
+                Arguments.of(arg2)
+        // Add any new implementations here
+        );
+    }
 }
