@@ -41,12 +41,12 @@ public class SymbolCell extends AbstractCell {
     /**
      * Characters that are considered as opening brackets.
      */
-    private static final char[] openChars = {'(', '{', '[', '<'};
+    private static final char[] OPEN_TYPES = {'(', '{', '[', '<'};
 
     /**
      * Characters that are considered as closing brackets.
      */
-    private static final char[] closeChars = {')', '}', ']', '>'};
+    private static final char[] CLOSE_TYPES = {')', '}', ']', '>'};
 
     // ------------------------------ Fields -------------------------------- //
     private List<CellCluster> clusters = new ArrayList<>();
@@ -138,16 +138,16 @@ public class SymbolCell extends AbstractCell {
         closeType = -1;
 
         // Determine open type (if any)
-        for (int i = 0; i < openChars.length; i++) {
-            if (openChars[i] == c) {
+        for (int i = 0; i < OPEN_TYPES.length; i++) {
+            if (OPEN_TYPES[i] == c) {
                 openType = i;
                 break;
             }
         }
 
         // Determine close type (if any)
-        for (int i = 0; i < closeChars.length; i++) {
-            if (closeChars[i] == c) {
+        for (int i = 0; i < CLOSE_TYPES.length; i++) {
+            if (CLOSE_TYPES[i] == c) {
                 closeType = i;
                 break;
             }
@@ -264,6 +264,40 @@ public class SymbolCell extends AbstractCell {
     @Override
     public boolean inCluster() {
         return !clusters.isEmpty();
+    }
+
+    /**
+     * Determines whether the content of this {@code SymbolCell} matches the
+     * content of the specified {@code Cell}.
+     * <p>
+     * This method is specifically designed for {@code SymbolCell} objects and
+     * checks for a more nuanced match based on symbol types. If the provided
+     * {@code Cell} is not an instance of {@code SymbolCell}, the method
+     * immediately returns {@code false}.
+     * </p>
+     * <p>
+     * For {@code SymbolCell}s, the method considers the relationship between
+     * open and close types. If this {@code SymbolCell} is of an open type, it
+     * will match with another {@code SymbolCell} of the corresponding close
+     * type, and vice versa. The match occurs if the open type of one cell
+     * matches the close type of the other or the close type of one matches the
+     * open type of the other.
+     * </p>
+     *
+     * @param cell The {@code Cell} to compare with this {@code SymbolCell}.
+     * @return {@code true} if the {@code SymbolCell}s are of corresponding open
+     * and close types; {@code false} otherwise.
+     */
+    @Override
+    public boolean matches(Cell cell) {
+        if (cell instanceof SymbolCell sCell) {
+            boolean mightMatch = (isOpenType() && sCell.isCloseType()) || (isCloseType() && sCell.isOpenType());
+            if (mightMatch) {
+                return (openType == sCell.closeType) || (closeType == sCell.openType);
+            }
+        }
+
+        return false;
     }
 
 }
