@@ -25,9 +25,9 @@ package com.codinwithslinky.terminaltakedown.cell;
  * The primary functionalities of the {@code LetterCell} include:
  * </p>
  * <ul>
- * <li><b>Validation of Content:</b> The {@code LetterCell} only allows alphabetic
- * characters or the special {@code VALID_SYMBOL}. Any invalid character will
- * trigger an exception.</li>
+ * <li><b>Validation of Content:</b> The {@code LetterCell} only allows
+ * alphabetic characters or the special {@code VALID_SYMBOL}. Any invalid
+ * character will trigger an exception.</li>
  * <li><b>Cluster Management:</b> The class allows adding the cell to a
  * {@code LetterCluster} and removing it when necessary. It ensures that a cell
  * is only part of one cluster at a time and provides methods to check the
@@ -49,9 +49,10 @@ package com.codinwithslinky.terminaltakedown.cell;
  * <li><b>Consistency:</b> The class ensures that all characters within a
  * {@code LetterCell} are uppercase, providing a uniform representation of
  * data.</li>
- * <li><b>Exception Handling:</b> The class handles invalid operations gracefully
- * by throwing meaningful exceptions, such as {@code IllegalCharAddition} when
- * an invalid character is attempted to be set.</li>
+ * <li><b>Exception Handling:</b> The class handles invalid operations
+ * gracefully by throwing meaningful exceptions, such as
+ * {@code IllegalCharAddition} when an invalid character is attempted to be
+ * set.</li>
  * </ul>
  *
  * @author Kheagen Haskins
@@ -97,13 +98,7 @@ public class LetterCell extends AbstractCell {
      */
     public LetterCell(char content) {
         super(content);
-
-        if (!Character.isLetter(content)) {
-            throw new IllegalCharAddition("Cannot add a non-alphabetic character to a LetterCell: '" + content + "'");
-        }
-
-        // Calls super to bypass redundant validation
-        super.setContent(Character.toUpperCase(content));
+        setContent(Character.toUpperCase(content));
     }
 
     // ------------------------------ Setters ------------------------------- //
@@ -127,7 +122,7 @@ public class LetterCell extends AbstractCell {
      */
     @Override
     public final void setContent(char content) {
-        if (!Character.isLetter(content) && content != VALID_SYMBOL) {
+        if ((!Character.isLetter(content) && content != VALID_SYMBOL) || content > 127) {
             throw new IllegalCharAddition("Cannot add a non-alphabetic character to a LetterCell: '" + content + "'");
         }
 
