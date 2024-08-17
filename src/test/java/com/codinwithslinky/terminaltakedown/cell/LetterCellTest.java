@@ -354,7 +354,9 @@ public class LetterCellTest {
                 Arguments.of('A', 'a', true),
                 Arguments.of('Z', 'z', true),
                 Arguments.of('A', 'B', false),
-                Arguments.of('x', 'y', false)
+                Arguments.of('x', 'y', false),
+                Arguments.of('X', 'y', false),
+                Arguments.of('x', 'Y', false)
         );
     }
 
