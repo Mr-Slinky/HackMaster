@@ -392,4 +392,24 @@ public abstract class AbstractCluster implements CellCluster {
         }
     }
 
+    /**
+     * Returns a string representation of the {@code CellCluster} object.
+     * <p>
+     * This method overrides the {@code toString} method to provide a detailed
+     * representation of the {@code CellCluster} instance. It includes the name
+     * "LetterCluster" followed by the string representation of the superclass,
+     * and then appends the text content of the cluster using the
+     * {@code getText()} method.
+     * </p>
+     *
+     * @return A string that represents the {@code CellCluster}, including its
+     * superclass representation and text content.
+     */
+    @Override
+    public String toString() {
+        String className = getClass().getName();
+        className = className.substring(className.lastIndexOf("."));
+        return className + super.toString() + ":\t" + getText();
+    }
+
 }

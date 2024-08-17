@@ -300,4 +300,33 @@ public class SymbolCell extends AbstractCell {
         return false;
     }
 
+    /**
+     * Returns a string representation of the {@code LetterCell} object.
+     * <p>
+     * This method overrides the {@code toString} method to provide a detailed
+     * description of the {@code LetterCell} instance. The output includes the
+     * content of the cell enclosed in square brackets, followed by a list of
+     * clusters to which the cell belongs. If the cell is not part of any
+     * clusters, the output will indicate "NONE"; otherwise, it will display the
+     * text content of each associated cluster.
+     * </p>
+     *
+     * @return A string that represents the {@code LetterCell}, including its
+     * content and associated clusters' information.
+     */
+    @Override
+    public String toString() {
+        StringBuilder outp = new StringBuilder("LetterCell [" + getContent() + "]" + "\n\tClusters:");
+
+        if (clusters.isEmpty()) {
+            outp.append("\tNONE");
+        } else {
+            for (CellCluster cluster : clusters) {
+                outp.append("\n\t\t").append(cluster.getText());
+            }
+        }
+
+        return outp.toString();
+    }
+
 }

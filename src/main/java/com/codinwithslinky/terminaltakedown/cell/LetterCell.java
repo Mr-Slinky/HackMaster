@@ -236,4 +236,24 @@ public class LetterCell extends AbstractCell {
         return cluster != null;
     }
 
+    /**
+     * Returns a string representation of the {@code LetterCell} object.
+     * <p>
+     * This method overrides the {@code toString} method to provide a detailed
+     * description of the {@code LetterCell} instance. The output includes the
+     * content of the cell enclosed in square brackets, followed by information
+     * about the cluster to which the cell belongs. If the cell is not part of
+     * any cluster, the output will indicate "None"; otherwise, it will display
+     * the text content of the associated cluster.
+     * </p>
+     *
+     * @return A string that represents the {@code LetterCell}, including its
+     * content and associated cluster information.
+     */
+    @Override
+    public String toString() {
+        return "LetterCell [" + getContent() + "]" + "\n\tCluster:\t"
+                + (cluster == null ? "None" : cluster.getText());
+    }
+
 }
