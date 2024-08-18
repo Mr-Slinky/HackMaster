@@ -316,7 +316,7 @@ public class SymbolCell extends AbstractCell {
      */
     @Override
     public String toString() {
-        StringBuilder outp = new StringBuilder("LetterCell [" + getContent() + "]" + "\n\tClusters:");
+        StringBuilder outp = new StringBuilder("SymbolCell [" + getContent() + "]" + "\n\tClusters:");
 
         if (clusters.isEmpty()) {
             outp.append("\tNONE");

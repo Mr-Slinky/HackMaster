@@ -3,6 +3,8 @@ package com.codinwithslinky.terminaltakedown.cell;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Queue;
 
 /**
  * A strategy for clustering symbols and letters within a collection of
@@ -21,21 +23,15 @@ import java.util.List;
  * handles both the clustering of symbols, which may involve more complex
  * matching logic, and the simpler clustering of consecutive letters.
  * </p>
- * <p>
- * This class is particularly useful in scenarios where cells need to be grouped
- * into clusters for further processing, such as in interactive applications or
- * terminal-based games, where the relationships between symbols and letters are
- * key to the program's functionality.
- * </p>
  *
  * @see Cell
  * @see LetterCell
  * @see SymbolCell
- * 
+ *
  * @see CellCluster
  * @see LetterCluster
  * @see SymbolCluster
- * 
+ *
  * @author Kheagen Haskins
  */
 public class SimpleClusterStrategy implements ClusterStrategy {
@@ -76,19 +72,30 @@ public class SimpleClusterStrategy implements ClusterStrategy {
      * Linearly searches through each {@code Cell} and groups consecutive
      * {@code LetterCell}s into {@code LetterCluster}s. A cluster begins when a
      * {@code LetterCell} is encountered, and is finalised when a
-     * non-{@code LetterCell} is found or the end of the list is reached.
+     * non-{@code LetterCell} is found or the end of the collection is reached.
+     * <p>
+     * Before processing, the collection type is verified to ensure that it is
+     * either a {@code List}, {@code Set}, or {@code Queue}. If the collection
+     * type does not match these, an {@code IllegalArgumentException} is thrown.
+     * </p>
      * <p>
      * If a cluster cannot be closed (i.e., validated), a
      * {@code RuntimeException} is thrown.
      * </p>
      *
+     * @param cells the collection of {@code Cell} objects to be processed for
+     * letter clustering.
      * @return a list of {@code CellCluster}s representing clusters of
-     * consecutive {@code LetterCell}s found in the list.
+     * consecutive {@code LetterCell}s found in the collection.
+     * @throws IllegalArgumentException if the collection type is not a
+     * {@code List}, {@code Set}, or {@code Queue}.
      * @throws RuntimeException if a cluster cannot be closed due to validation
      * failure.
      */
     @Override
     public List<CellCluster> clusterLetters(Collection<? extends Cell> cells) {
+        verifyCollectionType(cells);
+
         // Tracks the clusters to easily work with them later if needed
         List<CellCluster> clusterList = new ArrayList<>();
         LetterCluster cluster = new LetterCluster();
@@ -125,6 +132,12 @@ public class SimpleClusterStrategy implements ClusterStrategy {
      * the same row.
      * </p>
      * <p>
+     * Before processing, the collection type is verified to ensure that it is
+     * either a {@code List}, {@code LinkedHashSet}, or {@code Queue}. If the
+     * collection type does not match these, an {@code IllegalArgumentException}
+     * is thrown.
+     * </p>
+     * <p>
      * Despite the possibility of multiple matches, due to the design of
      * {@link Cell#getMainCluster()} for {@code SymbolCell} objects, only one
      * cluster associated with an open bracket will remain interactive at any
@@ -138,9 +151,13 @@ public class SimpleClusterStrategy implements ClusterStrategy {
      * @return a list of {@code CellCluster} objects representing the grouped
      * symbols. Each cluster contains {@code SymbolCell} objects that have been
      * matched and grouped based on the open and close bracket types.
+     * @throws IllegalArgumentException if the collection type is not a
+     * {@code List}, {@code Set}, or {@code Queue}.
      */
     @Override
     public List<CellCluster> clusterSymbols(Collection<? extends Cell> symbolCells) {
+        verifyCollectionType(symbolCells);
+
         List<CellCluster> clusters = new ArrayList<>();
         int i = 0;
         List<Cell> currentRow = new ArrayList<>();
@@ -208,7 +225,7 @@ public class SimpleClusterStrategy implements ClusterStrategy {
 
                     // Override any previous cluster
                     cluster = new SymbolCluster();
-                    for (int k = i; k < closingIndex; k++) {
+                    for (int k = i; k <= closingIndex; k++) {
                         // Will throw error if LetterCell is added
                         cellRow.get(k).addToCluster(cluster);
                     }
@@ -283,6 +300,24 @@ public class SimpleClusterStrategy implements ClusterStrategy {
     private void finaliseCluster(CellCluster cluster, List<CellCluster> clusterList) {
         if (cluster.close()) { // returns false if empty
             clusterList.add(cluster);
+        }
+    }
+
+    /**
+     * Verifies that the provided {@code Collection} is of a valid type.
+     * <p>
+     * This method checks whether the given collection is an instance of
+     * {@code List}, {@code Set}, or {@code Queue}. If the collection is not one
+     * of these types, an {@code IllegalArgumentException} is thrown.
+     * </p>
+     *
+     * @param c the collection to be verified
+     * @throws IllegalArgumentException if the collection is not a {@code List},
+     * {@code Set}, or {@code Queue}
+     */
+    private void verifyCollectionType(Collection c) {
+        if (!(c instanceof List || c instanceof LinkedHashSet || c instanceof Queue)) {
+            throw new IllegalArgumentException("Collection passed to " + getClass().getName() + " must be an ordered collection");
         }
     }
 

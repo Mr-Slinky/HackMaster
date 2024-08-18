@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
-import org.junit.jupiter.api.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Unit test class for {@code SymbolCell}, designed to validate the
@@ -48,10 +50,10 @@ import org.junit.jupiter.api.*;
  * </ul>
  *
  * <p>
- * The test class uses parameterized tests extensively, allowing for
- * efficient testing of multiple cases with minimal code duplication. Method
- * sources and CSV sources are used to supply a wide range of test data,
- * ensuring comprehensive coverage of the {@code SymbolCell} functionality.
+ * The test class uses parameterized tests extensively, allowing for efficient
+ * testing of multiple cases with minimal code duplication. Method sources and
+ * CSV sources are used to supply a wide range of test data, ensuring
+ * comprehensive coverage of the {@code SymbolCell} functionality.
  * </p>
  *
  * <p>
@@ -59,10 +61,10 @@ import org.junit.jupiter.api.*;
  * <ul>
  * <li><b>Constructor with Valid Symbols:</b> Validates that creating a
  * {@code SymbolCell} with valid symbols (e.g., '(', '{', '[', '<') does not
- * throw any exceptions.</li> <li><b>Constructor with In
- * valid Symbols:</b> Ensures that attempting to create a {@code SymbolCell}
- * with invalid symbols (e.g., '!', '@', '$') results in an
- * {@code IllegalCharAddition} exception.</li>
+ * throw any exceptions.</li> <li><b>Constructor with In valid Symbols:</b>
+ * Ensures that attempting to create a {@code SymbolCell} with invalid symbols
+ * (e.g., '!', '@', '$') results in an {@code IllegalCharAddition}
+ * exception.</li>
  * <li><b>Open and Close Type Identification:</b> Confirms that the
  * {@code SymbolCell} can correctly identify whether it is an open or close type
  * based on its content.</li>
@@ -131,9 +133,10 @@ public class SymbolCellTest {
     /**
      * Tests the {@code isOpenType} method of {@code SymbolCell} with valid
      * open-type symbols.
+     *
      * <p>
      * This test verifies that the {@code SymbolCell} correctly identifies valid
-     * open-type symbols (such as {@code '('}, {@code '{'}, etc.)
+     * open-type symbols (such as {@code '('}, {@code '['}, etc.)
      * and that the {@code isOpenType} method returns {@code true} for these symbols.
      * </p>
      *
