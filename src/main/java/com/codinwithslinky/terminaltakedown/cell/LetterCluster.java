@@ -1,5 +1,7 @@
 package com.codinwithslinky.terminaltakedown.cell;
 
+import java.util.List;
+
 /**
  * A specialized implementation of {@code AbstractCluster} that groups
  * {@code LetterCell}s. This class ensures that only cells containing letter
@@ -13,7 +15,9 @@ package com.codinwithslinky.terminaltakedown.cell;
  * @author Kheagen Haskins
  */
 public class LetterCluster extends AbstractCluster {
-
+    
+    public static final int MIN_WORD_SIZE = 3;
+    
     // ---------------------------- API Methods ----------------------------- //
     /**
      * Adds a {@code Cell} to the cluster, ensuring it is an instance of
@@ -51,8 +55,13 @@ public class LetterCluster extends AbstractCluster {
         if (isEmpty()) {
             return false;
         }
-        
-        for (Cell cell : getCells()) {
+
+        List<Cell> cells = getCells();
+        if (cells.size() < MIN_WORD_SIZE) {
+            throw new ClusterCloseException(this, "LetterCluster too small to close " + cells.size());
+        }
+
+        for (Cell cell : cells) {
             if (!Character.isLetter(cell.getContent())) {
                 throw new ClusterCloseException(this, "Cannot close LetterCluster because it is invalid as it contains non-letter characters");
             }
