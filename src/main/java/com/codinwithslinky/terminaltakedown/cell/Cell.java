@@ -47,7 +47,8 @@ public interface Cell {
      * Changes the state of the cell. This changes the visual properties of the
      * Cell.
      *
-     * @param newState
+     * @param newState the new state of the cell, {@code true} for active,
+     * {@code false} for inactive.
      */
     void setActive(boolean newState);
 
@@ -57,6 +58,7 @@ public interface Cell {
      *
      * @param cluster the {@code CellCluster} to which this {@code Cell} will be
      * added.
+     * @return {@code true} if the cell was successfully added to the cluster.
      */
     boolean addToCluster(CellCluster cluster);
 
@@ -65,6 +67,7 @@ public interface Cell {
      *
      * @param cluster the {@code CellCluster} to which this {@code Cell} will be
      * removed.
+     * @return {@code true} if the cluster was successfully removed.
      */
     boolean removeCluster(CellCluster cluster);
 

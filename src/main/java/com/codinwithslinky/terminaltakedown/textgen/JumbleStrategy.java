@@ -19,7 +19,6 @@ package com.codinwithslinky.terminaltakedown.textgen;
  * the words combined, an {@code IllegalArgumentException} is thrown.</li>
  * </ul>
  *
- * @FunctionalInterface
  * @author Kheagen Haskins
  */
 public interface JumbleStrategy {
