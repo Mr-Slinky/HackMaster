@@ -1,5 +1,7 @@
 package com.codinwithslinky.terminaltakedown.cell;
 
+import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCluster;
+import com.codinwithslinky.terminaltakedown.cell.concrete.SymbolCluster;
 import java.util.List;
 
 /**
@@ -19,7 +21,6 @@ import java.util.List;
  *
  * @author Kheagen Haskins
  * @version 2.0
- * @since 2024/08/12
  */
 public interface CellCluster {
 
@@ -27,7 +28,7 @@ public interface CellCluster {
     /**
      * All Cells in this cluster.
      *
-     * @return
+     * @return A {@link List} of all {@link Cell}s in this cluster.
      */
     List<Cell> getCells();
 
@@ -142,8 +143,8 @@ public interface CellCluster {
      * true or false to indicate if the given Cell is within the cluster.
      * </p>
      *
-     * @param cell
-     * @return
+     * @param cell the {@code Cell} to query.
+     * @return {@code true} if this cluster contains the given cell.
      */
     boolean contains(Cell cell);
 
