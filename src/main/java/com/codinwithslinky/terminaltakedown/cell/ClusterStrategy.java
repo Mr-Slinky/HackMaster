@@ -1,5 +1,8 @@
 package com.codinwithslinky.terminaltakedown.cell;
 
+import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCluster;
+import com.codinwithslinky.terminaltakedown.cell.concrete.SymbolCluster;
+
 import java.util.Collection;
 import java.util.List;
 
