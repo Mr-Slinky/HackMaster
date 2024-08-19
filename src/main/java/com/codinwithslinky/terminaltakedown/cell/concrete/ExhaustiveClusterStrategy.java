@@ -10,22 +10,39 @@ import java.util.LinkedHashSet;
 import java.util.Queue;
 
 /**
- * A strategy for clustering symbols and letters within a collection of
- * {@code Cell} objects.
- * <p>
- * The {@code SimpleClusterStrategy} class implements the
- * {@code ClusterStrategy} interface, providing methods to group consecutive
- * {@code Cell} objects into logical clusters based on specific criteria. This
- * class is designed to process collections of cells by separating them into
- * rows, and then identifying and forming clusters of symbols or letters based
- * on matching open and close bracket types or consecutive letter sequences.
+ * <strong>A strategy for clustering symbols and letters within a collection of
+ * <code>Cell</code> objects.</strong>
+ *
+        <p>
+ * <strong>Letter Clustering:</strong> In this class, letter clustering is
+ * straightforward: it begins when a letter is encountered and continues as long
+ * as consecutive letters are found. The clustering stops when a non-letter is
+ * encountered.
+ * </p>
+ *
+        <p>
+ * <strong>Symbol Clustering:</strong> Symbol clustering, on the other hand, is
+ * more comprehensive. The clustering strategy is designed to exhaustively
+ * identify all valid combinations of opening and closing brackets and group
+ * them together. For example, given the text <code>'[[()]]'</code>, which
+ * contains three opening brackets, the clustering process would identify two
+ * nested pairs of brackets and one simple pair. The inner brackets
+ * <code>'()'</code> are treated as a simple pair. As a result, the string
+ * <code>'[[()]]'</code> would be clustered into five groups: four for the
+ * nested brackets and one for the simple pair. Clustering happens in rows, and
+ * thus, no symbol cluster can span multiple rows.
  * </p>
  * <p>
- * The clustering logic is flexible, allowing for different types of cells to be
- * clustered together based on the rules defined in the implemented methods. It
- * handles both the clustering of symbols, which may involve more complex
- * matching logic, and the simpler clustering of consecutive letters.
- * </p>
+ * Sample Text: "[[()]]"</p>
+ * <p>
+ * Clusters:</p>
+ * <ul>
+ * <li>[[()]</li>
+ * <li>[[()]]</li>
+ * <li>[()]</li>
+ * <li>[()]]</li>
+ * <li>()</li>
+ * </ul>
  *
  * @see Cell
  * @see LetterCell
@@ -37,7 +54,7 @@ import java.util.Queue;
  *
  * @author Kheagen Haskins
  */
-public class SimpleClusterStrategy implements ClusterStrategy {
+public class ExhaustiveClusterStrategy implements ClusterStrategy {
 
     // ------------------------------ Fields -------------------------------- //
     /**
@@ -66,7 +83,7 @@ public class SimpleClusterStrategy implements ClusterStrategy {
      * @param columnSize the number of columns to be used for clustering
      * symbols. This value defines the width of each row during processing.
      */
-    public SimpleClusterStrategy(int columnSize) {
+    public ExhaustiveClusterStrategy(int columnSize) {
         this.cols = columnSize;
     }
 
@@ -144,8 +161,7 @@ public class SimpleClusterStrategy implements ClusterStrategy {
      * Despite the possibility of multiple matches, due to the design of
      * {@link Cell#getMainCluster()} for {@code SymbolCell} objects, only one
      * cluster associated with an open bracket will remain interactive at any
-     * given time. This ensures that the program maintains clear and manageable
-     * symbol interactions.
+     * given time.
      * </p>
      *
      * @param symbolCells the collection of {@code Cell} objects to be processed
