@@ -1,9 +1,5 @@
-package com.codinwithslinky.terminaltakedown.cell.concrete;
+package com.codinwithslinky.terminaltakedown.cell;
 
-import com.codinwithslinky.terminaltakedown.cell.AbstractCell;
-import com.codinwithslinky.terminaltakedown.cell.AbstractCluster;
-import com.codinwithslinky.terminaltakedown.cell.Cell;
-import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCluster;
 import java.util.List;
 import java.util.stream.Stream;

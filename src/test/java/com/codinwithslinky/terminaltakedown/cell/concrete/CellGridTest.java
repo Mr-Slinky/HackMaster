@@ -3,6 +3,7 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import com.codinwithslinky.terminaltakedown.cell.ClusterStrategy;
+
 import java.util.List;
 
 import java.util.stream.Stream;
@@ -43,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * <p>
  * The tests rely on a specific implementation of the {@code ClusterStrategy}
- * interface, particularly the {@code SimpleClusterStrategy}, to cluster cells
+ * interface, particularly the {@code ExhaustiveClusterStrategy}, to cluster cells
  * during testing. The test grid is populated with a predefined set of
  * characters that include letters and symbols, designed to simulate typical
  * usage scenarios for the {@code CellGrid} class.
@@ -53,7 +54,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Cell
  * @see CellCluster
  * @see ClusterStrategy
- * @see SimpleClusterStrategy
+ * @see ExhaustiveClusterStrategy
  *
  * @author Kheagen Haskins
  */
@@ -103,7 +104,7 @@ public class CellGridTest {
     };
 
     /**
-     * A predefined instance of {@code SimpleClusterStrategy} used to cluster
+     * A predefined instance of {@code ExhaustiveClusterStrategy} used to cluster
      * cells within the grid.
      * <p>
      * This strategy is configured based on the length of the first row in the
@@ -111,7 +112,7 @@ public class CellGridTest {
      * behaviour of the {@code CellGrid} class during clustering operations.
      * </p>
      */
-    private static final ClusterStrategy STRATEGY = new SimpleClusterStrategy(TEXT[0].length);
+    private static final ClusterStrategy STRATEGY = new ExhaustiveClusterStrategy(TEXT[0].length);
 
     /**
      * Tests the {@code CellGrid} constructor with valid input, ensuring no

@@ -2,8 +2,6 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
-import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCluster;
-import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCell;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.Arguments;
