@@ -2,9 +2,6 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
-import com.codinwithslinky.terminaltakedown.cell.concrete.SymbolCell;
-import com.codinwithslinky.terminaltakedown.cell.concrete.SimpleClusterStrategy;
-import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCell;
 import java.util.function.Supplier;
 
 import java.util.stream.Stream;
@@ -27,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Test class for {@code SimpleClusterStrategy}, designed to validate the
+ * Test class for {@code ExhaustiveClusterStrategy}, designed to validate the
  * functionality of clustering letters and symbols from a collection of
- * {@code Cell} objects. The tests ensure that the {@code SimpleClusterStrategy}
+ * {@code Cell} objects. The tests ensure that the {@code ExhaustiveClusterStrategy}
  * correctly groups cells into {@code CellCluster}s based on their content,
  * whether they represent letters or symbols.
  * <p>
@@ -43,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <ul>
  * <li><b>Cluster Creation:</b> Ensures that letters and symbols are clustered
  * correctly into {@code CellCluster}s by the
- * {@code SimpleClusterStrategy}.</li>
+ * {@code ExhaustiveClusterStrategy}.</li>
  * <li><b>Collection Handling:</b> Verifies that the strategy correctly handles
  * various types of collections (e.g., lists, deques, sets) when clustering
  * cells.</li>
@@ -52,25 +49,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * </ul>
  * The {@code SimpleClusterStrategyTest} class helps ensure the reliability and
  * correctness of the clustering logic implemented in the
- * {@code SimpleClusterStrategy} class, making it suitable for use in
+ * {@code ExhaustiveClusterStrategy} class, making it suitable for use in
  * applications that involve grouping and processing text or symbol sequences.
  *
- * @see SimpleClusterStrategy
+ * @see ExhaustiveClusterStrategy
  *
  * @author Kheagen Haskins
  */
 public class SimpleClusterStrategyTest {
 
     /**
-     * An instance of {@code SimpleClusterStrategy} used to perform clustering
+     * An instance of {@code ExhaustiveClusterStrategy} used to perform clustering
      * operations on collections of cells. This strategy is tested throughout
      * the class to ensure it correctly groups letters and symbols into
      * clusters.
      */
-    private static SimpleClusterStrategy clusterStrat;
+    private static ExhaustiveClusterStrategy clusterStrat;
 
     /**
-     * The number of columns used in the {@code SimpleClusterStrategy}, which
+     * The number of columns used in the {@code ExhaustiveClusterStrategy}, which
      * influences the clustering logic. It defines the width of the grid or text
      * structure that the strategy operates on.
      */
@@ -91,7 +88,7 @@ public class SimpleClusterStrategyTest {
     private static String[] SYMBOL_SET_1 = {"<<()>>", "<<()>", "<()>>", "<()>", "()", "[]", "{<}", "<}>", "[{]"};
 
     /**
-     * A sample text string used for testing the {@code SimpleClusterStrategy}.
+     * A sample text string used for testing the {@code ExhaustiveClusterStrategy}.
      * The string contains both letters and symbols, structured in a way to test
      * various clustering scenarios. It includes sequences that should be
      * grouped into clusters such as words (e.g., "BREAD", "BLOOD") and symbols
@@ -105,20 +102,20 @@ public class SimpleClusterStrategyTest {
 
     /**
      * Sets up the test environment by initialising the
-     * {@code SimpleClusterStrategy} with the specified column count. This
+     * {@code ExhaustiveClusterStrategy} with the specified column count. This
      * method is run once before all the tests in the class to ensure the
      * clustering strategy is properly configured.
      */
     @BeforeAll
     public static void setUp() {
-        clusterStrat = new SimpleClusterStrategy(COLUMN_COUNT);
+        clusterStrat = new ExhaustiveClusterStrategy(COLUMN_COUNT);
     }
 
     /**
-     * Tests the {@code clusterLetters} method of {@code SimpleClusterStrategy}
+     * Tests the {@code clusterLetters} method of {@code ExhaustiveClusterStrategy}
      * using various collections of {@code Cell} objects.
      * <p>
-     * This parameterized test verifies that the {@code SimpleClusterStrategy}
+     * This parameterized test verifies that the {@code ExhaustiveClusterStrategy}
      * correctly clusters letters into {@code CellCluster}s from different types
      * of cell collections. The test compares the generated clusters to an
      * expected set of words, ensuring that the number of clusters and their
@@ -140,10 +137,10 @@ public class SimpleClusterStrategyTest {
     }
 
     /**
-     * Tests the {@code clusterSymbols} method of {@code SimpleClusterStrategy}
+     * Tests the {@code clusterSymbols} method of {@code ExhaustiveClusterStrategy}
      * using various collections of {@code Cell} objects.
      * <p>
-     * This parameterized test ensures that the {@code SimpleClusterStrategy}
+     * This parameterized test ensures that the {@code ExhaustiveClusterStrategy}
      * correctly clusters symbols into {@code CellCluster}s from different types
      * of cell collections. The test compares the generated clusters to an
      * expected set of symbols, verifying that the number of clusters and their

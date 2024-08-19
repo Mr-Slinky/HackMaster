@@ -2,9 +2,6 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
-import com.codinwithslinky.terminaltakedown.cell.concrete.SymbolCell;
-import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCluster;
-import com.codinwithslinky.terminaltakedown.cell.concrete.LetterCell;
 import java.util.List;
 import java.util.stream.Stream;
 

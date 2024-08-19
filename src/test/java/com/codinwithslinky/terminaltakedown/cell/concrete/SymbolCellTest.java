@@ -2,8 +2,6 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
-import com.codinwithslinky.terminaltakedown.cell.concrete.SymbolCell;
-import com.codinwithslinky.terminaltakedown.cell.concrete.SymbolCluster;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
