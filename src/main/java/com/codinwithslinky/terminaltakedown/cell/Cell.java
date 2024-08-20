@@ -72,6 +72,23 @@ public interface Cell {
     boolean removeCluster(CellCluster cluster);
 
     /**
+     * Determines whether this {@code Cell} shares the same cluster with another
+     * specified {@code Cell}.
+     * <p>
+     * This method checks if both {@code Cell} instances are part of the same
+     * cluster. A cluster is a group of cells that are logically connected in
+     * the context of the game. This connection could be based on proximity,
+     * content similarity, or game-specific rules.
+     * </p>
+     *
+     * @param cell the {@code Cell} to compare with this instance for cluster
+     * membership.
+     * @return {@code true} if this {@code Cell} and the specified {@code Cell}
+     * are part of the same cluster; {@code false} otherwise.
+     */
+    boolean sharesClusterWith(Cell cell);
+
+    /**
      * Retrieves the primary cluster that this {@code Cell} is associated with.
      * The determination of the main cluster is contingent upon the type and
      * internal content of the {@code Cell}.

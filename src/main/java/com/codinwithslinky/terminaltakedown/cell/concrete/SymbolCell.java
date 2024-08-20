@@ -44,12 +44,12 @@ public class SymbolCell extends AbstractCell {
     /**
      * Characters that are considered as opening brackets.
      */
-    private static final char[] OPEN_TYPES = {'(', '{', '[', '<'};
+    public static final char[] OPEN_TYPES = {'(', '{', '[', '<'};
 
     /**
      * Characters that are considered as closing brackets.
      */
-    private static final char[] CLOSE_TYPES = {')', '}', ']', '>'};
+    public static final char[] CLOSE_TYPES = {')', '}', ']', '>'};
 
     // ------------------------------ Fields -------------------------------- //
     private List<CellCluster> clusters = new ArrayList<>();
@@ -330,6 +330,21 @@ public class SymbolCell extends AbstractCell {
         }
 
         return outp.toString();
+    }
+
+    @Override
+    public boolean sharesClusterWith(Cell cell) {
+        if (cell instanceof LetterCell) {
+            return false;
+        }
+
+        for (CellCluster cluster : clusters) {
+            if (cluster.contains(cell)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

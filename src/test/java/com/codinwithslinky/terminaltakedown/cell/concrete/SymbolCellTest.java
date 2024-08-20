@@ -83,11 +83,11 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class SymbolCellTest {
 
-    private SymbolCell validCell;
+    private SymbolCell testCell;
 
     @BeforeEach
     public void setUp() {
-        validCell = new SymbolCell('*');
+        testCell = new SymbolCell('*');
     }
 
     /**
@@ -138,8 +138,8 @@ public class SymbolCellTest {
      *
      * <p>
      * This test verifies that the {@code SymbolCell} correctly identifies valid
-     * open-type symbols (such as {@code '('}, {@code '['}, etc.)
-     * and that the {@code isOpenType} method returns {@code true} for these symbols.
+     * open-type symbols (such as {@code '('}, {@code '['}, etc.) and that the
+     * {@code isOpenType} method returns {@code true} for these symbols.
      * </p>
      *
      * @param openType The open-type symbol to be tested.
@@ -299,8 +299,8 @@ public class SymbolCellTest {
     @ParameterizedTest
     @ValueSource(chars = {'!', '<', '>', '.', '@', '('})
     public void testSetThenGetContent_ValidInput_Matches(char content) {
-        validCell.setContent(content);
-        assertEquals(content, validCell.getContent());
+        testCell.setContent(content);
+        assertEquals(content, testCell.getContent());
     }
 
     /**
@@ -318,7 +318,7 @@ public class SymbolCellTest {
     @ParameterizedTest
     @MethodSource("provideSymbolClusterImplementations")
     public void testAddToCluster_ValidInput_NoError(CellCluster cluster) {
-        assertDoesNotThrow(() -> validCell.addToCluster(cluster));
+        assertDoesNotThrow(() -> testCell.addToCluster(cluster));
     }
 
     /**
@@ -337,10 +337,10 @@ public class SymbolCellTest {
     @ParameterizedTest
     @ValueSource(chars = {'(', '{', '[', '<'})
     public void testGetMainCluster_OpenTypes_ReturnACluster(char openType) {
-        validCell.setContent(openType);
-        validCell.addToCluster(new SymbolCluster());
+        testCell.setContent(openType);
+        testCell.addToCluster(new SymbolCluster());
 
-        assertNotNull(validCell.getMainCluster());
+        assertNotNull(testCell.getMainCluster());
     }
 
     /**
@@ -361,13 +361,13 @@ public class SymbolCellTest {
         SymbolCluster expectedMain = new SymbolCluster();
         SymbolCluster otherCluster = new SymbolCluster();
 
-        validCell.setContent(openType);
-        validCell.addToCluster(expectedMain);
-        validCell.addToCluster(new SymbolCluster());
+        testCell.setContent(openType);
+        testCell.addToCluster(expectedMain);
+        testCell.addToCluster(new SymbolCluster());
 
         new SymbolCell('!').addToCluster(otherCluster);
 
-        assertEquals(expectedMain, validCell.getMainCluster());
+        assertEquals(expectedMain, testCell.getMainCluster());
     }
 
     /**
@@ -385,8 +385,8 @@ public class SymbolCellTest {
     @ValueSource(booleans = {true, false})
     public void testSetAndGetActive_ValidInput_NoError(boolean newState) {
         assertAll(
-                () -> assertDoesNotThrow(() -> validCell.setActive(newState)),
-                () -> assertEquals(validCell.isActive(), newState)
+                () -> assertDoesNotThrow(() -> testCell.setActive(newState)),
+                () -> assertEquals(testCell.isActive(), newState)
         );
     }
 
@@ -406,9 +406,9 @@ public class SymbolCellTest {
     @ParameterizedTest
     @MethodSource("provideSymbolClusterImplementations")
     public void testInActiveCluster_ValidInput_NoError(CellCluster cluster) {
-        validCell.addToCluster(cluster);
+        testCell.addToCluster(cluster);
         cluster.setActive(true);
-        assertTrue(validCell.inActiveCluster());
+        assertTrue(testCell.inActiveCluster());
     }
 
     /**
@@ -427,8 +427,8 @@ public class SymbolCellTest {
     @ParameterizedTest
     @MethodSource("provideSymbolClusterImplementations")
     public void testInCluster_ValidInput_ReturnsTrue(CellCluster cluster) {
-        validCell.addToCluster(cluster);
-        assertTrue(validCell.inCluster());
+        testCell.addToCluster(cluster);
+        assertTrue(testCell.inCluster());
     }
 
     /**
@@ -442,7 +442,7 @@ public class SymbolCellTest {
      */
     @Test
     public void testInCluster_NoInput_ReturnsFalse() {
-        assertFalse(validCell.inCluster());
+        assertFalse(testCell.inCluster());
     }
 
     /**
@@ -461,12 +461,46 @@ public class SymbolCellTest {
     @ParameterizedTest
     @MethodSource("provideSymbolClusterImplementations")
     public void testRemove_ValidRemove_NoError(CellCluster cluster) {
-        validCell.addToCluster(cluster);
+        testCell.addToCluster(cluster);
         assertAll(
-                () -> assertTrue(() -> validCell.inCluster()),
-                () -> assertDoesNotThrow(() -> validCell.removeCluster(cluster)),
-                () -> assertFalse(() -> validCell.inCluster()),
-                () -> assertTrue(() -> cluster.contains(validCell))
+                () -> assertTrue(() -> testCell.inCluster()),
+                () -> assertDoesNotThrow(() -> testCell.removeCluster(cluster)),
+                () -> assertFalse(() -> testCell.inCluster()),
+                () -> assertTrue(() -> cluster.contains(testCell))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideSymbolClusterImplementations")
+    public void testSharesClusterWith_ValidCluster_ReturnsTrueAndFalse(CellCluster cluster) {
+        SymbolCell neighbour1 = new SymbolCell('[');
+        SymbolCell neighbour2 = new SymbolCell('[');
+        SymbolCell notNeighbour = new SymbolCell(']');
+        assertAll(
+                () -> assertTrue(neighbour1.addToCluster(cluster)),
+                () -> assertTrue(neighbour2.addToCluster(cluster)),
+                () -> assertTrue(testCell.addToCluster(cluster)),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour1)),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour2)),
+                () -> assertFalse(testCell.sharesClusterWith(notNeighbour))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideSymbolClusterImplementations")
+    public void testSharesClusterWith_ClosedCluster_ReturnsTrueAndFalse(CellCluster cluster) {
+        SymbolCell neighbour1 = new SymbolCell('(');
+        SymbolCell neighbour2 = new SymbolCell('*');
+        SymbolCell notNeighbour = new SymbolCell('!');
+        testCell.setContent(!cluster.isEmpty() ? SymbolCell.CLOSE_TYPES[((SymbolCell)cluster.getFirstCell()).getOpenType()] : ')');
+        assertAll(
+                () -> assertTrue(neighbour1.addToCluster(cluster)),
+                () -> assertTrue(neighbour2.addToCluster(cluster)),
+                () -> assertTrue(testCell.addToCluster(cluster)),
+                () -> assertTrue(cluster.close()),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour1)),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour2)),
+                () -> assertFalse(testCell.sharesClusterWith(notNeighbour))
         );
     }
 
@@ -615,4 +649,5 @@ public class SymbolCellTest {
                 Arguments.of((char) 31)
         );
     }
+
 }
