@@ -1,6 +1,7 @@
 package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.AbstractCell;
+import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 
 /**
@@ -257,6 +258,38 @@ public class LetterCell extends AbstractCell {
     public String toString() {
         return "LetterCell [" + getContent() + "]" + "\n\tCluster:\t"
                 + (cluster == null ? "None" : cluster.getText());
+    }
+
+    /**
+     * Determines whether this {@code LetterCell} shares the same cluster with
+     * the specified {@code Cell}.
+     * <p>
+     * This implementation specifically checks if the provided {@code Cell} is
+     * not an instance of {@code SymbolCell}. If the specified {@code Cell} is a
+     * {@code SymbolCell}, the method immediately returns {@code false} as
+     * {@code LetterCell}s and {@code SymbolCell}s are not considered to be in
+     * the same cluster due to differing characteristics.
+     * </p>
+     * <p>
+     * If the specified {@code Cell} is not a {@code SymbolCell}, this method
+     * then checks if the specified {@code Cell} is contained within the same
+     * cluster as this {@code LetterCell}. This check is performed by calling
+     * the {@code contains} method on the cluster associated with this
+     * {@code LetterCell}.
+     * </p>
+     *
+     * @param cell the {@code Cell} to compare with this instance for cluster
+     * membership.
+     * @return {@code true} if this {@code LetterCell} and the specified
+     * {@code Cell} are part of the same cluster; {@code false} otherwise.
+     */
+    @Override
+    public boolean sharesClusterWith(Cell cell) {
+        if (cell instanceof SymbolCell) {
+            return false;
+        }
+
+        return cluster.contains(cell);
     }
 
 }

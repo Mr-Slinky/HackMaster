@@ -40,11 +40,11 @@ import java.util.stream.Stream;
  */
 public class LetterCellTest {
 
-    private LetterCell validCell;
+    private LetterCell testCell;
 
     @BeforeEach
     public void setup() {
-        validCell = new LetterCell('A');
+        testCell = new LetterCell('A');
     }
 
     /**
@@ -111,8 +111,8 @@ public class LetterCellTest {
     @ParameterizedTest
     @MethodSource("provideValidCharacters")
     public void testSetContent_ValidInput_NoError(char content) {
-        assertDoesNotThrow(() -> validCell.setContent(content));
-        assertEquals(Character.toUpperCase(content), validCell.getContent());
+        assertDoesNotThrow(() -> testCell.setContent(content));
+        assertEquals(Character.toUpperCase(content), testCell.getContent());
     }
 
     /**
@@ -133,7 +133,7 @@ public class LetterCellTest {
     public void testSetContent_ShouldThrowError(char content) {
         assertThrows(
                 Cell.IllegalCharAddition.class,
-                () -> validCell.setContent(content), "Expected failure for content " + content + " being set to LetterCell"
+                () -> testCell.setContent(content), "Expected failure for content " + content + " being set to LetterCell"
         );
     }
 
@@ -152,7 +152,7 @@ public class LetterCellTest {
     @ParameterizedTest
     @MethodSource("provideLetterClusterImplementations")
     public void testAddToCluster_ValidInput_NoError(CellCluster cluster) {
-        assertDoesNotThrow(() -> validCell.addToCluster(cluster));
+        assertDoesNotThrow(() -> testCell.addToCluster(cluster));
     }
 
     /**
@@ -172,9 +172,9 @@ public class LetterCellTest {
     @MethodSource("provideLetterClusterImplementations")
     public void testAddToCluster_ValidInput_OverrideWorks(CellCluster cluster) {
         CellCluster overrideCluster = new LetterCluster();
-        validCell.addToCluster(cluster);
-        validCell.addToCluster(overrideCluster);
-        assertEquals(validCell.getMainCluster(), overrideCluster);
+        testCell.addToCluster(cluster);
+        testCell.addToCluster(overrideCluster);
+        assertEquals(testCell.getMainCluster(), overrideCluster);
     }
 
     /**
@@ -192,8 +192,8 @@ public class LetterCellTest {
     @ParameterizedTest
     @MethodSource("provideLetterClusterImplementations")
     public void testGetMainCluster_ValidInput_NoError(CellCluster cluster) {
-        validCell.addToCluster(cluster);
-        assertEquals(validCell.getMainCluster(), cluster);
+        testCell.addToCluster(cluster);
+        assertEquals(testCell.getMainCluster(), cluster);
     }
 
     /**
@@ -212,9 +212,9 @@ public class LetterCellTest {
     @ParameterizedTest
     @MethodSource("provideLetterClusterImplementations")
     public void testInActiveCluster_ValidInput_NoError(CellCluster cluster) {
-        validCell.addToCluster(cluster);
+        testCell.addToCluster(cluster);
         cluster.setActive(true);
-        assertTrue(validCell.inActiveCluster());
+        assertTrue(testCell.inActiveCluster());
     }
 
     /**
@@ -233,8 +233,8 @@ public class LetterCellTest {
     @ParameterizedTest
     @MethodSource("provideLetterClusterImplementations")
     public void testInCluster_ValidInput_ReturnsTrue(CellCluster cluster) {
-        validCell.addToCluster(cluster);
-        assertTrue(validCell.inCluster());
+        testCell.addToCluster(cluster);
+        assertTrue(testCell.inCluster());
     }
 
     /**
@@ -253,12 +253,12 @@ public class LetterCellTest {
     @ParameterizedTest
     @MethodSource("provideLetterClusterImplementations")
     public void testRemoveFromCluster_ValidCluster_RemovesCorrectly(CellCluster cluster) {
-        validCell.addToCluster(cluster);
+        testCell.addToCluster(cluster);
         assertAll(
-                () -> assertTrue(() -> validCell.inCluster()),
-                () -> assertDoesNotThrow(() -> validCell.removeCluster(cluster)),
-                () -> assertFalse(() -> validCell.inCluster()),
-                () -> assertTrue(() -> cluster.contains(validCell))
+                () -> assertTrue(() -> testCell.inCluster()),
+                () -> assertDoesNotThrow(() -> testCell.removeCluster(cluster)),
+                () -> assertFalse(() -> testCell.inCluster()),
+                () -> assertTrue(() -> cluster.contains(testCell))
         );
     }
 
@@ -273,7 +273,7 @@ public class LetterCellTest {
      */
     @Test
     public void testInCluster_NoInput_ReturnsFalse() {
-        assertFalse(validCell.inCluster());
+        assertFalse(testCell.inCluster());
     }
 
     /**
@@ -290,7 +290,7 @@ public class LetterCellTest {
     @ParameterizedTest
     @NullSource
     public void testAddToCluster_NullInput_ThrowsError(CellCluster cluster) {
-        assertThrows(IllegalArgumentException.class, () -> validCell.addToCluster(cluster));
+        assertThrows(IllegalArgumentException.class, () -> testCell.addToCluster(cluster));
     }
 
     /**
@@ -308,8 +308,8 @@ public class LetterCellTest {
     @ValueSource(booleans = {true, false})
     public void testSetAndGetActive_ValidInput_NoError(boolean newState) {
         assertAll("Testing setActive() and isActive()",
-                () -> assertDoesNotThrow(() -> validCell.setActive(newState)),
-                () -> assertEquals(validCell.isActive(), newState)
+                () -> assertDoesNotThrow(() -> testCell.setActive(newState)),
+                () -> assertEquals(testCell.isActive(), newState)
         );
     }
 
@@ -333,6 +333,39 @@ public class LetterCellTest {
     public void testMatches_VariedInput_ReturnsExpected(char content, char matchingContent, boolean expected) {
         boolean result = new LetterCell(content).matches(new LetterCell(matchingContent));
         assertEquals(expected, result, content + " matches " + matchingContent + " : " + result + ", but expected " + expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideLetterClusterImplementations")
+    public void testSharesClusterWith_ValidCluster_ReturnsTrueAndFalse(CellCluster cluster) {
+        LetterCell neighbour1 = new LetterCell('A');
+        LetterCell neighbour2 = new LetterCell('B');
+        LetterCell notNeighbour = new LetterCell('A');
+        assertAll(
+                () -> assertTrue(neighbour1.addToCluster(cluster)),
+                () -> assertTrue(neighbour2.addToCluster(cluster)),
+                () -> assertTrue(testCell.addToCluster(cluster)),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour1)),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour2)),
+                () -> assertFalse(testCell.sharesClusterWith(notNeighbour))
+        );
+    }
+    
+    @ParameterizedTest
+    @MethodSource("provideLetterClusterImplementations")
+    public void testSharesClusterWith_ClosedCluster_ReturnsTrueAndFalse(CellCluster cluster) {
+        LetterCell neighbour1 = new LetterCell('A');
+        LetterCell neighbour2 = new LetterCell('B');
+        LetterCell notNeighbour = new LetterCell('A');
+        assertAll(
+                () -> assertTrue(neighbour1.addToCluster(cluster)),
+                () -> assertTrue(neighbour2.addToCluster(cluster)),
+                () -> assertTrue(testCell.addToCluster(cluster)),
+                () -> assertTrue(cluster.close()),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour1)),
+                () -> assertTrue(testCell.sharesClusterWith(neighbour2)),
+                () -> assertFalse(testCell.sharesClusterWith(notNeighbour))
+        );
     }
 
     // -------------------------- Method Sources ---------------------------- //
