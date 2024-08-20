@@ -27,7 +27,7 @@ public class GridUtil {
      * @return {@code true} if the array is rectangular, {@code false}
      * otherwise.
      */
-    public static boolean isSquare(Object[][] arr) {
+    public static boolean isRectangular(Object[][] arr) {
         int arrCols = arr[0].length;
 
         for (int i = 0; i < arr.length; i++) {
