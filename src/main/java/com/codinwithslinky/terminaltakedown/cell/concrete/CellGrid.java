@@ -2,6 +2,7 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
+import com.codinwithslinky.terminaltakedown.cell.CellManager;
 import com.codinwithslinky.terminaltakedown.cell.ClusterStrategy;
 import com.codinwithslinky.terminaltakedown.util.GridUtil;
 import java.util.Arrays;
@@ -74,7 +75,7 @@ import java.util.List;
  *
  * @author Kheagen Haskins
  */
-public class CellGrid {
+public class CellGrid implements CellManager {
 
     // ------------------------------ Fields -------------------------------- //
     private List<CellCluster> symbolClusters;
@@ -113,7 +114,7 @@ public class CellGrid {
             throw new IllegalArgumentException("Cannot instantiate CellGrid using null cluster strategy");
         }
 
-        if (!GridUtil.isSquare(textGrid)) {
+        if (!GridUtil.isRectangular(textGrid)) {
             throw new IllegalArgumentException("Provided text grid must be rectangular (all arrays must be of the same length)");
         }
 
@@ -141,6 +142,32 @@ public class CellGrid {
     }
 
     /**
+     * Retrieves the {@link Cell} at the specified index from the internal cell
+     * array.
+     *
+     * <p>
+     * This method calculates the total number of cells based on the dimensions
+     * of rows and columns. It then checks if the provided index is within the
+     * valid range of indices. If the index is out of bounds, an
+     * {@link ArrayIndexOutOfBoundsException} is thrown.
+     * </p>
+     *
+     * @param index the index of the {@link Cell} to retrieve.
+     * @return the {@link Cell} at the specified index.
+     * @throws ArrayIndexOutOfBoundsException if the index is less than 0 or
+     * greater than or equal to the total number of cells.
+     */
+    @Override
+    public Cell getCell(int index) {
+        int size = rows * cols;
+        if (index < 0 || index >= size) {
+            throw new ArrayIndexOutOfBoundsException("Index " + index + " out of bounds for " + size);
+        }
+
+        return cells[index];
+    }
+
+    /**
      * Returns the {@code Cell} located at the specified row and column in the
      * grid.
      * <p>
@@ -157,7 +184,7 @@ public class CellGrid {
      */
     public Cell getCellAt(int row, int col) {
         if ((row < 0 || row > rows) || (col < 0 || col > cols)) {
-            throw new IllegalArgumentException("Row or Column index out of bounds");
+            throw new ArrayIndexOutOfBoundsException("Row or Column index out of bounds");
         }
 
         return cells[row * cols + col];
@@ -208,7 +235,7 @@ public class CellGrid {
         return words;
     }
 
-// ---------------------------- API Methods ----------------------------- //
+    // ---------------------------- API Methods ----------------------------- //
     /**
      * Searches through the letter clusters for a cluster containing the
      * specified {@code dudText}, removes it, and returns the text of the
@@ -239,7 +266,7 @@ public class CellGrid {
         return null;
     }
 
-// -------------------------- Helper Methods ---------------------------- //
+    // -------------------------- Helper Methods ---------------------------- //
     /**
      * Initialises the grid of {@code Cell} objects and clusters them using the
      * provided {@code ClusterStrategy}.

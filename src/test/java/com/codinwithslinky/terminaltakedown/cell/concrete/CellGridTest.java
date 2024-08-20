@@ -44,8 +44,8 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * <p>
  * The tests rely on a specific implementation of the {@code ClusterStrategy}
- * interface, particularly the {@code ExhaustiveClusterStrategy}, to cluster cells
- * during testing. The test grid is populated with a predefined set of
+ * interface, particularly the {@code ExhaustiveClusterStrategy}, to cluster
+ * cells during testing. The test grid is populated with a predefined set of
  * characters that include letters and symbols, designed to simulate typical
  * usage scenarios for the {@code CellGrid} class.
  * </p>
@@ -104,15 +104,16 @@ public class CellGridTest {
     };
 
     /**
-     * A predefined instance of {@code ExhaustiveClusterStrategy} used to cluster
-     * cells within the grid.
+     * A predefined instance of {@code ExhaustiveClusterStrategy} used to
+     * cluster cells within the grid.
      * <p>
      * This strategy is configured based on the length of the first row in the
      * {@code TEXT} grid and is used in various tests to validate the correct
      * behaviour of the {@code CellGrid} class during clustering operations.
      * </p>
      */
-    private static final ClusterStrategy STRATEGY = new ExhaustiveClusterStrategy(TEXT[0].length);
+    private static final ClusterStrategy STRATEGY_1 = new ExhaustiveClusterStrategy(TEXT[0].length);
+//    private static final ClusterStrategy STRATEGY_2 = new SimpleClusterStrategy(TEXT[0].length);
 
     /**
      * Tests the {@code CellGrid} constructor with valid input, ensuring no
@@ -136,6 +137,7 @@ public class CellGridTest {
     /**
      * Tests the {@code getCells} method, ensuring it does not return null with
      * valid input.
+     *
      * <p>
      * This test verifies that the {@code getCells} method returns a non-null
      * array of cells when the {@code CellGrid} is instantiated with valid
@@ -200,6 +202,22 @@ public class CellGridTest {
                         character.charValue(),
                         content,
                         ("Character mismatch at index " + index)
+                );
+            }
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideTextAndStrat")
+    public void testGetCell_ValidInput_NoError(Character[][] text, ClusterStrategy clusterStr) {
+        CellGrid cellGrid = new CellGrid(text, clusterStr);
+        for (int r = 0, i = 0; r < text.length; r++) {
+            Character[] characters = text[r];
+            for (int c = 0; c < characters.length; c++, i++) {
+                assertEquals(
+                        text[r][c].charValue(),
+                        cellGrid.getCell(i).getContent(),
+                        ("Character mismatch at index row " + r + ", column " + c)
                 );
             }
         }
@@ -355,7 +373,7 @@ public class CellGridTest {
     // -------------------------- Method Sources ---------------------------- //
     private static Stream<Arguments> provideTextAndStrat() {
         return Stream.of(
-                Arguments.of(TEXT, STRATEGY)
+                Arguments.of(TEXT, STRATEGY_1)
         );
     }
 
