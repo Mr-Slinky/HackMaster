@@ -17,10 +17,11 @@ public class StringUtil {
      * required, such as when determining the size of a jumbled string.
      * </p>
      *
+     * @param wordList The list of words in which to count all characters
      * @return the total number of characters in all words within this
      * {@code StaticWordSet}.
      */
-    public static int getTotalCharacters(String[] wordList) {
+    public static int countCharacters(String[] wordList) {
         int sum = 0;
         for (int i = 0; i < wordList.length; i++) {
             sum += wordList[i].length();

@@ -3,6 +3,7 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import com.codinwithslinky.terminaltakedown.cell.ClusterStrategy;
+import com.codinwithslinky.terminaltakedown.util.GridUtil;
 import java.util.Arrays;
 import java.util.List;
 
@@ -112,7 +113,7 @@ public class CellGrid {
             throw new IllegalArgumentException("Cannot instantiate CellGrid using null cluster strategy");
         }
 
-        if (!isSquare(textGrid)) {
+        if (!GridUtil.isSquare(textGrid)) {
             throw new IllegalArgumentException("Provided text grid must be rectangular (all arrays must be of the same length)");
         }
 
@@ -263,30 +264,6 @@ public class CellGrid {
 
         symbolClusters = clusterStrategy.clusterSymbols(Arrays.asList(cells));
         letterClusters = clusterStrategy.clusterLetters(Arrays.asList(cells));
-    }
-
-    /**
-     * Checks if the provided 2D array is rectangular (i.e., all rows have the
-     * same length).
-     * <p>
-     * This method verifies that the 2D array provided for the grid is properly
-     * rectangular by ensuring that all rows have the same number of columns.
-     * </p>
-     *
-     * @param arr The 2D array to check.
-     * @return {@code true} if the array is rectangular, {@code false}
-     * otherwise.
-     */
-    private boolean isSquare(Object[][] arr) {
-        int arrCols = arr[0].length;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].length != arrCols) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
 }
