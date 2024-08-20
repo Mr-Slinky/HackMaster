@@ -1,5 +1,6 @@
 package com.codinwithslinky.terminaltakedown;
 
+import com.codinwithslinky.terminaltakedown.gui.MainInterface;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
