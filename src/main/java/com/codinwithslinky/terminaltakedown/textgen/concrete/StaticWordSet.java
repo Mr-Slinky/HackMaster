@@ -1,6 +1,7 @@
 package com.codinwithslinky.terminaltakedown.textgen.concrete;
 
 import com.codinwithslinky.terminaltakedown.textgen.JumbleStrategy;
+import com.codinwithslinky.terminaltakedown.textgen.WordSet;
 import com.codinwithslinky.terminaltakedown.util.StringUtil;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @version 2.0
  * @author Kheagen Haskins
  */
-public final class StaticWordSet {
+public final class StaticWordSet implements WordSet {
 
     // ------------------------------ Fields -------------------------------- //
     /**
@@ -62,6 +63,9 @@ public final class StaticWordSet {
      */
     private final String[] wordList;
 
+    /**
+     * The chosen JumbleStrategy
+     */
     private final JumbleStrategy jumbleStrategy;
 
     /**
@@ -93,12 +97,17 @@ public final class StaticWordSet {
      * operations supported by this class.
      * </p>
      *
+     * @param strategy An implementation of the {@link JumbleStrategy} interface
      * @param listOfWords the words to be managed by this {@code WordSet}. These
      * words are used in all operations provided by the class.
      * @throws IllegalArgumentException if the word list is {@code null} or
      * empty.
      */
     public StaticWordSet(JumbleStrategy strategy, String... listOfWords) {
+        if (strategy == null) {
+            throw new IllegalArgumentException("JumbleStrategy cannot be null");
+        }
+
         if (listOfWords == null || listOfWords.length == 0) {
             throw new IllegalArgumentException("Word list cannot be empty or null");
         }
@@ -152,8 +161,7 @@ public final class StaticWordSet {
      * a randomly selected one from the range of unshuffled elements. By
      * gradually reducing the range of the random selection, the algorithm
      * prevents elements from being shuffled multiple times, which would
-     * compromise the uniformity of the shuffle. Don't worry, I didn't get it
-     * either...
+     * compromise the uniformity of the shuffle.
      * </p>
      *
      * @return the {@code StaticWordSet} object with its words rearranged in a
@@ -161,7 +169,7 @@ public final class StaticWordSet {
      * object and returns the same reference for chaining or further
      * manipulation.
      */
-    public StaticWordSet shuffle() {
+    public WordSet shuffle() {
         int ri; // Variable to hold the random index for swapping
         for (int i = 0; i < wordList.length; i++) { // Iterate through each element in the array
             // Generate a random index from the current position to the end of the array

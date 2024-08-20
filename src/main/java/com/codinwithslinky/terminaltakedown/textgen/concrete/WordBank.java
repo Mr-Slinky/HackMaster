@@ -1,6 +1,7 @@
 package com.codinwithslinky.terminaltakedown.textgen.concrete;
 
 import com.codinwithslinky.terminaltakedown.textgen.JumbleStrategy;
+import com.codinwithslinky.terminaltakedown.textgen.WordSet;
 
 /**
  * The {@code WordBank} class provides a repository of word lists categorised by
@@ -33,7 +34,7 @@ public final class WordBank {
     /**
      * The word list for the BEGINNER difficulty level.
      */
-    private static StaticWordSet beginnerWords = new StaticWordSet(
+    private static WordSet beginnerWords = new StaticWordSet(
             jumbleStrategy,
             "BAKE", "BARN", "BIDE", "BARK", "BAND", "CAKE", "CART", "EARN",
             "FERN", "SIDE", "HARK", "WAKE", "YARN"
@@ -42,7 +43,7 @@ public final class WordBank {
     /**
      * The word list for the INTERMEDIATE difficulty level.
      */
-    private static StaticWordSet intermediateWords = new StaticWordSet(
+    private static WordSet intermediateWords = new StaticWordSet(
             jumbleStrategy,
             "SPIES", "JOINS", "TIRES", "TRICK", "TRIED", "SKIES",
             "TERMS", "THIRD", "FRIES", "PRICE", "TRIES", "TRITE",
@@ -52,7 +53,7 @@ public final class WordBank {
     /**
      * The word list for the ADVANCED difficulty level.
      */
-    private static StaticWordSet advancedWords = new StaticWordSet(
+    private static WordSet advancedWords = new StaticWordSet(
             jumbleStrategy,
             "CONFIRM", "ROAMING", "FARMING", "GAINING", "HEARING", "MANKIND",
             "MORNING", "HEALING", "LEAVING", "CONSIST", "JESSICA", "HOUSING",
@@ -62,7 +63,7 @@ public final class WordBank {
     /**
      * The word list for the EXPERT difficulty level.
      */
-    private static StaticWordSet expertWords = new StaticWordSet(
+    private static WordSet expertWords = new StaticWordSet(
             jumbleStrategy,
             "EXAMPLE", "EXCLAIM", "EXPLODE", "BALCONY", "EXCERPT", "EXCITED",
             "EXCISES", "TEACHER", "IMAGINE", "HUSBAND", "TEASHOP", "TEASING",
@@ -73,7 +74,7 @@ public final class WordBank {
     /**
      * The word list for the MASTER difficulty level.
      */
-    private static StaticWordSet masterWords = new StaticWordSet(
+    private static WordSet masterWords = new StaticWordSet(
             jumbleStrategy,
             "CREATION", "DURATION", "LOCATION", "INTERNAL", "ROTATION",
             "INTEREST", "INTACTED", "REDACTED", "INTERCOM", "UNWANTED",
@@ -95,7 +96,7 @@ public final class WordBank {
      * difficulty level.
      * @throws Error if the provided difficulty level is unknown.
      */
-    public static StaticWordSet getWordSet(Difficulty difficulty) {
+    public static WordSet getWordSet(Difficulty difficulty) {
         switch (difficulty) {
             case BEGINNER:
                 return beginnerWords;
