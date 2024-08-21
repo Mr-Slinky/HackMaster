@@ -1,7 +1,7 @@
 package com.codinwithslinky.terminaltakedown.util;
 
 /**
- * 
+ *
  * @author Kheagen Haskins
  */
 public class StringUtil {
@@ -28,7 +28,27 @@ public class StringUtil {
         }
         return sum;
     }
-    
-    // -------------------------- Helper Methods ---------------------------- //
 
+    /**
+     * Converts the specified {@code String} into an array of {@code Character}
+     * objects. Each character in the provided string is placed into the array
+     * at the corresponding index.
+     *
+     * @param str the string to convert into an array of {@code Character};
+     * should not be null as it would cause a {@code NullPointerException}
+     * @return an array of {@code Character} objects representing the characters
+     * of the input string
+     * @throws NullPointerException if the input string is {@code null}
+     */
+    public static Character[] toCharacterArray(String str) {
+        Character[] resultArr = new Character[str.length()];
+
+        for (int i = 0; i < resultArr.length; i++) {
+            resultArr[i] = str.charAt(i);
+        }
+
+        return resultArr;
+    }
+
+    // -------------------------- Helper Methods ---------------------------- //
 }
