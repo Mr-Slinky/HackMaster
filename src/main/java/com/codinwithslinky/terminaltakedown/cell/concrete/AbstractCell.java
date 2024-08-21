@@ -1,4 +1,6 @@
-package com.codinwithslinky.terminaltakedown.cell;
+package com.codinwithslinky.terminaltakedown.cell.concrete;
+
+import com.codinwithslinky.terminaltakedown.cell.Cell;
 
 /**
  * The {@code AbstractCell} class serves as an abstract base implementation for
@@ -26,7 +28,7 @@ package com.codinwithslinky.terminaltakedown.cell;
  *
  * @author Kheagen Haskins
  */
-public abstract class AbstractCell implements Cell {
+abstract class AbstractCell implements Cell {
 
     // ------------------------------ Fields -------------------------------- //
     /**
@@ -51,7 +53,7 @@ public abstract class AbstractCell implements Cell {
      * @throws IllegalCharAddition if the character is outside the valid ASCII
      * range.
      */
-    public AbstractCell(char content) {
+    AbstractCell(char content) {
         validateCharacterContent(content);
         this.content = content;
     }
@@ -110,7 +112,7 @@ public abstract class AbstractCell implements Cell {
      */
     private void validateCharacterContent(char c) {
         if (c < 33 || c > 127) {
-            throw new IllegalCharAddition("Content must be a valid ASCII character between 33 and 126");
+            throw new IllegalCharAddition("Content '" + c + "' must be a valid ASCII character between 33 and 126 (content is " + (int) c + ")");
         }
     }
 
