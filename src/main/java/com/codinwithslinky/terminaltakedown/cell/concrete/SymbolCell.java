@@ -1,6 +1,5 @@
 package com.codinwithslinky.terminaltakedown.cell.concrete;
 
-import com.codinwithslinky.terminaltakedown.cell.AbstractCell;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import java.util.ArrayList;

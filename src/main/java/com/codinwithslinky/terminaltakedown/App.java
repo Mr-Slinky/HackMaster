@@ -1,7 +1,16 @@
 package com.codinwithslinky.terminaltakedown;
 
+import com.codinwithslinky.terminaltakedown.cell.concrete.CellGrid;
+import com.codinwithslinky.terminaltakedown.cell.concrete.ExhaustiveClusterStrategy;
+
 import com.codinwithslinky.terminaltakedown.gui.MainInterface;
+import com.codinwithslinky.terminaltakedown.textgen.WordSet;
+
+import com.codinwithslinky.terminaltakedown.textgen.concrete.Difficulty;
+import com.codinwithslinky.terminaltakedown.textgen.concrete.WordBank;
+
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -24,7 +33,17 @@ import javafx.stage.Stage;
  * @author Kheagen Haskins
  */
 public class App extends Application {
-
+    
+    private static final int STARTING_GUESSES = 4;
+    
+    @Override
+    public void init() throws Exception {
+        GameState.createGameState (
+                WordBank.getWordSet(Difficulty.INTERMEDIATE),
+                STARTING_GUESSES
+        );
+    }
+    
     /**
      * The entry point for the JavaFX application. This method is called after
      * the application is launched and is responsible for setting up the primary
@@ -35,7 +54,16 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
-        stage.setScene(new Scene(new MainInterface()));
+        final int rows = 30;
+        final int cols = 13;
+        final int size = rows * cols;
+        
+        WordSet wordSet = GameState.getGameState().getWordSet();
+        String jumbledText = wordSet.jumble(size);
+
+        CellGrid cellGridManager = new CellGrid(jumbledText, new ExhaustiveClusterStrategy(cols), rows, cols);
+        Scene scene = new Scene(new MainInterface(cellGridManager));
+        stage.setScene(scene);
         stage.show();
     }
 
