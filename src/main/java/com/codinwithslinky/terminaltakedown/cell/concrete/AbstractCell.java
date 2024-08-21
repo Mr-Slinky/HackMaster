@@ -2,6 +2,10 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+
 /**
  * The {@code AbstractCell} class serves as an abstract base implementation for
  * cells used within a grid or matrix. It implements the {@code Cell} interface,
@@ -41,7 +45,7 @@ abstract class AbstractCell implements Cell {
      * The active state of the cell. When {@code true}, the cell is considered
      * active; otherwise, it is inactive.
      */
-    private boolean active;
+    private BooleanProperty isActiveProperty = new SimpleBooleanProperty();
 
     // --------------------------- Constructors ----------------------------- //
     /**
@@ -76,7 +80,7 @@ abstract class AbstractCell implements Cell {
      */
     @Override
     public boolean isActive() {
-        return active;
+        return isActiveProperty.get();
     }
 
     // ------------------------------ Setters ------------------------------- //
@@ -97,7 +101,20 @@ abstract class AbstractCell implements Cell {
      */
     @Override
     public void setActive(boolean newState) {
-        this.active = newState;
+        this.isActiveProperty.set(newState);
+    }
+
+    /**
+     * Adds a listener to the `isActiveProperty` to monitor changes in its
+     * value. The listener will be notified whenever the value of the
+     * `isActiveProperty` changes.
+     *
+     * @param listener the listener to add; it must be an implementation of
+     * {@link ChangeListener} that can handle the value of type {@link Boolean}.
+     */
+    @Override
+    public void addStateListener(ChangeListener<? super Boolean> listener) {
+        isActiveProperty.addListener(listener);
     }
 
     // -------------------------- Helper Methods ---------------------------- //

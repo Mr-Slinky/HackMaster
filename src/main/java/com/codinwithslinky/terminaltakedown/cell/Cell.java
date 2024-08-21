@@ -1,5 +1,7 @@
 package com.codinwithslinky.terminaltakedown.cell;
 
+import javafx.beans.value.ChangeListener;
+
 /**
  * Represents the fundamental interactive unit within the game. A {@code Cell}
  * serves as the smallest element that a player can interact with during
@@ -117,6 +119,16 @@ public interface Cell {
      * @return {@code true} if the cell is active, {@code false} otherwise.
      */
     boolean isActive();
+
+    /**
+     * Adds a listener to the `isActiveProperty` to monitor changes in its
+     * value. The listener will be notified whenever the value of the
+     * `isActiveProperty` changes.
+     *
+     * @param listener the listener to add; it must be an implementation of
+     * {@link ChangeListener} that can handle the value of type {@link Boolean}.
+     */
+    void addStateListener(ChangeListener<? super Boolean> listener);
 
     /**
      * Checks if the cell is part of an active cluster. Active clusters might
