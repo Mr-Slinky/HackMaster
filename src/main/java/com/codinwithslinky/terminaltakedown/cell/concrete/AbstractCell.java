@@ -3,7 +3,9 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 
 /**
@@ -39,7 +41,7 @@ abstract class AbstractCell implements Cell {
      * The character content of the cell. This character is expected to be a
      * valid ASCII character within the range of 33 to 126.
      */
-    private char content;
+    private ObjectProperty<Character> contentProperty = new SimpleObjectProperty<>();
 
     /**
      * The active state of the cell. When {@code true}, the cell is considered
@@ -59,7 +61,7 @@ abstract class AbstractCell implements Cell {
      */
     AbstractCell(char content) {
         validateCharacterContent(content);
-        this.content = content;
+        this.contentProperty.set(content);
     }
 
     // ------------------------------ Getters ------------------------------- //
@@ -70,7 +72,7 @@ abstract class AbstractCell implements Cell {
      */
     @Override
     public char getContent() {
-        return content;
+        return contentProperty.get();
     }
 
     /**
@@ -91,7 +93,7 @@ abstract class AbstractCell implements Cell {
      */
     @Override
     public void setContent(char content) {
-        this.content = content;
+        this.contentProperty.set(content);
     }
 
     /**
@@ -115,6 +117,19 @@ abstract class AbstractCell implements Cell {
     @Override
     public void addStateListener(ChangeListener<? super Boolean> listener) {
         isActiveProperty.addListener(listener);
+    }
+
+    /**
+     * Registers a listener that will be notified when the content of the cell
+     * changes, such as when it is filled or modified. The listener will receive
+     * a notification whenever the character content within the cell is altered.
+     *
+     * @param listener the {@link ChangeListener} to be added; it will be
+     * triggered with a {@code Character} when the cell's content changes
+     */
+    @Override
+    public void addContentListener(ChangeListener<? super Character> listener) {
+        contentProperty.addListener(listener);
     }
 
     // -------------------------- Helper Methods ---------------------------- //
@@ -152,7 +167,7 @@ abstract class AbstractCell implements Cell {
             return false;
         }
 
-        return cell.getContent() == content;
+        return cell.getContent() == contentProperty.get();
     }
 
 }
