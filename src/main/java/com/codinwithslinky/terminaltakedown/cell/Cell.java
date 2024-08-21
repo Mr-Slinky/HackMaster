@@ -131,6 +131,16 @@ public interface Cell {
     void addStateListener(ChangeListener<? super Boolean> listener);
 
     /**
+     * Registers a listener that will be notified when the content of the cell
+     * changes, such as when it is filled or modified. The listener will receive
+     * a notification whenever the character content within the cell is altered.
+     *
+     * @param listener the {@link ChangeListener} to be added; it will be
+     * triggered with a {@code Character} when the cell's content changes
+     */
+    void addContentListener(ChangeListener<? super Character> listener);
+
+    /**
      * Checks if the cell is part of an active cluster. Active clusters might
      * have special behaviour or visual indications in the game.
      *
