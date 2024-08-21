@@ -3,6 +3,8 @@ package com.codinwithslinky.terminaltakedown.cell.concrete;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import com.codinwithslinky.terminaltakedown.cell.ClusterStrategy;
+import com.codinwithslinky.terminaltakedown.util.Dimension;
+import com.codinwithslinky.terminaltakedown.util.GridUtil;
 
 import java.util.List;
 
@@ -11,7 +13,11 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 /**
  * Unit test class for the {@code CellGrid} class, responsible for testing its
@@ -69,39 +75,15 @@ public class CellGridTest {
      * is used in various test cases to ensure that the {@code CellGrid}
      * correctly handles and processes the text data.
      * </p>
+     *
+     * <p>
+     * TEXT.length() = 390 (30 * 13)
+     * </p>
      */
-    private static final Character[][] TEXT = {
-        {']', ',', '!', '#', ')', '>', '_', '!', '_', '*', '!', '_', '\''},
-        {'*', '$', '%', '\\', '(', 'B', 'A', 'R', 'K', '*', '}', '(', ']'},
-        {'\\', '&', '(', '"', '/', '(', '\'', ',', '?', '\'', '\'', '<', '_'},
-        {'!', '}', '_', '#', '^', '/', '*', '^', '\\', ']', '*', '<', ','},
-        {'_', 'B', 'I', 'D', 'E', '<', '/', '$', '@', '^', '<', '(', '#'},
-        {'\\', '"', '_', '!', '*', '[', ')', '+', '&', '!', '{', 'Y', 'A'},
-        {'R', 'N', '?', ';', '*', '&', '<', '?', ')', '>', '>', ';', '?'},
-        {'?', '\'', '/', '{', '{', '?', '[', '*', '/', '#', '<', '@', '@'},
-        {'?', '+', '>', ';', ')', '(', 'S', 'I', 'D', 'E', '\'', ';', '&'},
-        {'+', '_', '+', '>', '@', '/', '}', '<', '%', '_', '[', '@', '&'},
-        {'@', '{', '{', '(', '/', '?', '^', ')', '}', '<', '}', '<', ':'},
-        {'B', 'A', 'K', 'E', '<', '&', '!', '[', '\'', '\\', ',', ',', '('},
-        {'/', ')', '$', ')', '{', '/', '/', '*', '}', 'B', 'A', 'N', 'D'},
-        {'?', '/', '*', '<', '*', ';', '[', '?', '+', '[', '%', '[', '\''},
-        {'}', '[', '/', '{', '!', ')', ';', '&', 'C', 'A', 'K', 'E', '.'},
-        {'<', '>', ']', '/', '^', '}', '<', '@', '%', '^', '#', '&', '%'},
-        {']', '$', '#', '(', '"', '^', '!', '}', ']', '/', '!', '@', '/'},
-        {'@', '^', '"', '[', 'E', 'A', 'R', 'N', '\\', '&', '>', '@', '^'},
-        {'{', '/', '}', '\'', '\\', '%', '&', 'W', 'A', 'K', 'E', '^', ']'},
-        {'?', '_', '\'', ')', '}', '?', ';', '^', '+', '[', '?', '<', '%'},
-        {'\\', '/', '*', '#', ',', '?', '"', ')', '\'', '$', '+', ':', '>'},
-        {':', '@', '>', '\'', ',', '+', '\'', '"', ':', '&', '!', '\'', '*'},
-        {',', '%', '\\', '@', '^', '"', '"', ';', 'F', 'E', 'R', 'N', '@'},
-        {'+', ')', '_', ';', ':', '!', '#', '{', '\\', '\'', '>', '>', '_'},
-        {':', '^', '/', '_', '"', '_', '%', '}', '<', 'C', 'A', 'R', 'T'},
-        {'_', '?', '+', '+', '<', '#', ';', '#', '{', '#', '^', '+', '^'},
-        {'_', '/', '&', ']', ',', '[', '}', '\\', ':', 'H', 'A', 'R', 'K'},
-        {'?', ']', '\\', '}', '^', '%', ':', '+', '>', ';', '"', '!', '('},
-        {']', '*', '/', '?', ';', '<', ':', '}', '}', '_', '?', '{', '_'},
-        {'B', 'A', 'R', 'N', '_', ')', '$', '?', '#', '}', '/', ')', '&'}
-    };
+    private static final String TEXT = "%\"##(@>$&=!{(#&~^'*[@##EARN%@%@=:(@=<\"}_$]=>WAKE~=&\"{@~\"#(!?*]BARK>+}\"!,&^:&^?*='[&[*;($~$/HARK)}<\"$>);}{[*;~(&_<!_:,_]>+/*,):${:BAKE+/%~&\"~}&~?_;;>~[*;%\"/@_^;>{'}%CART,=&:=<@)<=}\"+{~<)&}<*},<(/{$%_@!,#;=)YARN?=@,BIDE])+;(//@}+%[#:&~<!,>#/:!)=;#,#>[@~:?<}~#,&SIDE]>{^&_\",\"~+[~!'['<%+!;/~,%'[&BAND[^/@&:!~;{?@~>_}(&:%~*'*?_+;]FERN<_;~~/CAKE@:%~%@;&:%{(#;^)_\"?[^;BARN,',^)(_(>?_$)][&>;%\"/^$_+";
+
+    private static final int TEST_ROWS = 30;
+    private static final int TEST_COLS = 13;
 
     /**
      * A predefined instance of {@code ExhaustiveClusterStrategy} used to
@@ -112,7 +94,7 @@ public class CellGridTest {
      * behaviour of the {@code CellGrid} class during clustering operations.
      * </p>
      */
-    private static final ClusterStrategy STRATEGY_1 = new ExhaustiveClusterStrategy(TEXT[0].length);
+    private static final ClusterStrategy STRATEGY_1 = new ExhaustiveClusterStrategy(13);
 //    private static final ClusterStrategy STRATEGY_2 = new SimpleClusterStrategy(TEXT[0].length);
 
     /**
@@ -130,7 +112,7 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testConstructor_ValidInput_NoError(Character[][] text, ClusterStrategy clusterStr) {
+    public void testConstructor_ValidInput_NoError(String text, ClusterStrategy clusterStr) {
         assertDoesNotThrow(() -> new CellGrid(text, clusterStr));
     }
 
@@ -150,7 +132,7 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetCells_ValidInput_NotNull(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetCells_ValidInput_NotNull(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         assertNotNull(cellGrid.getCells());
     }
@@ -170,10 +152,10 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetCells_ValidInput_LengthCorred(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetCells_ValidInput_LengthCorred(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         Cell[] cells = cellGrid.getCells();
-        assertEquals(text.length * text[0].length, cells.length);
+        assertEquals(text.length(), cells.length);
     }
 
     /**
@@ -191,65 +173,140 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetCells_ValidInput_OrderMaintained(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetCells_ValidInput_OrderMaintained(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         Cell[] cells = cellGrid.getCells();
-        int index = 0;
-        for (Character[] textRow : text) {
-            for (Character character : textRow) {
-                char content = cells[index++].getContent();
-                assertEquals(
-                        character.charValue(),
-                        content,
-                        ("Character mismatch at index " + index)
-                );
-            }
+        for (int i = 0; i < text.length(); i++) {
+            char content = cells[i].getContent();
+            assertEquals(
+                    text.charAt(i),
+                    content,
+                    ("Character mismatch at index " + i)
+            );
         }
     }
 
+    /**
+     * Test the {@code getCell} method of {@link CellGrid} class with valid
+     * input.
+     *
+     * This test ensures that for each character in the input text, the
+     * corresponding cell in the {@link CellGrid} correctly contains the
+     * expected character.
+     *
+     * @param text the input text to initialise the {@link CellGrid}.
+     * @param clusterStr the {@link ClusterStrategy} used to cluster the cells
+     * in the grid.
+     */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetCell_ValidInput_NoError(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetCell_ValidInput_NoError(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
-        for (int r = 0, i = 0; r < text.length; r++) {
-            Character[] characters = text[r];
-            for (int c = 0; c < characters.length; c++, i++) {
-                assertEquals(
-                        text[r][c].charValue(),
-                        cellGrid.getCell(i).getContent(),
-                        ("Character mismatch at index row " + r + ", column " + c)
-                );
+        for (int i = 0; i < text.length(); i++) {
+            assertEquals(
+                    text.charAt(i),
+                    cellGrid.getCell(i).getContent(),
+                    ("Character mismatch at index " + i)
+            );
+        }
+    }
+
+    /**
+     * Test the {@code getCellAt} method of {@link CellGrid} class with valid
+     * input.
+     *
+     * This test verifies that the cell grid maintains the correct order of
+     * characters when initialised with specific dimensions (rows and columns).
+     * Each cell should correctly represent the corresponding character in the
+     * text based on the row and column.
+     *
+     * @param text the input text to initialise the {@link CellGrid}.
+     * @param clusterStr the {@link ClusterStrategy} used to cluster the cells
+     * in the grid.
+     * @param rows the number of rows in the grid.
+     * @param cols the number of columns in the grid.
+     */
+    @ParameterizedTest
+    @MethodSource("provideTextAndStratWithDimensions")
+    public void testGetCellAt_ValidInput_OrderMaintained(String text, ClusterStrategy clusterStr, int rows, int cols) {
+        CellGrid cellGrid = new CellGrid(text, clusterStr, rows, cols);
+        for (int r = 0, i = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++, i++) {
+                char c1 = text.charAt(i);
+                char c2 = cellGrid.getCellAt(r, c).getContent();
+
+                assertEquals(c1, c2);
             }
         }
     }
 
     /**
-     * Tests the {@code getCellAt} method to ensure the correct cell is returned
-     * for each row and column index.
-     * <p>
-     * This test verifies that the {@code getCellAt} method correctly retrieves
-     * the content of each cell based on its position in the grid, ensuring that
-     * the order of cells matches the original text grid.
-     * </p>
+     * Tests the {@code getCells2D} method of the {@link CellGrid} class with
+     * valid input.
      *
-     * @param text The 2D array of characters used to create the
-     * {@code CellGrid}.
-     * @param clusterStr The strategy used for clustering the cells in the grid.
+     * This test verifies that the 2D array of cells returned by the
+     * {@code getCells2D} method is not null, and that it has the expected
+     * number of rows and columns.
+     *
+     * @param text the input text to initialize the {@link CellGrid}.
+     * @param clusterStr the {@link ClusterStrategy} used to cluster the cells
+     * in the grid.
+     * @param rows the expected number of rows in the grid.
+     * @param cols the expected number of columns in the grid.
      */
     @ParameterizedTest
-    @MethodSource("provideTextAndStrat")
-    public void testGetCellAt_ValidInput_OrderMaintained(Character[][] text, ClusterStrategy clusterStr) {
-        CellGrid cellGrid = new CellGrid(text, clusterStr);
-        for (int r = 0; r < text.length; r++) {
-            Character[] characters = text[r];
-            for (int c = 0; c < characters.length; c++) {
-                assertEquals(
-                        text[r][c].charValue(),
-                        cellGrid.getCellAt(r, c).getContent(),
-                        ("Character mismatch at index row " + r + ", column " + c)
-                );
-            }
-        }
+    @MethodSource("provideTextAndStratWithDimensions")
+    public void testGetCells2D_ValidInput_CorrectOutput(String text, ClusterStrategy clusterStr, int rows, int cols) {
+        CellGrid cellGrid = new CellGrid(text, clusterStr, rows, cols);
+        assertAll(
+                () -> assertNotNull(cellGrid.getCells2D()),
+                () -> assertEquals(rows, cellGrid.getCells2D().length, "Row Mistmatch"),
+                () -> assertEquals(cols, cellGrid.getCells2D()[0].length, "Column Mismatch")
+        );
+    }
+
+    /**
+     * Tests the {@code getRowCount} method of the {@link CellGrid} class with
+     * valid input.
+     *
+     * This test ensures that the {@code getRowCount} method returns the correct
+     * number of rows as specified during the initialization of the
+     * {@link CellGrid}.
+     *
+     * @param text the input text to initialize the {@link CellGrid}.
+     * @param clusterStr the {@link ClusterStrategy} used to cluster the cells
+     * in the grid.
+     * @param rows the expected number of rows in the grid.
+     * @param cols the number of columns in the grid (not directly used in this
+     * test).
+     */
+    @ParameterizedTest
+    @MethodSource("provideTextAndStratWithDimensions")
+    public void testGetRowCount_ValidInput_CorrectOutput(String text, ClusterStrategy clusterStr, int rows, int cols) {
+        CellGrid cellGrid = new CellGrid(text, clusterStr, rows, cols);
+        assertEquals(rows, cellGrid.getRowCount());
+    }
+
+    /**
+     * Tests the {@code getColumnCount} method of the {@link CellGrid} class
+     * with valid input.
+     *
+     * This test ensures that the {@code getColumnCount} method returns the
+     * correct number of columns as specified during the initialization of the
+     * {@link CellGrid}.
+     *
+     * @param text the input text to initialize the {@link CellGrid}.
+     * @param clusterStr the {@link ClusterStrategy} used to cluster the cells
+     * in the grid.
+     * @param rows the number of rows in the grid (not directly used in this
+     * test).
+     * @param cols the expected number of columns in the grid.
+     */
+    @ParameterizedTest
+    @MethodSource("provideTextAndStratWithDimensions")
+    public void testGetColumnCount_ValidInput_CorrectOutput(String text, ClusterStrategy clusterStr, int rows, int cols) {
+        CellGrid cellGrid = new CellGrid(text, clusterStr, rows, cols);
+        assertEquals(cols, cellGrid.getColumnCount());
     }
 
     /**
@@ -257,7 +314,7 @@ public class CellGridTest {
      * to ensure they do not return null.
      * <p>
      * This test verifies that the {@code CellGrid} correctly returns non-null
-     * lists of letter and symbol clusters after being initialized with valid
+     * lists of letter and symbol clusters after being initialised with valid
      * input.
      * </p>
      *
@@ -267,7 +324,7 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetClusters_ValidInput_DoesNotReturnNull(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetClusters_ValidInput_DoesNotReturnNull(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         assertAll(
                 () -> assertNotNull(cellGrid.getLetterClusters()),
@@ -290,7 +347,7 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetWords_ValidInput_MatchesLetterClusters(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetWords_ValidInput_MatchesLetterClusters(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         String[] words = cellGrid.getWords();
         List<CellCluster> letterClusters = cellGrid.getLetterClusters();
@@ -314,7 +371,7 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testGetWords_ValidInput_MatchesLetterClustersSize(Character[][] text, ClusterStrategy clusterStr) {
+    public void testGetWords_ValidInput_MatchesLetterClustersSize(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         assertEquals(cellGrid.getLetterClusters().size(), cellGrid.getWords().length);
     }
@@ -334,7 +391,7 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testRemoveDud_ValidInput_ReturnsSameArgumenThenNull(Character[][] text, ClusterStrategy clusterStr) {
+    public void testRemoveDud_ValidInput_ReturnsSameArgumenThenNull(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         List<CellCluster> clusters = cellGrid.getLetterClusters();
         String[] duds = new String[clusters.size()]; // avoids concurrent modification exception
@@ -365,15 +422,47 @@ public class CellGridTest {
      */
     @ParameterizedTest
     @MethodSource("provideTextAndStrat")
-    public void testRemoveDud_InvalidInput_ReturnsNull(Character[][] text, ClusterStrategy clusterStr) {
+    public void testRemoveDud_InvalidInput_ReturnsNull(String text, ClusterStrategy clusterStr) {
         CellGrid cellGrid = new CellGrid(text, clusterStr);
         assertNull(cellGrid.removeDud("NotAValidWord"));
     }
 
     // -------------------------- Method Sources ---------------------------- //
+    /**
+     * Provides a stream of arguments for parameterized tests that require text
+     * and a clustering strategy.
+     *
+     * This method generates a single set of arguments containing the text
+     * {@code TEXT} and the clustering strategy {@code STRATEGY_1}.
+     *
+     * @return a stream of {@link Arguments} containing the text and clustering
+     * strategy.
+     */
     private static Stream<Arguments> provideTextAndStrat() {
         return Stream.of(
                 Arguments.of(TEXT, STRATEGY_1)
+        );
+    }
+
+    /**
+     * Provides a stream of arguments for parameterized tests that require text,
+     * a clustering strategy, and grid dimensions.
+     *
+     * This method generates multiple sets of arguments, each containing the
+     * text {@code TEXT}, the clustering strategy {@code STRATEGY_1}, and
+     * different grid dimensions (rows and columns). The dimensions are either
+     * predefined as {@code TEST_ROWS} and {@code TEST_COLS} or dynamically
+     * calculated using {@link GridUtil#getClosestRowColPair(int)} based on the
+     * text length.
+     *
+     * @return a stream of {@link Arguments} containing the text, clustering
+     * strategy, and grid dimensions.
+     */
+    private static Stream<Arguments> provideTextAndStratWithDimensions() {
+        Dimension d = GridUtil.getClosestRowColPair(TEXT.length());
+        return Stream.of(
+                Arguments.of(TEXT, STRATEGY_1, TEST_ROWS, TEST_COLS),
+                Arguments.of(TEXT, STRATEGY_1, d.height(), d.width())
         );
     }
 

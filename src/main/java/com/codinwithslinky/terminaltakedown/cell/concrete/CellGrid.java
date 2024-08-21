@@ -4,7 +4,10 @@ import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import com.codinwithslinky.terminaltakedown.cell.CellManager;
 import com.codinwithslinky.terminaltakedown.cell.ClusterStrategy;
+import com.codinwithslinky.terminaltakedown.util.Dimension;
 import com.codinwithslinky.terminaltakedown.util.GridUtil;
+import com.codinwithslinky.terminaltakedown.util.StringUtil;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -85,6 +88,7 @@ public class CellGrid implements CellManager {
     private int cols;
     private Character[][] cellText;
     private Cell[] cells;
+    private Cell[][] cells2D;
 
     // --------------------------- Constructors ----------------------------- //
     /**
@@ -97,33 +101,42 @@ public class CellGrid implements CellManager {
      * strategy must be non-null.
      * </p>
      *
-     * @param textGrid A 2D array of characters representing the text grid to be
+     * @param text A string of characters representing the text grid to be
      * converted into cells.
      * @param clusterStrategy The strategy used to cluster the cells into letter
      * and symbol clusters.
-     * @throws IllegalArgumentException If the {@code textGrid} is {@code null},
-     * if the {@code clusterStrategy} is {@code null}, or if the grid is not
+     * @param rows the number of rows in this grid
+     * @param cols the number of columns in this grid
+     * @throws IllegalArgumentException If the {@code textGrid} is {@code null}
+     * or does not match the size of the grid as specified by the number of rows
+     * and columns, or if the {@code clusterStrategy} is {@code null}, or if the
+     * grid is not rectangular.
+     */
+    public CellGrid(String text, ClusterStrategy clusterStrategy, int rows, int cols) {
+        init(text, clusterStrategy, rows, cols);
+    }
+
+    /**
+     * Constructs a new {@code CellGrid} with the specified text grid and
+     * clustering strategy.
+     * <p>
+     * This constructor initialises the grid of {@code Cell} objects and
+     * clusters them based on the provided {@code ClusterStrategy}. The grid
+     * must be rectangular, with all rows of equal length, and both the grid and
+     * strategy must be non-null.
+     * </p>
+     *
+     * @param text A string of characters representing the text grid to be
+     * converted into cells.
+     * @param clusterStrategy The strategy used to cluster the cells into letter
+     * and symbol clusters.
+     * @throws IllegalArgumentException If the {@code textGrid} is {@code null}
+     * or if the {@code clusterStrategy} is {@code null}, or if the grid is not
      * rectangular.
      */
-    public CellGrid(Character[][] textGrid, ClusterStrategy clusterStrategy) {
-        if (textGrid == null) {
-            throw new IllegalArgumentException("Cannot instantiate CellGrid using null text grid");
-        }
-
-        if (clusterStrategy == null) {
-            throw new IllegalArgumentException("Cannot instantiate CellGrid using null cluster strategy");
-        }
-
-        if (!GridUtil.isRectangular(textGrid)) {
-            throw new IllegalArgumentException("Provided text grid must be rectangular (all arrays must be of the same length)");
-        }
-
-        this.cellText = textGrid;
-        this.rows = textGrid.length;
-        this.cols = textGrid[0].length;
-        this.cells = new Cell[rows * cols];
-
-        init(clusterStrategy);
+    public CellGrid(String text, ClusterStrategy clusterStrategy) {
+        Dimension d = GridUtil.getClosestRowColPair(text.length());
+        init(text, clusterStrategy, d.height(), d.width());
     }
 
     // ------------------------------ Getters ------------------------------- //
@@ -139,6 +152,15 @@ public class CellGrid implements CellManager {
      */
     public Cell[] getCells() {
         return cells;
+    }
+
+    /**
+     * Returns the 2D arrangement of Cells.
+     *
+     * @return
+     */
+    public Cell[][] getCells2D() {
+        return cells2D;
     }
 
     /**
@@ -188,6 +210,32 @@ public class CellGrid implements CellManager {
         }
 
         return cells[row * cols + col];
+    }
+
+    /**
+     * Retrieves the number of rows in the grid.
+     *
+     * This method provides access to the private field storing the number of
+     * rows, allowing external classes to understand the grid's vertical
+     * dimensions without modifying the data.
+     *
+     * @return the number of rows in the grid
+     */
+    public int getRowCount() {
+        return rows;
+    }
+
+    /**
+     * Retrieves the number of columns in the grid.
+     *
+     * This method provides access to the private field storing the number of
+     * columns, enabling external classes to understand the grid's horizontal
+     * dimensions without altering the underlying structure.
+     *
+     * @return the number of columns in the grid
+     */
+    public int getColumnCount() {
+        return cols;
     }
 
     /**
@@ -268,6 +316,43 @@ public class CellGrid implements CellManager {
 
     // -------------------------- Helper Methods ---------------------------- //
     /**
+     * Main initialisation function for the class.
+     *
+     * @param text A string of characters representing the text grid to be
+     * converted into cells.
+     * @param clusterStrategy The strategy used to cluster the cells into letter
+     * and symbol clusters.
+     * @param rows the number of rows in this grid
+     * @param cols the number of columns in this grid
+     * @throws IllegalArgumentException If the {@code textGrid} is {@code null}
+     * or does not match the size of the grid as specified by the number of rows
+     * and columns, or if the {@code clusterStrategy} is {@code null}, or if the
+     * grid is not rectangular.
+     */
+    private void init(String text, ClusterStrategy clusterStrategy, int rows, int cols) {
+        if (text == null || text.isEmpty()) {
+            throw new IllegalArgumentException("Cannot instantiate CellGrid using null or empty text");
+        }
+
+        if (clusterStrategy == null) {
+            throw new IllegalArgumentException("Cannot instantiate CellGrid using null cluster strategy");
+        }
+
+        Character[][] characters = GridUtil.turnTo2DArray(StringUtil.toCharacterArray(text), rows, cols);
+        if (!GridUtil.isRectangular(characters)) {
+            throw new IllegalArgumentException("Provided text grid must be rectangular (all arrays must be of the same length)");
+        }
+
+        this.cellText = characters;
+        this.rows = rows;
+        this.cols = cols;
+        this.cells = new Cell[rows * cols];
+        this.cells2D = new Cell[rows][cols];
+
+        initCells(clusterStrategy);
+    }
+
+    /**
      * Initialises the grid of {@code Cell} objects and clusters them using the
      * provided {@code ClusterStrategy}.
      * <p>
@@ -279,13 +364,12 @@ public class CellGrid implements CellManager {
      * @param clusterStrategy The strategy used to cluster the cells into letter
      * and symbol clusters.
      */
-    private void init(ClusterStrategy clusterStrategy) {
-        int i = 0;
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
+    private void initCells(ClusterStrategy clusterStrategy) {
+        for (int r = 0, i = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++, i++) {
                 char content = cellText[r][c];
                 cells[i] = Character.isLetter(content) ? new LetterCell(content) : new SymbolCell(content);
-                i++;
+                cells2D[r][c] = cells[i];
             }
         }
 
