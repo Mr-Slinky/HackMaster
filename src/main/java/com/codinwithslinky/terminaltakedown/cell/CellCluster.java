@@ -185,6 +185,13 @@ public interface CellCluster {
      */
     public void fill(char c);
 
+    /**
+     * Handles the internal behaviour triggered by a click on this cluster. This
+     * typically involves deactivating the cluster and force clearing it. The
+     * exact behavior may vary depending on the implementation specifics.
+     */
+    public void click();
+
     // ------------------------- Custom Exception --------------------------- //
     /**
      * The {@code ClusterCloseException} class represents an exception that is

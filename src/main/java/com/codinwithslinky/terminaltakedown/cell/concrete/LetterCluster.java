@@ -16,9 +16,9 @@ import java.util.List;
  * @author Kheagen Haskins
  */
 public class LetterCluster extends AbstractCluster {
-    
+
     public static final int MIN_WORD_SIZE = 3;
-    
+
     // ---------------------------- API Methods ----------------------------- //
     /**
      * Adds a {@code Cell} to the cluster, ensuring it is an instance of
@@ -69,6 +69,16 @@ public class LetterCluster extends AbstractCluster {
         }
 
         return true;
+    }
+
+    /**
+     * Handles the internal behaviour triggered by a click on this cluster. This
+     * implmentation first fills each cell with a '.' and then deactivating the
+     * cluster and force clearing it.
+     */
+    public void click() {
+        fill('.');
+        super.click();
     }
 
 }
