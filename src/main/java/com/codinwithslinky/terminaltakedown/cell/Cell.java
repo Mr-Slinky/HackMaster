@@ -156,7 +156,7 @@ public interface Cell {
      * otherwise.
      */
     boolean inCluster();
-
+    
     /**
      * Determines whether the content of this {@code Cell} matches the content
      * of the specified {@code Cell}.

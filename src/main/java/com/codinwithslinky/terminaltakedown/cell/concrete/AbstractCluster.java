@@ -393,6 +393,16 @@ abstract class AbstractCluster implements CellCluster {
             cell.setContent(c);
         }
     }
+    
+    /**
+     * Handles the internal behaviour triggered by a click on this cluster. This
+     * implmentation first fills each cell with a '.' and then deactivating the
+     * cluster and force clearing it.
+     */
+    public void click() {
+        setActive(false);
+        forceClear();
+    }
 
     /**
      * Returns a string representation of the {@code CellCluster} object.
