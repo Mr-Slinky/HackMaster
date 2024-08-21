@@ -1,5 +1,7 @@
-package com.codinwithslinky.terminaltakedown.cell;
+package com.codinwithslinky.terminaltakedown.cell.concrete;
 
+import com.codinwithslinky.terminaltakedown.cell.Cell;
+import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +74,7 @@ import java.util.List;
  *
  * @author Kheagen Haskins
  */
-public abstract class AbstractCluster implements CellCluster {
+abstract class AbstractCluster implements CellCluster {
 
     // ------------------------------ Fields -------------------------------- //
     /**
@@ -98,7 +100,7 @@ public abstract class AbstractCluster implements CellCluster {
      * Initialises a new instance of the {@code AbstractCluster} class. By
      * default, the cluster is neither active nor closed.
      */
-    public AbstractCluster() {
+    AbstractCluster() {
         active = false;
         closed = false;
     }
