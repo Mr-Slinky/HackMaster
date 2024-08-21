@@ -1,6 +1,5 @@
 package com.codinwithslinky.terminaltakedown.cell.concrete;
 
-import com.codinwithslinky.terminaltakedown.cell.AbstractCluster;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 
 /**

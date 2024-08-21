@@ -132,7 +132,7 @@ public final class StaticWordSet implements WordSet {
      * {@code StaticWordSet}.
      */
     public int getTotalCharacters() {
-        return StringUtil.getTotalCharacters(wordList);
+        return StringUtil.countCharacters(wordList);
     }
 
     // --------------------------------- API -------------------------------- //

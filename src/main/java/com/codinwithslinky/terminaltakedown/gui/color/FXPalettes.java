@@ -59,7 +59,7 @@ public class FXPalettes {
      * </p>
      */
     public static final FXPalette GREEN_SHADES = new FXPalette(
-            Color.DARKGRAY,
+            Color.BLACK,
             Color.GREEN,
             Color.LIGHTGREEN,
             Color.GREENYELLOW,

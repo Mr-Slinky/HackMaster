@@ -20,7 +20,7 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  *
  * <p>
  * The {@code SimpleJumbleStrategy} class leverages the
- * {@link StringUtil#getTotalCharacters(java.lang.String[])} to calculate the
+ * {@link StringUtil#countCharacters(java.lang.String[])} to calculate the
  * total number of characters in the input word list and uses methods from
  * {@link java.util.concurrent.ThreadLocalRandom#current()} to generate random
  * indices for symbol insertion.
@@ -41,7 +41,7 @@ public class SimpleJumbleStrategy implements JumbleStrategy {
      * randomisation logic applied.
      * </p>
      */
-    private static final char[] SYMBOLS = "!@#$%^&*()_+{}[]:;<>,?/'\\\"".toCharArray();
+    private static final char[] SYMBOLS = "!@#$%^&*()_+{}[]:;<>,?/'\"~=".toCharArray();
 
     // ---------------------------- API Methods ----------------------------- //
     /**
@@ -58,7 +58,7 @@ public class SimpleJumbleStrategy implements JumbleStrategy {
      */
     @Override
     public String jumble(String[] wordList, int size) {
-        int totalChar = StringUtil.getTotalCharacters(wordList);
+        int totalChar = StringUtil.countCharacters(wordList);
         // Check if the specified size is smaller than the total number of characters in all words combined.
         if (size < totalChar) {
             throw new IllegalArgumentException("Size " + size + " is too small for total character length of " + totalChar);
