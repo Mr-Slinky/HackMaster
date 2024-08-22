@@ -1,10 +1,17 @@
 package com.codinwithslinky.terminaltakedown.textgen.concrete;
 
+import static java.util.concurrent.ThreadLocalRandom.current;
+
 import com.codinwithslinky.terminaltakedown.textgen.JumbleStrategy;
 import com.codinwithslinky.terminaltakedown.textgen.WordSet;
 import com.codinwithslinky.terminaltakedown.util.StringUtil;
+
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
 
 /**
  * The {@code StaticWordSet} class is responsible for managing a set of words,
@@ -64,6 +71,11 @@ public final class StaticWordSet implements WordSet {
     private final String[] wordList;
 
     /**
+     * Counts the number of duds left.
+     */
+    private IntegerProperty dudCountProperty = new SimpleIntegerProperty();
+
+    /**
      * The chosen JumbleStrategy
      */
     private final JumbleStrategy jumbleStrategy;
@@ -114,6 +126,7 @@ public final class StaticWordSet implements WordSet {
 
         this.jumbleStrategy = strategy;
         this.wordList = listOfWords;
+        this.dudCountProperty.set(wordList.length - 1);
         correctWordIndex = random.nextInt(wordList.length);
     }
 
@@ -149,6 +162,55 @@ public final class StaticWordSet implements WordSet {
      */
     public String getCorrectWord() {
         return wordList[correctWordIndex];
+    }
+
+    /**
+     * Returns a word from the word set that is intentionally incorrect or
+     * invalid.
+     * <p>
+     * The "dud" word is typically used in scenarios where an incorrect option
+     * is needed, such as in word-based games, puzzles, or tests where the
+     * player or user is required to identify or differentiate between correct
+     * and incorrect words. This method complements the
+     * {@link #getCorrectWord()} method by providing an alternative that should
+     * not be chosen as the correct answer.
+     * </p>
+     *
+     * @return a word as a {@link String} that is not the correct answer or is
+     * intentionally incorrect.
+     */
+    @Override
+    public String removeDud() {
+        if (dudCountProperty.get() == 0) {
+            return null;
+        }
+
+        int dudIndex;
+        do {
+            dudIndex = current().nextInt(wordList.length);
+        } while (dudIndex == correctWordIndex);
+
+        dudCountProperty.set(dudCountProperty.get() - 1);
+        return wordList[dudIndex];
+    }
+
+    /**
+     * Adds a listener to monitor changes in the count of "dud" words.
+     * <p>
+     * This method allows you to attach a {@link ChangeListener} that will be
+     * notified whenever the value of the {@code dudCountProperty} changes. This
+     * is particularly useful in scenarios where you need to react to changes in
+     * the number of incorrect or invalid words within the application, such as
+     * updating the user interface or triggering certain actions when the count
+     * changes.
+     * </p>
+     *
+     * @param cl the {@link ChangeListener} to add; it must be able to handle
+     * {@link Number} type values, as the listener will receive updates whenever
+     * the count changes.
+     */
+    public void addDudCountListener(ChangeListener<? super Number> cl) {
+        dudCountProperty.addListener(cl);
     }
 
     /**
