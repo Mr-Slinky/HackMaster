@@ -70,14 +70,14 @@ public class CellView extends Label {
      * The constant width of the cell view in pixels. This defines the preferred
      * width of the {@code CellView} when displayed in the user interface.
      */
-    public static final int CELL_WIDTH = 25;
+    public static final int CELL_WIDTH = 30;
 
     /**
      * The constant height of the cell view in pixels. This defines the
      * preferred height of the {@code CellView} when displayed in the user
      * interface.
      */
-    public static final int CELL_HEIGHT = 25;
+    public static final int CELL_HEIGHT = 30;
 
     // ------------------------------ Fields -------------------------------- //
     /**
@@ -218,7 +218,8 @@ public class CellView extends Label {
         setBackground(Background.fill(palette.getBackground()));
         setTextFill(palette.getForeground());
         setAlignment(Pos.CENTER);
-
+        setFont(GameState.getGameState().getFont());
+        
         cell.addStateListener((obVal, oldVal, newVal) -> {
             setBackground(newVal ? Background.fill(palette.getForeground()) : null);
             setTextFill(newVal ? palette.getBackground() : palette.getForeground());
