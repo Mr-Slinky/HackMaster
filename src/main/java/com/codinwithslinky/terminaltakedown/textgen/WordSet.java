@@ -56,6 +56,27 @@ public interface WordSet {
     String removeDud();
 
     /**
+     * Removes a specified "dud" word from the word set and returns it. This
+     * method is used in scenarios where an incorrect or invalid word needs to
+     * be removed, such as when refreshing the list of dud words or managing
+     * dynamic word sets.
+     * <p>
+     * The "dud" word is typically used in scenarios where an incorrect option
+     * is needed, or tests where the player or user is required to identify or
+     * differentiate between correct and incorrect words. This method
+     * complements the {@link #getCorrectWord()} method by ensuring the
+     * specified dud word is not chosen as the correct answer and is effectively
+     * managed or removed from potential selections.
+     * </p>
+     *
+     * @param dud the word to be removed from the set, specified as a
+     * {@link String}. This word should already exist in the current set of dud
+     * words.
+     * @return a boolean indicating if the given dud is correctly removed.
+     */
+    boolean removeDud(String dud);
+
+    /**
      * Adds a listener to monitor changes in the count of "dud" words.
      * <p>
      * This method allows you to attach a {@link ChangeListener} that will be
@@ -100,5 +121,5 @@ public interface WordSet {
      * the total character count.
      */
     String jumble(int size);
-    
+
 }
