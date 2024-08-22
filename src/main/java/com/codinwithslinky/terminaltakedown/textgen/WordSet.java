@@ -1,5 +1,7 @@
 package com.codinwithslinky.terminaltakedown.textgen;
 
+import javafx.beans.value.ChangeListener;
+
 /**
  * The {@code WordSet} interface defines the contract for managing a set of
  * words with functionalities such as retrieving the total number of characters,
@@ -38,6 +40,39 @@ public interface WordSet {
     String getCorrectWord();
 
     /**
+     * Returns a word from the word set that is intentionally incorrect or
+     * invalid.
+     * <p>
+     * The "dud" word is typically used in scenarios where an incorrect option
+     * is needed, or tests where the player or user is required to identify or
+     * differentiate between correct and incorrect words. This method
+     * complements the {@link #getCorrectWord()} method by providing an
+     * alternative that should not be chosen as the correct answer.
+     * </p>
+     *
+     * @return a word as a {@link String} that is not the correct answer or is
+     * intentionally incorrect.
+     */
+    String removeDud();
+
+    /**
+     * Adds a listener to monitor changes in the count of "dud" words.
+     * <p>
+     * This method allows you to attach a {@link ChangeListener} that will be
+     * notified whenever the value of the {@code dudCountProperty} changes. This
+     * is particularly useful in scenarios where you need to react to changes in
+     * the number of incorrect or invalid words within the application, such as
+     * updating the user interface or triggering certain actions when the count
+     * changes.
+     * </p>
+     *
+     * @param cl the {@link ChangeListener} to add; it must be able to handle
+     * {@link Number} type values, as the listener will receive updates whenever
+     * the count changes.
+     */
+    void addDudCountListener(ChangeListener<? super Number> cl);
+
+    /**
      * Shuffles the words in the word list.
      * <p>
      * Implementations should use a randomization algorithm, such as the
@@ -65,4 +100,5 @@ public interface WordSet {
      * the total character count.
      */
     String jumble(int size);
+    
 }

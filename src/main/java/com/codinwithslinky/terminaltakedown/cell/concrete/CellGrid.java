@@ -1,5 +1,6 @@
 package com.codinwithslinky.terminaltakedown.cell.concrete;
 
+import com.codinwithslinky.terminaltakedown.GameState;
 import com.codinwithslinky.terminaltakedown.cell.Cell;
 import com.codinwithslinky.terminaltakedown.cell.CellCluster;
 import com.codinwithslinky.terminaltakedown.cell.CellManager;
@@ -301,12 +302,18 @@ public class CellGrid implements CellManager {
      * cluster is found.
      */
     public String removeDud(String dudText) {
+        if (dudText.equalsIgnoreCase(GameState.getGameState().getCorrectWord())) {
+            throw new IllegalArgumentException("Cannot remove dud if the dud provided is the correct word: " + dudText);
+        }
+        
         String text;
         for (CellCluster cluster : letterClusters) {
             text = cluster.getText();
             if (text.equalsIgnoreCase(dudText)) {
+                cluster.fill('.');
                 cluster.forceClear();
                 letterClusters.remove(cluster);
+                
                 return text;
             }
         }
