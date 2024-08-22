@@ -69,7 +69,7 @@ public final class GameState {
      * The default font size used for the {@code Font} object. This size is set
      * to 20 by default and cannot be changed as it is a final field.
      */
-    private final int fontSize = 20;
+    private final int fontSize = 15;
 
     /**
      * The {@code Font} object representing the font used in the application.

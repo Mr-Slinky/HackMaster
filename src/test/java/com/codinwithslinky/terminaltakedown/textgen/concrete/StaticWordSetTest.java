@@ -33,6 +33,13 @@ public class StaticWordSetTest {
 
     @Test
     @Disabled
+    public void testRemoveDud_ValidInput_RemovesDud() {
+        String[] words = {"BOOK", "ROOK", "TOOK", "LOOK", "SHUT", "LUST"};
+        StaticWordSet wordSet = new StaticWordSet(new SimpleJumbleStrategy(), words);
+    }
+
+    @Test
+    @Disabled
     public void deleteMe() {
         WordSet wordSet = WordBank.getWordSet(Difficulty.BEGINNER);
         int cols = 13;

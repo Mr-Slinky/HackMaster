@@ -5,6 +5,8 @@ import static java.util.concurrent.ThreadLocalRandom.current;
 import com.codinwithslinky.terminaltakedown.textgen.JumbleStrategy;
 import com.codinwithslinky.terminaltakedown.textgen.WordSet;
 import com.codinwithslinky.terminaltakedown.util.StringUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -71,12 +73,30 @@ public final class StaticWordSet implements WordSet {
     private final String[] wordList;
 
     /**
-     * Counts the number of duds left.
+     * Maintains a list of indices corresponding to "dud" words that have either
+     * been removed from the active word set or have been identified as
+     * incorrect choices. This list helps in tracking the positions of these
+     * duds within the original dataset, facilitating easier management and
+     * reference throughout the game life-cycle.
+     */
+    private List<Integer> removedDudIndices = new ArrayList<>();
+
+    /**
+     * Represents the count of "dud" words currently remaining in the game or
+     * application. This count is dynamically updated as duds are identified and
+     * removed. It can be used to trigger certain actions or changes within the
+     * application when the count reaches specific thresholds.
      */
     private IntegerProperty dudCountProperty = new SimpleIntegerProperty();
 
     /**
-     * The chosen JumbleStrategy
+     * Holds the strategy used for mixing words within the application. This
+     * mixing algorithm intersperses the original word list with a random
+     * assortment of symbols, maintaining the original order of words while
+     * enhancing complexity. The nature of this strategy affects how users
+     * interact with the word list, influencing the difficulty level and the
+     * engagement experience. This strategy can be dynamically altered to suit
+     * different user preferences or challenge settings.
      */
     private final JumbleStrategy jumbleStrategy;
 
@@ -188,10 +208,32 @@ public final class StaticWordSet implements WordSet {
         int dudIndex;
         do {
             dudIndex = current().nextInt(wordList.length);
-        } while (dudIndex == correctWordIndex);
+        } while (dudIndex == correctWordIndex && removedDudIndices.contains(dudIndex));
 
+        removedDudIndices.add(dudIndex);
         dudCountProperty.set(dudCountProperty.get() - 1);
         return wordList[dudIndex];
+    }
+
+    @Override
+    public boolean removeDud(String dud) {
+        if (dud == null || dud.isEmpty()) {
+            throw new IllegalArgumentException("Cannot remove dud because provided argument was null or empty");
+        }
+
+        for (int i = 0; i < wordList.length; i++) {
+            String potentialDud = wordList[i];
+            if (dud.equalsIgnoreCase(potentialDud)) {
+                if (removedDudIndices.contains(i)) {
+                    throw new IllegalArgumentException("Dud " + dud + " has already been removed");
+                }
+
+                removedDudIndices.add(i);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

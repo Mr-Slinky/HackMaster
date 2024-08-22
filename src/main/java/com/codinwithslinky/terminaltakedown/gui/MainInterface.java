@@ -11,6 +11,7 @@ import com.codinwithslinky.terminaltakedown.gui.color.FXPalette;
 
 import com.codinwithslinky.terminaltakedown.textgen.WordSet;
 import static java.util.concurrent.ThreadLocalRandom.current;
+import javafx.geometry.Insets;
 
 import javafx.scene.layout.Background;
 
@@ -30,17 +31,17 @@ public class MainInterface extends BorderPane implements CellClickObserver {
     private WordSet wordSet = gameState.getWordSet();
     private CellGrid gridMan;
     private CenterPanel centerDisplay;
+    private TerminalPanel terminal;
 
     // --------------------------- Constructors ----------------------------- //
     public MainInterface(CellGrid cellGrid) {
         this.gridMan = cellGrid;
-        centerDisplay = new CenterPanel(createCellViews());
-
         setBackground(Background.fill(palette.getBackground()));
-        addPanels();
-        
+        setPadding(new Insets(5, 5, 5, 5));
+        initComponents();
+
         wordSet.addDudCountListener((obVal, oldVal, newVal) -> {
-            
+
         });
     }
 
@@ -51,6 +52,8 @@ public class MainInterface extends BorderPane implements CellClickObserver {
         StringBuilder text = new StringBuilder();
         if (cluster == null) {
             text.append(cell.getContent());
+            terminal.display("ERROR!\n" + text.toString());
+            return;
         } else {
             String clusterText = cluster.getText();
             text.append(clusterText);
@@ -62,6 +65,7 @@ public class MainInterface extends BorderPane implements CellClickObserver {
         }
 
         if (Character.isLetter(text.charAt(0))) {
+            wordSet.removeDud(text.toString());
             gameState.decrementGuesses();
             text.append("\n").append(gameState.getGuessCount()).append(" guesses remaining");
         } else {
@@ -74,10 +78,19 @@ public class MainInterface extends BorderPane implements CellClickObserver {
             }
         }
 
-        System.out.println("> " + text); // terminal
+        terminal.display(text.toString());
     }
 
     // -------------------------- Helper Methods ---------------------------- //
+    private void initComponents() {
+        centerDisplay = new CenterPanel(createCellViews());
+        terminal = new TerminalPanel();
+        terminal.setPrefWidth(200);
+
+        setCenter(centerDisplay);
+        setRight(terminal);
+    }
+
     private CellView[][] createCellViews() {
         Cell[][] cellGrid = gridMan.getCells2D();
         CellView[][] cvGrid = new CellView[cellGrid.length][];
@@ -90,10 +103,6 @@ public class MainInterface extends BorderPane implements CellClickObserver {
         }
         // TODO
         return cvGrid;
-    }
-
-    private void addPanels() {
-        setCenter(centerDisplay);
     }
 
 }
