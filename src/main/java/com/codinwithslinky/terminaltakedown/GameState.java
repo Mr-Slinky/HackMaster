@@ -3,6 +3,7 @@ package com.codinwithslinky.terminaltakedown;
 import com.codinwithslinky.terminaltakedown.gui.color.FXPalette;
 import com.codinwithslinky.terminaltakedown.gui.color.FXPalettes;
 import com.codinwithslinky.terminaltakedown.textgen.WordSet;
+import java.io.InputStream;
 
 import javafx.beans.property.IntegerProperty;
 
@@ -11,6 +12,7 @@ import static java.lang.Math.min;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.scene.text.Font;
 
 /**
  * The {@code GameState} class represents the state of the game and serves as
@@ -49,7 +51,8 @@ import javafx.beans.value.ChangeListener;
  * <p>
  * Note: Attempting to retrieve the {@code GameState} instance before it is
  * created will result in an {@link IllegalStateException}.
- *
+ * </p> 
+ * 
  * @author Kheagen Haskins
  */
 public final class GameState {
@@ -61,6 +64,18 @@ public final class GameState {
      * changed based on game logic or user interaction.
      */
     private FXPalette palette;
+
+    /**
+     * The default font size used for the {@code Font} object. This size is set
+     * to 20 by default and cannot be changed as it is a final field.
+     */
+    private final int fontSize = 20;
+
+    /**
+     * The {@code Font} object representing the font used in the application.
+     * This font is initialized based on the default or specified font settings.
+     */
+    private final Font font;
 
     /**
      * The set of words used in the current game session. This {@link WordSet}
@@ -102,6 +117,13 @@ public final class GameState {
         this.startingGuessCount = startingGuesses;
         this.palette = FXPalettes.GREEN;
         resetGuesses();
+
+        InputStream in = getClass().getResourceAsStream("/fonts/GameFont.ttf");
+        if (in != null) {
+            font = Font.loadFont(in, fontSize);
+        } else {
+            font = Font.font("monospaced", fontSize);
+        }
     }
 
     // ------------------------------ Getters ------------------------------- //
@@ -114,6 +136,16 @@ public final class GameState {
      */
     public WordSet getWordSet() {
         return wordSet;
+    }
+
+    /**
+     * Returns the {@code Font} used in this application. The returned font is
+     * either a custom font or a system font, depending on the initialization.
+     *
+     * @return the {@code Font} object representing the current font settings.
+     */
+    public Font getFont() {
+        return font;
     }
 
     /**
@@ -249,7 +281,7 @@ public final class GameState {
         if (singleton != null) {
             throw new IllegalStateException("GameState has already been created");
         }
-        
+
         singleton = new GameState(wordSet, guesses);
         return singleton;
     }

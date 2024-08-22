@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
  * <ul>
  * <li>{@link #SATURATED_1}: A highly saturated colour scheme with magenta,
  * yellow, and cyan accents.</li>
- * <li>{@link #GREEN_SHADES}: A palette focused on different shades of
+ * <li>{@link #GREEN}: A palette focused on different shades of
  * green.</li>
  * </ul>
  *
@@ -58,12 +58,12 @@ public class FXPalettes {
      * colours.
      * </p>
      */
-    public static final FXPalette GREEN_SHADES = new FXPalette(
-            Color.BLACK,
-            Color.GREEN,
-            Color.LIGHTGREEN,
-            Color.GREENYELLOW,
-            Color.DARKGREEN
+    public static final FXPalette GREEN = new FXPalette(
+            Color.web("0x001100"),
+            Color.web("0x00FF00"),
+            Color.web("0x55FF55"),
+            Color.web("0xAAFFAA"),
+            Color.web("0xDDFFDD")
     );
 
     // ---------------------------- API Methods ----------------------------- //
