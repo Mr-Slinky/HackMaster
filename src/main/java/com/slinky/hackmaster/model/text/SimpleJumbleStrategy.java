@@ -52,6 +52,7 @@ public class SimpleJumbleStrategy implements JumbleStrategy {
      * added between them to reach the specified size.
      * </p>
      *
+     * @param wordList The list of words to be interspersed.
      * @param size the desired size of the game string.
      * @return the generated game string.
      */

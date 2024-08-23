@@ -1,0 +1,28 @@
+--class-path
+'C:/Users/Kheagen/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21.jar;C:/Users/Kheagen/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21.jar;C:/Users/Kheagen/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21.jar'
+--module-path
+'C:/Users/Kheagen/Documents/NetBeansProjects/HackMaster/target/classes;C:/Users/Kheagen/.m2/repository/org/openjfx/javafx-base/21/javafx-base-21-win.jar;C:/Users/Kheagen/.m2/repository/org/openjfx/javafx-graphics/21/javafx-graphics-21-win.jar;C:/Users/Kheagen/.m2/repository/org/openjfx/javafx-controls/21/javafx-controls-21-win.jar'
+--patch-module
+com.slinky.hackmaster='C:/Users/Kheagen/Documents/NetBeansProjects/HackMaster/src/main/java'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+--module-source-path
+'C:/Users/Kheagen/Documents/NetBeansProjects/HackMaster/target/site/apidocs/src'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Kheagen/Documents/NetBeansProjects/HackMaster/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'HackMaster 0.1.1-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'HackMaster 0.1.1-SNAPSHOT API'

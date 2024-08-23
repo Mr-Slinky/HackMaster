@@ -1,0 +1,7 @@
+module:com.slinky.hackmaster
+com.slinky.hackmaster
+com.slinky.hackmaster.controller
+com.slinky.hackmaster.model.cell
+com.slinky.hackmaster.model.text
+com.slinky.hackmaster.util
+com.slinky.hackmaster.view

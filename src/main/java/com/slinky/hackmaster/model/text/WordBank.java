@@ -21,12 +21,14 @@ package com.slinky.hackmaster.model.text;
  * @see StaticWordSet
  */
 public final class WordBank {
-
+    
+    private WordBank(){} // Prevent Instantiation
+    
     /**
      * The chosen strategy for each provided WordSet implementation
      */
     private static final JumbleStrategy jumbleStrategy = new SimpleJumbleStrategy();
-
+    
     // ---------------------------- Word Lists ------------------------------ //
     /**
      * The word list for the BEGINNER difficulty level.
