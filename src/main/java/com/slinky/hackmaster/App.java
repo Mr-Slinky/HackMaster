@@ -90,7 +90,7 @@ public class App extends Application {
         final int cols = 12;
         final int size = rows * cols;
 
-        gameState = GameState.createGameState(WordBank.getWordSet(Difficulty.EXPERT), GameConstants.STARTING_GUESSES);
+        gameState = GameState.createGameState(WordBank.getWordSet(Difficulty.INTERMEDIATE), GameConstants.STARTING_GUESSES);
         wordSet = gameState.getWordSet();
         cellManager = new CellGrid(wordSet.jumble(size), new ExhaustiveClusterStrategy(cols), rows, cols);
 
