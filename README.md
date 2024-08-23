@@ -5,7 +5,7 @@ A replication of the Fallout 3 / 4 hacking minigame using JavaFX
 
 ##Javadoc:
 
-![API Documentation](https://mr-slinky.github.io/HackMaster/docs/com.slinky.hackmaster/module-summary.html)
+[API Documentation](https://mr-slinky.github.io/HackMaster/docs/com.slinky.hackmaster/module-summary.html)
 
 ## Understanding the Code – Backend Architecture
 
