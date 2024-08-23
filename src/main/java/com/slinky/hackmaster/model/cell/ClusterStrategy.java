@@ -1,8 +1,5 @@
 package com.slinky.hackmaster.model.cell;
 
-import com.slinky.hackmaster.model.cell.LetterCluster;
-import com.slinky.hackmaster.model.cell.SymbolCluster;
-
 import java.util.Collection;
 import java.util.List;
 
