@@ -8,25 +8,36 @@ import com.slinky.hackmaster.model.cell.CellManager;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 
+import javafx.geometry.Insets;
+
 /**
  *
  * @author Kheagen Haskins
  */
 public class MainView extends BorderPane {
-
+    
+    private static final int TOP_HEIGHT = 100;
+    private static final int TERMINAL_WIDTH = 225;
+    private static final int PADDING = 5;
+    
     // ------------------------------ Fields -------------------------------- //
+    private TopPanel topPanel;
     private CenterPanel center;
     private TerminalPanel terminal;
     private FXPalette palette = GameState.getGameState().getPalette();
-    
+
     // --------------------------- Constructors ----------------------------- //
     public MainView(CellManager cellManager) {
+        topPanel = new TopPanel();
         center = new CenterPanel(createCellViews(cellManager));
         terminal = new TerminalPanel();
-        
-        terminal.setPrefWidth(225);
+
+        terminal.setPrefWidth(TERMINAL_WIDTH);
+        topPanel.setPrefHeight(TOP_HEIGHT);
         
         setBackground(Background.fill(palette.getBackground()));
+        setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
+        setTop(topPanel);
         setCenter(center);
         setRight(terminal);
     }
@@ -50,6 +61,7 @@ public class MainView extends BorderPane {
                 cvGrid[i][j] = cellView;
             }
         }
+        
         return cvGrid;
     }
 }
