@@ -1,13 +1,16 @@
-package com.codinwithslinky.terminaltakedown;
+package com.slinky.hackmaster;
 
-import com.codinwithslinky.terminaltakedown.cell.concrete.CellGrid;
-import com.codinwithslinky.terminaltakedown.cell.concrete.ExhaustiveClusterStrategy;
+import com.slinky.hackmaster.model.GameState;
+import com.slinky.hackmaster.model.cell.CellGrid;
+import com.slinky.hackmaster.model.cell.ExhaustiveClusterStrategy;
 
-import com.codinwithslinky.terminaltakedown.gui.MainInterface;
-import com.codinwithslinky.terminaltakedown.textgen.WordSet;
-
-import com.codinwithslinky.terminaltakedown.textgen.concrete.Difficulty;
-import com.codinwithslinky.terminaltakedown.textgen.concrete.WordBank;
+import com.slinky.hackmaster.controller.MainController;
+import com.slinky.hackmaster.model.text.WordSet;
+import com.slinky.hackmaster.model.text.Difficulty;
+import com.slinky.hackmaster.model.GameConstants;
+import com.slinky.hackmaster.model.cell.CellManager;
+import com.slinky.hackmaster.model.text.WordBank;
+import com.slinky.hackmaster.view.MainView;
 
 import javafx.application.Application;
 
@@ -21,9 +24,9 @@ import javafx.stage.Stage;
  *
  * <p>
  * This class is responsible for initialising the primary stage and setting the
- * initial scene, which in this case is the {@code MainInterface}. The
- * application is launched using the {@code main} method, which calls the
- * {@code launch} method to start the JavaFX application lifecycle.</p>
+ * initial scene, which in this case is the {@code MainController}. The application
+ * is launched using the {@code main} method, which calls the {@code launch}
+ * method to start the JavaFX application lifecycle.</p>
  *
  * <p>
  * Typical usage involves running the application, which triggers the
@@ -33,17 +36,29 @@ import javafx.stage.Stage;
  * @author Kheagen Haskins
  */
 public class App extends Application {
-    
-    private static final int STARTING_GUESSES = 4;
-    
+
+    private GameState gameState;
+    private WordSet wordSet;
+    private CellManager cellManager;
+    private MainController controller;
+    private MainView mainPanel;
+
     @Override
     public void init() throws Exception {
-        GameState.createGameState (
-                WordBank.getWordSet(Difficulty.INTERMEDIATE),
-                STARTING_GUESSES
-        );
+        final int rows = 30;
+        final int cols = 13;
+        final int size = rows * cols;
+
+        gameState = GameState.createGameState(WordBank.getWordSet(Difficulty.INTERMEDIATE), GameConstants.STARTING_GUESSES);
+        wordSet = gameState.getWordSet();
+        cellManager = new CellGrid(wordSet.jumble(size), new ExhaustiveClusterStrategy(cols), rows, cols);
+        
+        System.out.println(wordSet.getCorrectWord());
+        
+        mainPanel = new MainView(cellManager);
+        controller = new MainController(cellManager, mainPanel, wordSet);
     }
-    
+
     /**
      * The entry point for the JavaFX application. This method is called after
      * the application is launched and is responsible for setting up the primary
@@ -54,15 +69,7 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
-        final int rows = 30;
-        final int cols = 13;
-        final int size = rows * cols;
-        
-        WordSet wordSet = GameState.getGameState().getWordSet();
-        String jumbledText = wordSet.jumble(size);
-
-        CellGrid cellGridManager = new CellGrid(jumbledText, new ExhaustiveClusterStrategy(cols), rows, cols);
-        Scene scene = new Scene(new MainInterface(cellGridManager));
+        Scene scene = new Scene(mainPanel);
         stage.setScene(scene);
         stage.show();
     }

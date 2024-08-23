@@ -3,4 +3,5 @@
  */
 module com.slinky.hackmaster {
     requires javafx.controls;
+    exports com.slinky.hackmaster;
 }
