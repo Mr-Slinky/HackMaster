@@ -207,7 +207,7 @@ public class TopPanel extends VBox {
          * action is taken.
          */
         public void decrementGuesses() {
-            if (cursor == 0) {
+            if (cursor < 0) {
                 return;
             }
             boxes[cursor--].setBackground(Background.EMPTY);
