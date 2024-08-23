@@ -1,9 +1,13 @@
 # Terminal-Takedown
 
 ## Description
-A replication of the Fallout 3 / 4 hacking minigame using JavaFX
+A replication of the Fallout 3 / 4 hacking minigame using JavaFX.
 
-##Javadoc:
+The hacking puzzles in Fallout 3 and 4 involve accessing terminals by cracking passwords through a word game. Players are presented with a list of words and must choose the correct password based on similarity to a selected word. Each guess provides feedback on how many letters are correctly placed. Techniques to assist in solving the puzzle include eliminating dud words through bracket sequences and strategically choosing words based on the feedback received from previous guesses. Incorrect attempts can lock players out, but exiting the minigame before the last attempt resets the puzzle.
+
+This game closely resembles the classic board game Mastermind. In Mastermind, one player sets a hidden code and the other player guesses the sequence, receiving feedback on the accuracy of each guess. Similarly, in Fallout’s hacking puzzle, players choose words and receive feedback on how many letters match the correct password's position, guiding them to the correct choice. Both games require logical deduction and pattern recognition to deduce the correct answer based on feedback from incorrect attempts.
+
+## Javadoc:
 
 [API Documentation](https://mr-slinky.github.io/HackMaster/docs/com.slinky.hackmaster/module-summary.html)
 
@@ -17,7 +21,7 @@ The `Cell` interface is implemented by the `AbstractCell` class, which offers a 
 
 Similarly, the `CellCluster` interface is implemented by the `AbstractCluster` class. `AbstractCluster` provides default behaviours for all `CellClusters`, such as retrieving the first and last `Cell` objects. The concrete implementations, `LetterCluster` and `SymbolCluster`, specialise in containing `LetterCell` and `SymbolCell` objects, respectively.
 
-![Cell and CellCluster Class Diagram]( <!-- TODO -->)
+![Cell and CellCluster Class Diagram](docs/resources/UML_Cells.svg)
 
 ### Cell Management and Clustering
 
