@@ -198,7 +198,7 @@ public final class StaticWordSet implements WordSet {
      * intentionally incorrect.
      */
     @Override
-    public String removeDud() {
+    public String removeRandomDud() {
         if (dudCountProperty.get() == 0) {
             return null;
         }
@@ -206,11 +206,10 @@ public final class StaticWordSet implements WordSet {
         int dudIndex;
         do {
             dudIndex = current().nextInt(wordList.length);
-        } while (dudIndex == correctWordIndex && removedDudIndices.contains(dudIndex));
+        } while (dudIndex == correctWordIndex || removedDudIndices.contains(dudIndex));
 
         removedDudIndices.add(dudIndex);
         dudCountProperty.set(dudCountProperty.get() - 1);
-        System.out.println("DUD REMOVED: " + wordList[dudIndex]); // DEBUG
         return wordList[dudIndex];
     }
 
@@ -238,7 +237,6 @@ public final class StaticWordSet implements WordSet {
                 }
 
                 removedDudIndices.add(i);
-                System.out.println("DUD REMOVED: " + wordList[i]); // DEBUG
                 return true;
             }
         }
