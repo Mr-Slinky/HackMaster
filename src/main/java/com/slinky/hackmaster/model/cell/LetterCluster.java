@@ -1,6 +1,5 @@
 package com.slinky.hackmaster.model.cell;
 
-import com.slinky.hackmaster.model.cell.Cell;
 import java.util.List;
 
 /**
@@ -17,6 +16,10 @@ import java.util.List;
  */
 public class LetterCluster extends AbstractCluster {
 
+    /**
+     * The minimum acceptable size of a word. Clusters that close with fewer
+     * Cells as specified by this value will throw an exception.
+     */
     public static final int MIN_WORD_SIZE = 3;
 
     // ---------------------------- API Methods ----------------------------- //
