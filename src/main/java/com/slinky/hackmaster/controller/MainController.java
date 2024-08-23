@@ -4,15 +4,10 @@ import com.slinky.hackmaster.model.GameState;
 import com.slinky.hackmaster.model.cell.Cell;
 import com.slinky.hackmaster.model.cell.CellCluster;
 
-import com.slinky.hackmaster.model.FXPalette;
 import com.slinky.hackmaster.model.cell.CellManager;
 
 import com.slinky.hackmaster.model.text.WordSet;
 import com.slinky.hackmaster.view.MainView;
-import javafx.geometry.Insets;
-
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
 
@@ -20,25 +15,23 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  *
  * @author Kheagen Haskins
  */
-public class MainController extends BorderPane {
+public class MainController {
 
     // ============================== Fields ================================ //
     private GameState gameState = GameState.getGameState();
-    private FXPalette palette = gameState.getPalette();
 
     private CellManager cellManager;
-    private MainView display;
-    private WordSet wordSet;
-    private String correctWord;
+    private MainView    display;
+    private WordSet     wordSet;
+    private String      correctWord;
 
     // =========================== Constructors ============================= //
     public MainController(CellManager cellGrid, MainView display, WordSet wordSet) {
         this.cellManager = cellGrid;
         this.display = display;
         this.wordSet = wordSet;
-
-        setBackground(Background.fill(palette.getBackground()));
-        setPadding(new Insets(5, 5, 5, 5));
+        this.correctWord = wordSet.getCorrectWord();
+        
         bindCells();
     }
 
