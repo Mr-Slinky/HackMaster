@@ -1,6 +1,28 @@
 package com.slinky.hackmaster.util;
 
+import static java.lang.Math.min;
+
 /**
+ * The {@code StringUtil} class provides a collection of utility methods for
+ * performing common operations on strings. This class includes methods for
+ * counting characters in a list of words, converting a string to an array of
+ * characters, and calculating the similarity between two strings.
+ * <p>
+ * These utility methods are designed to simplify string manipulation tasks that
+ * are frequently needed in various parts of an application. The methods are
+ * static, allowing them to be called without creating an instance of the
+ * {@code StringUtil} class.
+ * </p>
+ *
+ * <p>
+ * The {@code StringUtil} class is intended to be used wherever string
+ * operations are required, providing a centralised set of tools for common
+ * string-related tasks.
+ * </p>
+ *
+ * <p>
+ * This class is part of the {@code com.slinky.hackmaster.util} package.
+ * </p>
  *
  * @author Kheagen Haskins
  */
@@ -50,5 +72,29 @@ public class StringUtil {
         return resultArr;
     }
 
-    // -------------------------- Helper Methods ---------------------------- //
+    /**
+     * Calculates the similarity between two strings by counting the number of
+     * matching characters at the same positions in both strings.
+     * <p>
+     * The method compares the characters of the two strings up to the length of
+     * the shorter string. For each character that matches at the same position
+     * in both strings, the similarity score is incremented by one.
+     * </p>
+     *
+     * @param str1 the first string to compare
+     * @param str2 the second string to compare
+     * @return the number of matching characters at the same positions in both
+     * strings
+     */
+    public static int calculateSimilarity(String str1, String str2) {
+        int s = 0;
+        int k = min(str1.length(), str2.length());
+        for (int i = 0; i < k; i++) {
+            if (str1.charAt(i) == str2.charAt(i)) {
+                s++;
+            }
+        }
+        return s;
+    }
+
 }
