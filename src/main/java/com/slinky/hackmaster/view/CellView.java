@@ -4,6 +4,7 @@ import com.slinky.hackmaster.model.GameState;
 import com.slinky.hackmaster.model.cell.Cell;
 import com.slinky.hackmaster.model.cell.CellCluster;
 import com.slinky.hackmaster.model.FXPalette;
+import com.slinky.hackmaster.model.GameConstants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -184,7 +185,7 @@ public class CellView extends Label {
         setBackground(Background.EMPTY);
         setTextFill(palette.getForeground());
         setAlignment(Pos.CENTER);
-        setFont(GameState.getGameState().getFont());
+        setFont(GameConstants.FONT);
 
         cell.addStateListener((obVal, hoverOff, hoverOn) -> {
             setBackground(hoverOn ? Background.fill(palette.getForeground()) : Background.EMPTY);

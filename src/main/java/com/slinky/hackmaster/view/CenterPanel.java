@@ -1,5 +1,6 @@
 package com.slinky.hackmaster.view;
 
+import com.slinky.hackmaster.model.GameConstants;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 import com.slinky.hackmaster.model.GameState;
@@ -147,7 +148,7 @@ public class CenterPanel extends HBox {
             lbl.setPrefHeight(CellView.CELL_HEIGHT);
             lbl.setAlignment(Pos.CENTER);
             lbl.setTextFill(GameState.getGameState().getPalette().getForeground());
-            lbl.setFont(GameState.getGameState().getFont());
+            lbl.setFont(GameConstants.FONT);
             return lbl;
         }
 
