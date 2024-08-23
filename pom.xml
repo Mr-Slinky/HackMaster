@@ -42,13 +42,6 @@
             <scope>test</scope>
         </dependency>
         
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-            <version>1.11.0</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
     
     <build>
@@ -87,22 +80,7 @@
                     <execution>
                         <id>default-cli</id>
                     </execution>
-                    <execution>
-                        <id>debug</id>
-                        <configuration>
-                            <options>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
-                            </options>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>ide-debug</id>
-                        <configuration>
-                            <options>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
-                            </options>
-                        </configuration>
-                    </execution>
+
                     <execution>
                         <id>ide-profile</id>
                         <configuration>
@@ -160,6 +138,47 @@
                             <options>
                                 <option>--add-modules javafx.controls</option>
                             </options>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!--JPackage Plugin-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>jpackage</executable>
+                            <arguments>
+                                <argument>--type</argument>
+                                <argument>exe</argument>
+                                <argument>--input</argument>
+                                <argument>${project.build.directory}</argument>
+                                <argument>--name</argument>
+                                <argument>HackMaster</argument>
+                                <argument>--main-jar</argument>
+                                <argument>${project.artifactId}-${project.version}.jar</argument>
+                                <argument>--main-class</argument>
+                                <argument>${main.class}</argument>
+                                <argument>--icon</argument>
+                                <argument>${project.build.directory}\classes\images\favicon.ico</argument>
+                                <argument>--app-version</argument>
+                                <argument>1.0.0</argument>
+                                <argument>--win-dir-chooser</argument>
+                                <argument>--win-menu</argument>
+                                <argument>--win-shortcut</argument>
+                                <argument>--module-path</argument>
+                                <argument>${project.build.directory};C:\Program Files\Java\javafx-jmods</argument>
+                                <argument>--add-modules</argument>
+                                <argument>javafx.controls,javafx.fxml</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
