@@ -45,8 +45,8 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        final int rows = 30;
-        final int cols = 13;
+        final int rows = 32;
+        final int cols = 12;
         final int size = rows * cols;
 
         gameState = GameState.createGameState(WordBank.getWordSet(Difficulty.INTERMEDIATE), GameConstants.STARTING_GUESSES);
