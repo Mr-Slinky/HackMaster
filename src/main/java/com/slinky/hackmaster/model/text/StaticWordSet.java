@@ -210,9 +210,20 @@ public final class StaticWordSet implements WordSet {
 
         removedDudIndices.add(dudIndex);
         dudCountProperty.set(dudCountProperty.get() - 1);
+        System.out.println("DUD REMOVED: " + wordList[dudIndex]); // DEBUG
         return wordList[dudIndex];
     }
 
+    /**
+     * Removes a specified dud word from the list of words.
+     *
+     * @param dud the word to be removed from the list of potential duds. Must
+     * not be null or empty.
+     * @return {@code true} if the dud was successfully removed; {@code false}
+     * if the dud was not found in the list.
+     * @throws IllegalArgumentException if the provided dud is null or empty, or
+     * if the dud has already been removed.
+     */
     @Override
     public boolean removeDud(String dud) {
         if (dud == null || dud.isEmpty()) {
@@ -227,6 +238,7 @@ public final class StaticWordSet implements WordSet {
                 }
 
                 removedDudIndices.add(i);
+                System.out.println("DUD REMOVED: " + wordList[i]); // DEBUG
                 return true;
             }
         }
