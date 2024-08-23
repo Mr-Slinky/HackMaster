@@ -1,4 +1,4 @@
-package com.codinwithslinky.terminaltakedown.util;
+package com.slinky.hackmaster.util;
 
 /**
  *
