@@ -225,7 +225,7 @@ public class TopPanel extends VBox {
             for (int i = cursor; i <= c; i++) {
                 boxes[i].setBackground(color);
             }
-            cursor += c;
+            cursor += number;
         }
 
         /**
