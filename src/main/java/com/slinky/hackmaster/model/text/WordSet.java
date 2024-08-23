@@ -53,7 +53,7 @@ public interface WordSet {
      * @return a word as a {@link String} that is not the correct answer or is
      * intentionally incorrect.
      */
-    String removeDud();
+    String removeRandomDud();
 
     /**
      * Removes a specified "dud" word from the word set and returns it. This

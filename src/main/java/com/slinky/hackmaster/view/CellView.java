@@ -40,8 +40,6 @@ import javafx.scene.layout.Background;
  * <li>Handling mouse interactions, such as hovering and clicking, to activate
  * or interact with the {@code Cell} and its associated
  * {@link CellCluster}.</li>
- * <li>Delegating the click behavior to a {@link CellClickObserver}, allowing
- * for decoupled and flexible handling of user actions.</li>
  * </ul>
  *
  * <p>

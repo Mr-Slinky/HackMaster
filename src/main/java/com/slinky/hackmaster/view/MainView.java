@@ -29,7 +29,7 @@ import javafx.geometry.Insets;
  * representations of the game's cells, which are displayed in the center grid.
  * </p>
  *
- * @author
+ * @author Kheagen Haskins
  * @since 1.0
  */
 public class MainView extends BorderPane {
@@ -64,6 +64,12 @@ public class MainView extends BorderPane {
     private CenterPanel center;
 
     /**
+     * A panel to bypass the visual behaviour of the default border pane where
+     * the top and bottoms run over the side panels
+     */
+    private BorderPane centerAndTopContainer;
+
+    /**
      * The panel displayed on the right side of the UI, used for displaying text
      * output.
      */
@@ -86,26 +92,24 @@ public class MainView extends BorderPane {
      * center panel.
      */
     public MainView(CellManager cellManager) {
-        // Initialize the top panel
         topPanel = new TopPanel();
-
-        // Initialize the center panel with the cell views
         center = new CenterPanel(createCellViews(cellManager));
-
-        // Initialize the terminal panel
         terminal = new TerminalPanel();
-
+        centerAndTopContainer = new BorderPane();
+        
         // Set preferred sizes for the top and terminal panels
         terminal.setPrefWidth(TERMINAL_WIDTH);
         topPanel.setPrefHeight(TOP_HEIGHT);
-
+        
+        centerAndTopContainer.setTop(topPanel);
+        centerAndTopContainer.setCenter(center);
+        
         // Configure the background and padding of the main view
         setBackground(Background.fill(palette.getBackground()));
         setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
 
         // Position the panels within the BorderPane
-        setTop(topPanel);
-        setCenter(center);
+        setCenter(centerAndTopContainer);
         setRight(terminal);
     }
 
