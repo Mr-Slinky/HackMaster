@@ -142,7 +142,6 @@ public class MainController {
         // Handle the case where the cell does not belong to any cluster
         if (cluster == null) {
             display.display("ERROR!\n" + cell.getContent());
-            ignoreClick = true;
             return;
         }
 
