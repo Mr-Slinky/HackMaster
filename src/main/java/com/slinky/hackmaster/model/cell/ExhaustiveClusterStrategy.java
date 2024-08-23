@@ -1,8 +1,5 @@
 package com.slinky.hackmaster.model.cell;
 
-import com.slinky.hackmaster.model.cell.Cell;
-import com.slinky.hackmaster.model.cell.CellCluster;
-import com.slinky.hackmaster.model.cell.ClusterStrategy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,14 +10,14 @@ import java.util.Queue;
  * <strong>A strategy for clustering symbols and letters within a collection of
  * <code>Cell</code> objects.</strong>
  *
-        <p>
+ * <p>
  * <strong>Letter Clustering:</strong> In this class, letter clustering is
  * straightforward: it begins when a letter is encountered and continues as long
  * as consecutive letters are found. The clustering stops when a non-letter is
  * encountered.
  * </p>
  *
-        <p>
+ * <p>
  * <strong>Symbol Clustering:</strong> Symbol clustering, on the other hand, is
  * more comprehensive. The clustering strategy is designed to exhaustively
  * identify all valid combinations of opening and closing brackets and group
