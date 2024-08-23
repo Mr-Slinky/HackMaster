@@ -84,8 +84,8 @@ public class TopPanel extends VBox {
     private void initComponents() {
         attemptsView = new HBox();
 
-        guessDisplay = createLabel(String.valueOf(gameState.getStartingGuessCount()));
-        guessBar = new GuessBar(gameState.getStartingGuessCount());
+        guessDisplay = createLabel(String.valueOf(GameConstants.STARTING_GUESSES));
+        guessBar = new GuessBar(GameConstants.STARTING_GUESSES);
 
         attemptsView.getChildren().add(guessDisplay);
         attemptsView.getChildren().add(createLabel(" ATTEMPT(S) LEFT:"));

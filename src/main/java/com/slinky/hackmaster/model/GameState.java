@@ -69,13 +69,6 @@ public final class GameState {
     private WordSet wordSet;
 
     /**
-     * The initial number of guesses allocated to the player at the start of the
-     * game. This value is immutable and serves as the baseline for the guess
-     * counter.
-     */
-    private final int startingGuessCount;
-
-    /**
      * The property representing the current number of guesses remaining for the
      * player. This is an {@link IntegerProperty} that can be observed for
      * changes, allowing dynamic updates to any view or component bound to this
@@ -96,9 +89,8 @@ public final class GameState {
      * @param startingGuesses the initial number of guesses available to the
      * player; this value sets the baseline for the guess counter
      */
-    public GameState(WordSet wordSet, int startingGuesses) {
+    public GameState(WordSet wordSet) {
         this.wordSet = wordSet;
-        this.startingGuessCount = startingGuesses;
         this.palette = FXPalettes.GREEN;
         resetGuesses();
     }
@@ -124,17 +116,6 @@ public final class GameState {
      */
     public FXPalette getPalette() {
         return palette;
-    }
-
-    /**
-     * Gets the initial number of guesses that were allocated to the player at
-     * the start of the game. This value remains constant throughout the game
-     * session.
-     *
-     * @return the starting number of guesses
-     */
-    public int getStartingGuessCount() {
-        return startingGuessCount;
     }
 
     /**
@@ -169,7 +150,7 @@ public final class GameState {
      * and the {@code startingGuessCount}
      */
     public void setGuessCount(int guessCount) {
-        this.guessProperty.set(max(0, min(startingGuessCount, guessCount)));
+        this.guessProperty.set(max(0, min(GameConstants.STARTING_GUESSES, guessCount)));
     }
 
     // ---------------------------- API Methods ----------------------------- //
@@ -197,7 +178,7 @@ public final class GameState {
      * loss.
      */
     public void resetGuesses() {
-        guessProperty.set(startingGuessCount);
+        guessProperty.set(GameConstants.STARTING_GUESSES);
     }
 
     /**
@@ -258,7 +239,7 @@ public final class GameState {
             throw new IllegalStateException("GameState has already been created");
         }
 
-        singleton = new GameState(wordSet, guesses);
+        singleton = new GameState(wordSet);
         return singleton;
     }
 
