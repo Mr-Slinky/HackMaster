@@ -42,7 +42,7 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  * controller also ensures that once the correct password is found or guesses
  * are exhausted, further interactions are appropriately disabled.
  * <p>
- * 
+ *
  * This class plays a pivotal role in ensuring the game's flow, enforcing the
  * rules, and maintaining a coherent user experience.
  *
@@ -162,15 +162,19 @@ public class MainController {
             wordSet.removeDud(text.toString());
             gameState.decrementGuesses();
 
+            int sim = StringUtil.calculateSimilarity(clusterText, correctWord); // similarity
+
             // Check if there are no more guesses left
             if (gameState.getGuessCount() == 0) {
-                display.display("ACCESS DENIED!");
+                text.append("\nLIKENESS = ").append(sim);
+                text.append("\nACCESS DENIED!");
+                display.display(text.toString());
                 ignoreClick = true;
                 return;
             }
 
             // Display likeness score if guesses remain
-            text.append("\nENTRY DENIED\nLIKENESS = ").append(StringUtil.calculateSimilarity(clusterText, correctWord));
+            text.append("\nENTRY DENIED\nLIKENESS = ").append(sim);
             display.display(text.toString());
             return;
         }

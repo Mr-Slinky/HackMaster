@@ -8,8 +8,13 @@
     <properties>
         <main.class>com.slinky.hackmaster.App</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        
+        <jpda.listen>true</jpda.listen>
+        <jpda.transport>dt_socket</jpda.transport>
+        <jpda.address>8000</jpda.address>
     </properties>
     
     <dependencies>
@@ -80,7 +85,22 @@
                     <execution>
                         <id>default-cli</id>
                     </execution>
-
+                    <execution>
+                        <id>debug</id>
+                        <configuration>
+                            <options>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
+                            </options>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>ide-debug</id>
+                        <configuration>
+                            <options>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
+                            </options>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>ide-profile</id>
                         <configuration>
