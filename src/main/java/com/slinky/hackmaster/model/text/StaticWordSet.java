@@ -1,7 +1,5 @@
 package com.slinky.hackmaster.model.text;
 
-import com.slinky.hackmaster.model.text.JumbleStrategy;
-import com.slinky.hackmaster.model.text.WordSet;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 import com.slinky.hackmaster.util.StringUtil;
