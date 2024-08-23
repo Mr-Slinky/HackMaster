@@ -1,5 +1,6 @@
 package com.slinky.hackmaster.view;
 
+import com.slinky.hackmaster.model.GameConstants;
 import com.slinky.hackmaster.model.GameState;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -42,7 +43,7 @@ public class TerminalPanel extends VBox {
             Label label = createLabel(output);
 
             label.setTextFill(gameState.getPalette().getForeground());
-            label.setFont(gameState.getFont());
+            label.setFont(GameConstants.FONT);
             
             getChildren().add(label);
             labelCount++;
