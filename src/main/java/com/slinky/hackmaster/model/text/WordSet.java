@@ -13,8 +13,8 @@ import javafx.beans.value.ChangeListener;
  * manipulation applications.
  * </p>
  *
- * @author Kheagen Haskins
  * @version 1.0
+ * @author Kheagen Haskins
  */
 public interface WordSet {
 
