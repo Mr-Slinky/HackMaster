@@ -15,23 +15,29 @@ Techniques to assist in solving the puzzle include eliminating <b>duds</b> throu
 
 ### UI Screenhots:
 <div align="center">
-  <img src="docs/resources/UI_Snapshot_1.png" alt="UI Snapshot 1" style="display:inline-block; width:30%; margin-right:10px;">
-  <img src="docs/resources/UI_Snapshot_2.png" alt="UI Snapshot 2" style="display:inline-block; width:30%; margin-right:10px;">
-  <img src="docs/resources/UI_Snapshot_3.png" alt="UI Snapshot 3" style="display:inline-block; width:30%; margin-right:10px;">
+  <img src="docs/resources/UI_Snapshot_1.png" alt="UI Snapshot 1" style="display:inline-block; width:100%;">
+</div>
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_2.png" alt="UI Snapshot 2" style="display:inline-block; width:100%;">
+</div>
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_3.png" alt="UI Snapshot 3" style="display:inline-block; width:100%;">
 </div>
 
-This hacking puzzle closely resembles the classic board game <b>Mastermind</b>. In Mastermind, one player sets a hidden code and the other player guesses the sequence, receiving feedback on the accuracy of each guess. Similarly, in Fallout’s hacking puzzle, players choose words and receive feedback on how many letters match the correct password's position, guiding them to the correct choice. Both games require logical deduction and pattern recognition to deduce the correct answer based on feedback from incorrect attempts.
+The approach to solving this hacking puzzle closely resembles the classic board game <b>Mastermind</b>. In Mastermind, one player sets a hidden code and the other player guesses the sequence, receiving feedback on the accuracy of each guess. Similarly, in Fallout’s hacking puzzle, players choose words and receive feedback on how many letters match the correct password's position, guiding them to the correct choice. Both games require logical deduction and pattern recognition to deduce the correct answer based on feedback from incorrect attempts.
 
 <div align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Mastermind.jpg" alt="Image 1" style="display:inline-block; width:41%; margin-right:10px;"/>
   <img src="https://www.trustytoys.co.uk/cdn/shop/products/hasbromastermind2_1024x1024@2x.jpg?v=1677370130" alt="Image 2" style="display:inline-block; width:45%; margin-right:10px;"/>
 </div>
 
-## Javadoc:
+## Understanding the Source Code
+
+The documentation for this project can be found at the following link:
 
 [API Documentation](https://mr-slinky.github.io/HackMaster/docs/com.slinky.hackmaster/module-summary.html)
 
-## Understanding the Code – Backend Architecture
+Below is a high-level overview of the structure and reasoning behind the source code.
 
 ### Model
 
@@ -65,7 +71,7 @@ Beyond simply providing the list of words used in the game, the `WordBank` class
 
 The `WordBank` class plays a central role in the global context of the game, especially in the game state, as it maintains references to the correct word and the corresponding incorrect words or "duds." These references are utilized across other parts of the model, as well as within the control and view components of the project.
 
-Currently, the only implementation of the `WordSet` interface is the `StaticWordSet` class, which requires a `JumbleStrategy` implementation upon instantiation. This strategy dictates the behaviour of the `StaticWordSet`'s jumble function.
+Currently, the only implementation of the `WordSet` interface is the `StaticWordSet` class, which requires a `JumbleStrategy` implementation upon instantiation. This strategy dictates the behaviour of the `StaticWordSet`'s jumble function. The only implementation for `JumbleStrategy` thus far is the `SimpleJumbleStrategy` class. This class does well at interspersing the text amongst characters, however, the chosen symbols are entirely random and thus there is no control over how many symbol clusters might form. Therefore, each game will have a different number of `SymbolCluster`s that were able to form, which is an RNG design that should be reevaluated at some point to control the number of clusters, perhaps based off of the difficulty.
 
 <div align="center">
   <img src="docs/resources/UML_Text.svg" alt="WordSet UML Diagram">
