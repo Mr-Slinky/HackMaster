@@ -7,7 +7,7 @@ The hacking puzzles in Fallout 3 and 4 involve accessing terminals by cracking p
 
 ### Fallout 3 and 4 In-Game Screenshots:
 <div align="center">
-  <img src="https://preview.redd.it/so-i-just-realized-the-hacking-minigame-is-the-same-as-v0-vhj4tkd7mdmc1.jpg?width=1080&crop=smart&auto=webp&s=17065e3a565aaca9acdbaea4ae9d780f5c0a6f63" alt="Fallout Hacking Puzzle Example 1" style="display:inline-block; width:36.5%; margin-right:10px;">
+  <img src="https://preview.redd.it/so-i-just-realized-the-hacking-minigame-is-the-same-as-v0-vhj4tkd7mdmc1.jpg?width=1080&crop=smart&auto=webp&s=17065e3a565aaca9acdbaea4ae9d780f5c0a6f63" alt="Fallout Hacking Puzzle Example 1" style="display:inline-block; width:36%; margin-right:10px;">
   <img src="https://preview.redd.it/ok-i-am-absolutely-horrible-with-these-i-am-also-very-v0-dielavkneshc1.jpeg?auto=webp&s=c62b701a2a06d29b1fbd3bf7e8cd72f6703f8233" alt="Fallout Hacking Puzzle Example 2" style="display:inline-block; width:50%; margin-right:10px;">
 </div>
 

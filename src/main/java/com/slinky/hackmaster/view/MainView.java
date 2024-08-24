@@ -48,7 +48,7 @@ public class MainView extends BorderPane {
     /**
      * The padding value for the layout, applied uniformly to all sides.
      */
-    private static final int PADDING = 5;
+    private static final int PADDING = 15;
 
     // ------------------------------ Fields ----------------------------------- //
     /**
