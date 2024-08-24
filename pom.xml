@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.slinky</groupId>
     <artifactId>hackmaster</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     
     <properties>
         <main.class>com.slinky.hackmaster.App</main.class>
@@ -191,7 +191,7 @@
                                 <argument>--input</argument>
                                 <argument>${project.build.directory}</argument>
                                 <argument>--name</argument>
-                                <argument>HackMaster</argument>
+                                <argument>hackmaster_setup</argument>
                                 <argument>--main-jar</argument>
                                 <argument>${project.artifactId}-${project.version}.jar</argument>
                                 <argument>--main-class</argument>
