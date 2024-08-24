@@ -8,9 +8,15 @@ import com.slinky.hackmaster.model.cell.CellManager;
 
 import com.slinky.hackmaster.model.text.WordSet;
 import com.slinky.hackmaster.util.StringUtil;
+import com.slinky.hackmaster.view.LockedOutScreen;
 import com.slinky.hackmaster.view.MainView;
 
+import javafx.stage.Stage;
+
 import static java.util.concurrent.ThreadLocalRandom.current;
+import javafx.animation.PauseTransition;
+import javafx.scene.Scene;
+import javafx.util.Duration;
 
 /**
  * The {@code MainController} class serves as the central controller within the
@@ -34,7 +40,7 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  * </ul>
  *
  * <p>
- * The {@code MainController} is initialized with references to these components
+ * The {@code MainController} is initialised with references to these components
  * and binds event listeners to the cells in the grid. When a cell is clicked,
  * it determines the appropriate response based on the cell's content and the
  * current game state, such as checking if the clicked cell matches the correct
@@ -49,6 +55,14 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  * @author Kheagen Haskins
  */
 public class MainController {
+
+    // ============================== Fields ================================ //
+    private static final String ERROR_MESSAGE = "ERROR!";
+    private static final String PASSWORD_MATCH_MESSAGE = "PASSWORD MATCH!\nPLEASE WAIT\nWHILE SYSTEM\nIS ACCESSED..";
+    private static final String SYSTEM_LCOKED_MESSAGE = "\nSYSTEM LOCKING...";
+    private static final String ENTRY_DENIED_MESSAGE = "\nENTRY DENIED\n";
+    private static final String DUD_REMOVED_MESSAGE = "\nDUD REMOVED";
+    private static final String GUESSES_RESET_MESSAGE = "\nTRIES RESET";
 
     // ============================== Fields ================================ //
     /**
@@ -67,7 +81,7 @@ public class MainController {
      * The main view responsible for displaying game information to the user,
      * including feedback on their actions.
      */
-    private MainView display;
+    private MainView terminal;
 
     /**
      * Contains the set of possible words in the game, including the correct
@@ -82,16 +96,26 @@ public class MainController {
     private String correctWord;
 
     /**
+     * The primary stage of the application
+     */
+    private Stage stage;
+
+    /**
      * A flag that indicates whether clicks should be ignored. This is used to
      * prevent further user interaction when the game is over or during certain
      * game states.
      */
-    private boolean ignoreClick = false;
+    private boolean clickDisabled = false;
+    
+    /**
+     * 
+     */
+    private PauseTransition transitionToLockScreen;
 
     // =========================== Constructors ============================= //
     /**
      * Constructs a new MainController with the specified cell manager, display,
-     * and word set. Initializes the correct word and binds click listeners to
+     * and word set. Initialises the correct word and binds click listeners to
      * each cell.
      *
      * @param cellGrid the CellManager that manages the grid of cells
@@ -100,11 +124,34 @@ public class MainController {
      */
     public MainController(CellManager cellGrid, MainView display, WordSet wordSet) {
         this.cellManager = cellGrid;
-        this.display = display;
+        this.terminal = display;
         this.wordSet = wordSet;
         this.correctWord = wordSet.getCorrectWord();
 
+        transitionToLockScreen = new PauseTransition(Duration.seconds(2)); // 2-second delay
+        transitionToLockScreen.setOnFinished(event -> {
+            stage.setScene(new Scene(
+                    new LockedOutScreen("SYSTEM LOCKED!"), 
+                    display.getWidth(), 
+                    display.getHeight()
+            ));
+        });
+
         bindCells();
+    }
+
+    // ============================ API Methods ============================= //
+    /**
+     * Sets the primary stage for the controller, allowing the controller to
+     * manage and change the scenes displayed on the stage. This method is
+     * typically called to pass the main application stage to the controller so
+     * that it can control the flow of the application by switching scenes.
+     *
+     * @param stage the primary {@code Stage} object of the application, which
+     * this controller will use to set and change scenes.
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     // =========================== Helper Methods =========================== //
@@ -121,75 +168,139 @@ public class MainController {
     }
 
     /**
-     * Handles the action to be performed when a cell in the game is clicked.
-     * The method processes the clicked cell based on its associated cluster,
-     * updates the game state, and displays the corresponding outcome or error
-     * message. The outcome may involve matching a password, removing a dud,
-     * resetting guesses, or decrementing the number of guesses left.
+     * Handles the event when a cell is clicked. This method processes the
+     * cell's associated cluster, checks for password matches, updates the game
+     * state, and displays the appropriate messages based on the outcome of the
+     * click.
      *
-     * @param cell the cell that was clicked
+     * @param cell the cell that was clicked. This cell is used to retrieve the
+     * associated cluster and its content for further processing.
      */
     private void fireCellClicked(Cell cell) {
-        // Ignore click if clicking is currently disabled
-        if (ignoreClick) {
+        // Check if clicking is currently disabled. If disabled, return immediately.
+        if (clickDisabled) {
             return;
         }
 
-        // Retrieve the main cluster of the clicked cell
+        // Retrieve the main cluster associated with the clicked cell.
         CellCluster cluster = cell.getMainCluster();
+
+        // If the cell does not belong to any cluster, handle the error and display the error message.
+        if (cluster == null) {
+            handleError(cell);
+            return;
+        }
+
+        // Initialise a StringBuilder to build the text that will be displayed to the user.
         StringBuilder text = new StringBuilder();
 
-        // Handle the case where the cell does not belong to any cluster
-        if (cluster == null) {
-            display.display("ERROR!\n" + cell.getContent());
-            return;
-        }
-
-        // Process the cluster associated with the cell
+        // Retrieve the text from the cluster.
         String clusterText = cluster.getText();
         text.append(clusterText);
+
+        // Trigger the click event for the cluster.
         cluster.click();
 
-        // Check if the cluster's text matches the correct password
-        if (clusterText.equalsIgnoreCase(correctWord)) {
-            display.display("PASSWORD MATCH!\nENTRY GRANTED!");
-            ignoreClick = true;
+        // Check if the cluster's text matches the correct password.
+        // If a match is found, trigger the game over event with a success message.
+        if (isPasswordMatch(clusterText)) {
+            triggerGameOver(PASSWORD_MATCH_MESSAGE, true);
             return;
         }
 
-        // Handle letter-based cluster text
+        // If the cluster's text starts with a letter, handle it as a letter-based cluster.
         if (Character.isLetter(text.charAt(0))) {
-            wordSet.removeDud(text.toString());
-            gameState.decrementGuesses();
-
-            int sim = StringUtil.calculateSimilarity(clusterText, correctWord); // similarity
-
-            // Check if there are no more guesses left
-            if (gameState.getGuessCount() == 0) {
-                text.append("\nLIKENESS = ").append(sim);
-                text.append("\nACCESS DENIED!");
-                display.display(text.toString());
-                ignoreClick = true;
-                return;
-            }
-
-            // Display likeness score if guesses remain
-            text.append("\nENTRY DENIED\nLIKENESS = ").append(sim);
-            display.display(text.toString());
+            handleIncorrectGuess(clusterText, text);
             return;
         }
 
-        // Random chance to either remove a dud or reset guesses
-        if (current().nextDouble() < 0.8) { 
-            cellManager.removeDud(wordSet.removeRandomDud()); // Trigger event listener(s)
-            text.append("\nDUD REMOVED");
-        } else { // 20% chance of resetting guesses
-            gameState.resetGuesses();
-            text.append("\nGUESSES RESET");
-        }
+        // Handle a random event with an 80% chance to remove a dud and a 20% chance to reset guesses.
+        handleRandomEvent(text);
 
-        // Display the outcome of the cell click
-        display.display(text.toString());
+        // Display the outcome of the cell click to the terminal.
+        terminal.display(text.toString());
+    }
+
+    /**
+     * Handles the error case when a cell does not belong to any cluster.
+     *
+     * @param cell the cell that caused the error, which is used to retrieve and
+     * display its content.
+     */
+    private void handleError(Cell cell) {
+        // Display an error message along with the content of the erroneous cell.
+        terminal.display(ERROR_MESSAGE + "\n" + cell.getContent());
+    }
+
+    /**
+     * Checks if the given cluster text matches the correct password.
+     *
+     * @param clusterText the text of the cluster to check.
+     * @return true if the cluster text matches the correct password, false
+     * otherwise.
+     */
+    private boolean isPasswordMatch(String clusterText) {
+        return clusterText.equalsIgnoreCase(correctWord);
+    }
+
+    /**
+     * Handles the processing of a letter-based cluster, updating the game state
+     * and managing guesses.
+     *
+     * @param guess the text of the letter-based cluster.
+     * @param outputMessage the StringBuilder used to build the message to be
+     * displayed to the user.
+     */
+    private void handleIncorrectGuess(String guess, StringBuilder outputMessage) {
+        // Remove the dud associated with the letter-based cluster from the word set.
+        wordSet.removeDud(guess);
+
+        // Decrement the number of guesses remaining in the game state.
+        gameState.decrementGuesses();
+
+        // If there are no guesses left, append the similarity score and trigger game over with a failure message.
+        if (gameState.getGuessCount() == 0) {
+            outputMessage.append("\n").append(getSimilarityText(guess));
+            outputMessage.append(SYSTEM_LCOKED_MESSAGE);
+            triggerGameOver(outputMessage.toString(), false);
+        } else {
+            // If guesses remain, append the likeness score and display an entry denied message.
+            outputMessage.append(ENTRY_DENIED_MESSAGE).append(getSimilarityText(guess));
+            terminal.display(outputMessage.toString());
+        }
+    }
+
+    /**
+     * Handles a random event after a cell click. There is an 80% chance to
+     * remove a dud and a 20% chance to reset guesses.
+     *
+     * @param text the StringBuilder used to build the message to be displayed
+     * to the user.
+     */
+    private void handleRandomEvent(StringBuilder text) {
+        // Generate a random double and check if it's less than 0.8 (80% chance).
+        if (current().nextDouble() < 0.8) {
+            // Remove a random dud from the word set and append the appropriate message.
+            cellManager.removeDud(wordSet.removeRandomDud());
+            text.append(DUD_REMOVED_MESSAGE);
+        } else {
+            // Reset the guesses in the game state and append the appropriate message.
+            gameState.resetGuesses();
+            text.append(GUESSES_RESET_MESSAGE);
+        }
+    }
+
+    private String getSimilarityText(String clusterText) {
+        int sim = StringUtil.calculateSimilarity(clusterText, correctWord); // similarity
+        return sim + "/" + correctWord.length() + " correct";
+    }
+
+    private void triggerGameOver(String message, boolean hasWon) {
+        terminal.display(message);
+        clickDisabled = true;
+        if (stage != null && !hasWon) {
+            transitionToLockScreen.play(); // Start the pause transition
+        }
     }
 
 }
