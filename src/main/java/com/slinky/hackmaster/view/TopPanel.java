@@ -112,7 +112,7 @@ public class TopPanel extends VBox {
     private Label createLabel(String text) {
         Label label = new Label(text);
         label.setFont(GameConstants.FONT);
-        label.setTextFill(gameState.getPalette().getForeground());
+        label.setTextFill(GameConstants.FOREGROUND);
 
         return label;
     }
@@ -189,7 +189,7 @@ public class TopPanel extends VBox {
             super(10); // Sets the spacing between boxes to 10 units
             this.boxes = new Label[boxCount];
             this.cursor = boxCount - 1;
-            this.color = Background.fill(gameState.getPalette().getForeground());
+            this.color = Background.fill(GameConstants.FOREGROUND);
 
             setPadding(new Insets(0, 0, 0, 20)); // Adds padding to the left of the GuessBar
 

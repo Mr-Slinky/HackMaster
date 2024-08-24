@@ -1,7 +1,6 @@
 package com.slinky.hackmaster.view;
 
-import com.slinky.hackmaster.model.FXPalette;
-import com.slinky.hackmaster.model.GameState;
+import com.slinky.hackmaster.model.GameConstants;
 import com.slinky.hackmaster.model.cell.Cell;
 import com.slinky.hackmaster.model.cell.CellManager;
 
@@ -29,8 +28,9 @@ import javafx.geometry.Insets;
  * representations of the game's cells, which are displayed in the center grid.
  * </p>
  *
- * @author Kheagen Haskins
  * @since 1.0
+
+* @author Kheagen Haskins
  */
 public class MainView extends BorderPane {
 
@@ -75,12 +75,6 @@ public class MainView extends BorderPane {
      */
     private TerminalPanel terminal;
 
-    /**
-     * The color palette used for styling the UI components, retrieved from the
-     * game state.
-     */
-    private FXPalette palette = GameState.getGameState().getPalette();
-
     // --------------------------- Constructors -------------------------------- //
     /**
      * Constructs a new {@code MainView} with the specified {@link CellManager}.
@@ -105,7 +99,7 @@ public class MainView extends BorderPane {
         centerAndTopContainer.setCenter(center);
         
         // Configure the background and padding of the main view
-        setBackground(Background.fill(palette.getBackground()));
+        setBackground(Background.fill(GameConstants.BACKGROUND));
         setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
 
         // Position the panels within the BorderPane

@@ -15,19 +15,18 @@ import javafx.beans.value.ChangeListener;
  * the model for the application. It is implemented as a singleton to ensure
  * that there is only one instance of the game state throughout the
  * application's lifecycle. This class manages the core elements of the game,
- * such as the current word set, the number of guesses remaining, and the color
- * palette used for display purposes.
+ * such as the current word set and the number of guesses remaining.
  *
  * <p>
  * The {@code GameState} class is responsible for handling game logic related to
  * tracking and modifying the number of guesses available to the player. It
- * provides methods to increment, decrement, and reset the guess count, as well
- * as to retrieve essential game data such as the correct word and the current
- * {@link FXPalette}.
+ * provides methods to increment, decrement, and reset the guess count.
+ * </p>
  *
  * <p>
  * This class also allows listeners to be added to monitor changes in the guess
  * count, facilitating dynamic updates in views that depend on the game state.
+ * </p>
  *
  * <p>
  * The class is designed to be thread-safe through its use of the singleton
@@ -35,6 +34,7 @@ import javafx.beans.value.ChangeListener;
  * that once the {@code GameState} has been created, it cannot be recreated or
  * modified externally, ensuring the integrity and consistency of the game state
  * during runtime.
+ * </p>
  *
  * <p>
  * Usage example:
@@ -43,7 +43,7 @@ import javafx.beans.value.ChangeListener;
  *     int remainingGuesses = gameState.getGuessCount();
  *     String correctWord = gameState.getCorrectWord();
  * </pre>
- *
+ * </p>
  * <p>
  * Note: Attempting to retrieve the {@code GameState} instance before it is
  * created will result in an {@link IllegalStateException}.
@@ -54,13 +54,6 @@ import javafx.beans.value.ChangeListener;
 public final class GameState {
 
     // ------------------------------ Fields -------------------------------- //
-    /**
-     * The color palette used by the game for displaying elements. By default,
-     * this is set to the {@link FXPalettes#GREEN} palette, but it can be
-     * changed based on game logic or user interaction.
-     */
-    private FXPalette palette;
-
     /**
      * The set of words used in the current game session. This {@link WordSet}
      * object contains the possible words that the player can guess and the
@@ -91,7 +84,6 @@ public final class GameState {
      */
     public GameState(WordSet wordSet) {
         this.wordSet = wordSet;
-        this.palette = FXPalettes.GREEN;
         resetGuesses();
     }
 
@@ -105,17 +97,6 @@ public final class GameState {
      */
     public WordSet getWordSet() {
         return wordSet;
-    }
-
-    /**
-     * Returns the {@link FXPalette} currently being used for the game's visual
-     * elements. This palette determines the color scheme used in the game's
-     * user interface.
-     *
-     * @return the current {@link FXPalette} in use
-     */
-    public FXPalette getPalette() {
-        return palette;
     }
 
     /**

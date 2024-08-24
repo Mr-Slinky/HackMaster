@@ -3,7 +3,6 @@ package com.slinky.hackmaster.view;
 import com.slinky.hackmaster.model.GameState;
 import com.slinky.hackmaster.model.cell.Cell;
 import com.slinky.hackmaster.model.cell.CellCluster;
-import com.slinky.hackmaster.model.FXPalette;
 import com.slinky.hackmaster.model.GameConstants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -87,13 +86,6 @@ public class CellView extends Label {
      * behavior of the {@code CellView}.
      */
     private Cell cell;
-
-    /**
-     * The color palette used to style the {@code CellView}. This palette is
-     * retrieved from the {@link GameState} and determines the background and
-     * text colors based on the state of the associated {@code Cell}.
-     */
-    private FXPalette palette = GameState.getGameState().getPalette();
 
     // --------------------------- Constructors ----------------------------- //
     /**
@@ -181,13 +173,13 @@ public class CellView extends Label {
     private void configure() {
         setPrefSize(CELL_WIDTH, CELL_HEIGHT);
         setBackground(Background.EMPTY);
-        setTextFill(palette.getForeground());
+        setTextFill(GameConstants.FOREGROUND);
         setAlignment(Pos.CENTER);
         setFont(GameConstants.FONT);
 
         cell.addStateListener((obVal, hoverOff, hoverOn) -> {
-            setBackground(hoverOn ? Background.fill(palette.getForeground()) : Background.EMPTY);
-            setTextFill(hoverOn ? palette.getBackground() : palette.getForeground());
+            setBackground(hoverOn ? Background.fill(GameConstants.FOREGROUND) : Background.EMPTY);
+            setTextFill(hoverOn ? GameConstants.BACKGROUND : GameConstants.FOREGROUND);
         });
 
         cell.addContentListener((obVal, oldVal, newVal) -> {
