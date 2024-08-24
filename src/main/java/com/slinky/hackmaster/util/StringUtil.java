@@ -1,6 +1,7 @@
 package com.slinky.hackmaster.util;
 
 import static java.lang.Math.min;
+import javafx.scene.paint.Color;
 
 /**
  * The {@code StringUtil} class provides a collection of utility methods for
@@ -95,6 +96,20 @@ public class StringUtil {
             }
         }
         return s;
+    }
+
+    /**
+     * Converts a {@link Color} object into its RGB string representation. This
+     * method is used to create color strings in the "rgb(r, g, b)" format.
+     *
+     * @param color the {@link Color} object to be converted.
+     * @return a {@code String} representing the color in RGB format.
+     */
+    public static String colorToRgbString(Color color) {
+        int r = (int) (color.getRed() * 255);
+        int g = (int) (color.getGreen() * 255);
+        int b = (int) (color.getBlue() * 255);
+        return String.format("rgb(%d, %d, %d)", r, g, b);
     }
 
 }
