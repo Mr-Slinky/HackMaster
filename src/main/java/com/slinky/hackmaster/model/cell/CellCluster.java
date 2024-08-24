@@ -3,12 +3,24 @@ package com.slinky.hackmaster.model.cell;
 import java.util.List;
 
 /**
- * Collective groups a set of {@code Cell} objects and allows uniform operations
- * on them. {@code Cell} objects are the main elements that are interacted with,
- * and so adding, removing, and clearing clusters should be done in the context
- * of a {@code Cell} event. Sensible operations on a {@code CellCluster}
- * instance would thus happen in the context of retrieving a cluster from a
- * given {@code Cell} in order to perform an operation on the cluster.
+ * The {@code CellCluster} interface defines the contract for managing a
+ * collection of {@link Cell} objects within the context of the hacking
+ * mini-game. A cluster represents a group of cells that are treated as a
+ * cohesive unit, with the ability to add, remove, and manipulate cells. The
+ * interface provides various methods for interacting with the cluster,
+ * including retrieving cells, checking the cluster's state, and performing
+ * operations such as clearing or closing the cluster.
+ *
+ * Implementations of this interface, such as {@link SymbolCluster} and
+ * {@link LetterCluster}, typically represent specific types of clusters in the
+ * game, where the cluster's behaviour may vary based on the type of cells it
+ * contains. The {@code CellCluster} interface also includes mechanisms for
+ * validating and closing clusters, ensuring that they meet specific criteria
+ * before becoming immutable.
+ *
+ * This interface is central to the game's model, interacting closely with the
+ * {@link Cell} and {@link AbstractCluster} classes, and handling complex game
+ * logic like cluster validation and interaction.
  *
  * @see Cell
  * @see AbstractCluster

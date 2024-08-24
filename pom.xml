@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.slinky</groupId>
     <artifactId>hackmaster</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     
     <properties>
         <main.class>com.slinky.hackmaster.App</main.class>
@@ -76,6 +76,31 @@
                 </configuration>
             </plugin>
             
+            <!--Maven Shade Plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>shaded</shadedClassifierName>
+                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}.jar</outputFile>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${main.class}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
            
             <!--Java Maven Plugin with JLink configured -->
             <plugin>
@@ -115,12 +140,74 @@
                         <id>ide-profile</id>
                         <configuration>
                             <options>
-				<option>${profiler.jvmargs.arg1}</option>
-				<option>${profiler.jvmargs.arg2}</option>
-				<option>${profiler.jvmargs.arg3}</option>
-				<option>${profiler.jvmargs.arg4}</option>
-				<option>${profiler.jvmargs.arg5}</option>
+                                <option>${profiler.jvmargs.arg1}</option>
+                                <option>${profiler.jvmargs.arg2}</option>
+                                <option>${profiler.jvmargs.arg3}</option>
+                                <option>${profiler.jvmargs.arg4}</option>
+                                <option>${profiler.jvmargs.arg5}</option>
                             </options>
+                        </configuration>
+                    </execution>
+                    <!--JLink Configured Here-->
+                    <execution>
+                        <id>create-runtime</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                        <configuration>
+                            <launcher>gameLauncher</launcher>
+                            <mainClass>${main.class}</mainClass>
+                            <compress>2</compress>
+                            <stripDebug>true</stripDebug>
+                            <noHeaderFiles>true</noHeaderFiles>
+                            <noManPages>true</noManPages>
+                            <options>
+                                <option>--add-modules javafx.controls</option>
+                            </options>
+                        </configuration>
+                    </execution>
+                    
+                </executions>
+            </plugin>
+            
+            
+            <!--JPackage Plugin-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>jpackage</executable>
+                            <arguments>
+                                <argument>--type</argument>
+                                <argument>exe</argument>
+                                <argument>--input</argument>
+                                <argument>${project.build.directory}</argument>
+                                <argument>--name</argument>
+                                <argument>HackMaster</argument>
+                                <argument>--main-jar</argument>
+                                <argument>${project.artifactId}-${project.version}.jar</argument>
+                                <argument>--main-class</argument>
+                                <argument>${main.class}</argument>
+                                <argument>--icon</argument>
+                                <argument>${project.build.directory}\classes\images\favicon.ico</argument>
+                                <argument>--app-version</argument>
+                                <argument>${project.version}</argument>
+                                <argument>--win-dir-chooser</argument>
+                                <argument>--win-menu</argument>
+                                <argument>--win-shortcut</argument>
+                                <argument>--module-path</argument>
+                                <argument>${project.build.directory};C:\Program Files\Java\javafx-jmods</argument>
+                                <argument>--add-modules</argument>
+                                <argument>javafx.controls</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
