@@ -94,7 +94,7 @@ public class TerminalPanel extends VBox {
             String output = prefix + lines[i];
             Label label = createLabel(output);
 
-            label.setTextFill(gameState.getPalette().getForeground());
+            label.setTextFill(GameConstants.FOREGROUND);
             label.setFont(GameConstants.FONT);
 
             getChildren().add(label);

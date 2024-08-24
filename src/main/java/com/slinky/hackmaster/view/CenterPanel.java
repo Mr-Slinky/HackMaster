@@ -3,7 +3,6 @@ package com.slinky.hackmaster.view;
 import com.slinky.hackmaster.model.GameConstants;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
-import com.slinky.hackmaster.model.GameState;
 import com.slinky.hackmaster.util.GridUtil;
 
 import javafx.collections.ObservableList;
@@ -147,7 +146,7 @@ public class CenterPanel extends HBox {
             Label lbl = new Label(text);
             lbl.setPrefHeight(CellView.CELL_HEIGHT);
             lbl.setAlignment(Pos.CENTER);
-            lbl.setTextFill(GameState.getGameState().getPalette().getForeground());
+            lbl.setTextFill(GameConstants.FOREGROUND);
             lbl.setFont(GameConstants.FONT);
             return lbl;
         }

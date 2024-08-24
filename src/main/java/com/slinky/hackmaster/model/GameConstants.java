@@ -1,6 +1,7 @@
 package com.slinky.hackmaster.model;
 
 import java.io.InputStream;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -45,6 +46,16 @@ public class GameConstants {
      * defaults to a monospaced font with the specified {@link #FONT_SIZE}.
      */
     public static final Font FONT = loadFont();
+    
+    /**
+     * The main foreground to be used throughout the game.
+     */
+    public static final Color FOREGROUND = Color.web("0x00FF00");
+    
+    /**
+     * The color for the game's background
+     */
+    public static final Color BACKGROUND = Color.web("0x001100");
 
     // -------------------------- Helper Methods ---------------------------- //
     /**
