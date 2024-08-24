@@ -180,10 +180,10 @@ public class MainController {
         }
 
         // Random chance to either remove a dud or reset guesses
-        if (current().nextDouble() < 0.0001) { // DEBUG RESET to 0.8
+        if (current().nextDouble() < 0.8) { 
             cellManager.removeDud(wordSet.removeRandomDud()); // Trigger event listener(s)
             text.append("\nDUD REMOVED");
-        } else {
+        } else { // 20% chance of resetting guesses
             gameState.resetGuesses();
             text.append("\nGUESSES RESET");
         }
