@@ -10,7 +10,6 @@ import com.slinky.hackmaster.model.text.Difficulty;
 import com.slinky.hackmaster.model.GameConstants;
 import com.slinky.hackmaster.model.cell.CellManager;
 import com.slinky.hackmaster.model.text.WordBank;
-import com.slinky.hackmaster.view.LockedOutScreen;
 import com.slinky.hackmaster.view.MainView;
 
 import javafx.application.Application;

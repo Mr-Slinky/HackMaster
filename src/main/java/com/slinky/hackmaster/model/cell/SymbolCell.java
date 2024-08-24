@@ -1,7 +1,5 @@
 package com.slinky.hackmaster.model.cell;
 
-import com.slinky.hackmaster.model.cell.Cell;
-import com.slinky.hackmaster.model.cell.CellCluster;
 import java.util.ArrayList;
 import java.util.List;
 
