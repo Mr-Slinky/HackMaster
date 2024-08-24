@@ -1,12 +1,31 @@
 # Hack Master
 
 ## Description
-A replication of the Fallout 3 / 4 hacking minigame using JavaFX.
+A replication of the Fallout Terminal Hacking Puzzle, using JavaFX.
 
-The hacking puzzles in Fallout 3 and 4 involve accessing terminals by cracking passwords through a word game. Players are presented with a list of words and must choose the correct password based on similarity to a selected word. Each guess provides feedback on how many letters are correctly placed. Techniques to assist in solving the puzzle include eliminating dud words through bracket sequences and strategically choosing words based on the feedback received from previous guesses. Incorrect attempts can lock players out, but exiting the minigame before the last attempt resets the puzzle.
-![Cell and CellCluster Class Diagram](docs/resources/UI_Snapshot.png)
-This game closely resembles the classic board game Mastermind. In Mastermind, one player sets a hidden code and the other player guesses the sequence, receiving feedback on the accuracy of each guess. Similarly, in Fallout’s hacking puzzle, players choose words and receive feedback on how many letters match the correct password's position, guiding them to the correct choice. Both games require logical deduction and pattern recognition to deduce the correct answer based on feedback from incorrect attempts.
-![Cell and CellCluster Class Diagram](https://www.geekyhobbies.com/wp-content/uploads/2022/12/Mastermind-Winning-728x410.jpg)
+The hacking puzzles in Fallout 3 and 4 involve accessing terminals by cracking passwords through a word game. Players are presented with a list of words and must choose the correct password based on similarity to a selected word. Each guess provides feedback on how many letters are correctly placed.
+
+### Fallout 3 and 4 In-Game Screenshots:
+<div align="center">
+  <img src="https://preview.redd.it/so-i-just-realized-the-hacking-minigame-is-the-same-as-v0-vhj4tkd7mdmc1.jpg?width=1080&crop=smart&auto=webp&s=17065e3a565aaca9acdbaea4ae9d780f5c0a6f63" alt="Fallout Hacking Puzzle Example 1" style="display:inline-block; width:36.5%; margin-right:10px;">
+  <img src="https://preview.redd.it/ok-i-am-absolutely-horrible-with-these-i-am-also-very-v0-dielavkneshc1.jpeg?auto=webp&s=c62b701a2a06d29b1fbd3bf7e8cd72f6703f8233" alt="Fallout Hacking Puzzle Example 2" style="display:inline-block; width:50%; margin-right:10px;">
+</div>
+
+Techniques to assist in solving the puzzle include eliminating <b>duds</b> through bracket sequences and strategically choosing words based on the feedback received from previous guesses. Incorrect attempts can lock players out, but exiting the minigame before the last attempt resets the puzzle.
+
+### UI Screenhots:
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_1.png" alt="UI Snapshot 1" style="display:inline-block; width:30%; margin-right:10px;">
+  <img src="docs/resources/UI_Snapshot_2.png" alt="UI Snapshot 2" style="display:inline-block; width:30%; margin-right:10px;">
+  <img src="docs/resources/UI_Snapshot_3.png" alt="UI Snapshot 3" style="display:inline-block; width:30%; margin-right:10px;">
+</div>
+
+This hacking puzzle closely resembles the classic board game <b>Mastermind</b>. In Mastermind, one player sets a hidden code and the other player guesses the sequence, receiving feedback on the accuracy of each guess. Similarly, in Fallout’s hacking puzzle, players choose words and receive feedback on how many letters match the correct password's position, guiding them to the correct choice. Both games require logical deduction and pattern recognition to deduce the correct answer based on feedback from incorrect attempts.
+
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Mastermind.jpg" alt="Image 1" style="display:inline-block; width:41%; margin-right:10px;"/>
+  <img src="https://www.trustytoys.co.uk/cdn/shop/products/hasbromastermind2_1024x1024@2x.jpg?v=1677370130" alt="Image 2" style="display:inline-block; width:45%; margin-right:10px;"/>
+</div>
 
 ## Javadoc:
 
@@ -24,7 +43,9 @@ The `Cell` interface is implemented by the `AbstractCell` class, which offers a 
 
 Similarly, the `CellCluster` interface is implemented by the `AbstractCluster` class. `AbstractCluster` provides default behaviours for all `CellClusters`, such as retrieving the first and last `Cell` objects. The concrete implementations, `LetterCluster` and `SymbolCluster`, specialise in containing `LetterCell` and `SymbolCell` objects, respectively.
 
-![Cell and CellCluster Class Diagram](docs/resources/UML_Cells.svg)
+<div align="center">
+  <img src="docs/resources/UML_Cells.svg" alt="Cell and CellCluster Class Diagram">
+</div>
 
 #### Cell Management and Clustering
 
@@ -46,7 +67,9 @@ The `WordBank` class plays a central role in the global context of the game, esp
 
 Currently, the only implementation of the `WordSet` interface is the `StaticWordSet` class, which requires a `JumbleStrategy` implementation upon instantiation. This strategy dictates the behaviour of the `StaticWordSet`'s jumble function.
 
-![WordSet UML Diagram](docs/resources/UML_Text.svg)
+<div align="center">
+  <img src="docs/resources/UML_Text.svg" alt="WordSet UML Diagram">
+</div>
 
 #### Game State
 
@@ -70,12 +93,18 @@ The `controller` package contains a single class: `MainController`. This class s
 
 A user click can trigger various events depending on the game’s state and the specific cell clicked. The behaviour of a click is designed to closely mimic the original game. When a user clicks a single cell that does not belong to any larger group or cluster, an error message is displayed along with the symbol, much like in the original game.
 
-![UI Snapshot: Single Cell Click](docs/resources/UI_Snapshot_click3.png)
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_click3.png" alt="UI Snapshot: Single Cell Click">
+</div>
 
 When a user clicks on a word, or `LetterCluster`, they might win the game (if the guess is correct), lose the game (if the guess is incorrect and guesses run out), or receive feedback on the correctness of the guess. This process also removes a dud from the `WordSet` within the `GameState`. Once a word is clicked, it dissolves as a cluster and is replaced with periods (`.`).
 
-![UI Snapshot: Word Click](docs/resources/UI_Snapshot_click1.png)
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_click1.png" alt="UI Snapshot: Word Click">
+</div>
 
 Users can also click on valid symbol clusters. These clusters can only be clicked once and dissolve upon clicking, though they are not replaced with periods. Clicking a cluster triggers an event with a 20% chance to reset the guesses and an 80% chance to remove a dud from the grid.
 
-![UI Snapshot: Symbol Cluster Click](docs/resources/UI_Snapshot_click2.png)
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_click2.png" alt="UI Snapshot: Symbol Cluster Click">
+</div>
