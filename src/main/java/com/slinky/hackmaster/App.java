@@ -10,6 +10,7 @@ import com.slinky.hackmaster.model.text.Difficulty;
 import com.slinky.hackmaster.model.GameConstants;
 import com.slinky.hackmaster.model.cell.CellManager;
 import com.slinky.hackmaster.model.text.WordBank;
+import com.slinky.hackmaster.view.LockedOutScreen;
 import com.slinky.hackmaster.view.MainView;
 
 import javafx.application.Application;
@@ -54,6 +55,19 @@ public class App extends Application {
     private GameState gameState;
 
     /**
+     * The scene used for setting up the puzzle. This scene contains controls
+     * for selecting difficulty levels and other configuration options before
+     * the game starts.
+     */
+    private Scene setupScene;
+
+    /**
+     * The main gameplay scene where the puzzle is presented to the player. This
+     * scene includes the main interactive features and feedback mechanisms
+     */
+    private Scene mainScene;
+
+    /**
      * The set of words used in the game, retrieved from {@link WordSet}.
      */
     private WordSet wordSet;
@@ -96,6 +110,8 @@ public class App extends Application {
 
         mainPanel = new MainView(cellManager);
         controller = new MainController(cellManager, mainPanel, wordSet);
+
+        mainScene = new Scene(mainPanel);
     }
 
     /**
@@ -108,8 +124,8 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
-        Scene scene = new Scene(mainPanel);
-        stage.setScene(scene);
+        controller.setStage(stage);
+        stage.setScene(mainScene);
         stage.show();
     }
 

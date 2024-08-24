@@ -117,7 +117,7 @@ public class MainView extends BorderPane {
     public void display(String text) {
         terminal.display(text);
     }
-
+    
     // -------------------------- Helper Methods ------------------------------ //
     /**
      * Creates a 2D array of {@link CellView} objects based on the
@@ -148,4 +148,5 @@ public class MainView extends BorderPane {
 
         return cvGrid;
     }
+
 }
