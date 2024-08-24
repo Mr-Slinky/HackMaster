@@ -1,7 +1,5 @@
 package com.slinky.hackmaster.model.cell;
 
-import com.slinky.hackmaster.model.cell.Cell;
-
 /**
  * The {@code SymbolCluster} class extends {@code AbstractCluster} and is
  * designed to manage a collection of {@code SymbolCell} objects. This

@@ -1,8 +1,5 @@
 package com.slinky.hackmaster.model.cell;
 
-import com.slinky.hackmaster.model.cell.Cell;
-import com.slinky.hackmaster.model.cell.CellCluster;
-
 /**
  * Represents a cell that contains a single alphabetic character within a grid
  * or similar structure.
