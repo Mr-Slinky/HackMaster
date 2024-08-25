@@ -1,4 +1,4 @@
-package com.slinky.hackmaster.model.hillbcurve;
+package com.slinky.hackmaster.util;
 
 /**
  * Represents a single point in 2D space.
