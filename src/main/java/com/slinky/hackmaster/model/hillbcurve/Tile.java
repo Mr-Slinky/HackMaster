@@ -1,5 +1,6 @@
 package com.slinky.hackmaster.model.hillbcurve;
 
+import com.slinky.hackmaster.util.Point;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
