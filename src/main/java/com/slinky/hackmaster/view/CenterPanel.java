@@ -144,7 +144,7 @@ public class CenterPanel extends HBox {
          */
         private Label createLabel(String text) {
             Label lbl = new Label(text);
-            lbl.setPrefHeight(CellView.CELL_HEIGHT);
+            lbl.setPrefHeight(GameConstants.CELL_HEIGHT);
             lbl.setAlignment(Pos.CENTER);
             lbl.setTextFill(GameConstants.FOREGROUND);
             lbl.setFont(GameConstants.FONT);
@@ -231,8 +231,8 @@ public class CenterPanel extends HBox {
             setPrefRows(cells.length);
             setPrefColumns(cells[0].length);
 
-            setPrefTileWidth(CellView.CELL_WIDTH);
-            setPrefTileHeight(CellView.CELL_HEIGHT);
+            setPrefTileWidth(GameConstants.CELL_WIDTH);
+            setPrefTileHeight(GameConstants.CELL_HEIGHT);
 
             configureCells();
         }
