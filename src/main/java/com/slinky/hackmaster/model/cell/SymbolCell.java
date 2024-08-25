@@ -228,7 +228,8 @@ public class SymbolCell extends AbstractCell {
      */
     @Override
     public CellCluster getMainCluster() {
-        for (CellCluster cluster : clusters) {
+        for (int i = clusters.size() - 1; i >= 0; i--) {
+            CellCluster cluster = clusters.get(i);
             if (cluster.getFirstCell() == this) {
                 return cluster;
             }
