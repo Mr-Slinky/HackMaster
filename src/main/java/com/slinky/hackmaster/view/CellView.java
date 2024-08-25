@@ -4,6 +4,8 @@ import com.slinky.hackmaster.model.GameState;
 import com.slinky.hackmaster.model.cell.Cell;
 import com.slinky.hackmaster.model.cell.CellCluster;
 import com.slinky.hackmaster.model.GameConstants;
+import static com.slinky.hackmaster.model.GameConstants.CELL_HEIGHT;
+import static com.slinky.hackmaster.model.GameConstants.CELL_WIDTH;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -63,20 +65,6 @@ import javafx.scene.layout.Background;
  * @author Kheagen Haskins
  */
 public class CellView extends Label {
-
-    // ------------------------------ Static -------------------------------- //
-    /**
-     * The constant width of the cell view in pixels. This defines the preferred
-     * width of the {@code CellView} when displayed in the user interface.
-     */
-    public static final int CELL_WIDTH = 20;
-
-    /**
-     * The constant height of the cell view in pixels. This defines the
-     * preferred height of the {@code CellView} when displayed in the user
-     * interface.
-     */
-    public static final int CELL_HEIGHT = 30;
 
     // ------------------------------ Fields -------------------------------- //
     /**

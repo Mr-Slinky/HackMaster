@@ -46,16 +46,29 @@ public class GameConstants {
      * defaults to a monospaced font with the specified {@link #FONT_SIZE}.
      */
     public static final Font FONT = loadFont();
-    
+
     /**
      * The main foreground to be used throughout the game.
      */
     public static final Color FOREGROUND = Color.web("0x00FF00");
-    
+
     /**
      * The color for the game's background
      */
     public static final Color BACKGROUND = Color.web("0x001100");
+
+    /**
+     * The constant width of the cell view in pixels. This defines the preferred
+     * width of the {@code CellView} when displayed in the user interface.
+     */
+    public static final int CELL_WIDTH = 20;
+
+    /**
+     * The constant height of the cell view in pixels. This defines the
+     * preferred height of the {@code CellView} when displayed in the user
+     * interface.
+     */
+    public static final int CELL_HEIGHT = 30;
 
     // -------------------------- Helper Methods ---------------------------- //
     /**
