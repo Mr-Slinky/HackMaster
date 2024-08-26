@@ -61,7 +61,7 @@ public class GameConstants {
      * The constant width of the cell view in pixels. This defines the preferred
      * width of the {@code CellView} when displayed in the user interface.
      */
-    public static final int CELL_WIDTH = 20;
+    public static final int CELL_WIDTH = 12;
 
     /**
      * The constant height of the cell view in pixels. This defines the

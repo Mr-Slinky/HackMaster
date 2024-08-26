@@ -18,27 +18,33 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * The {@code App} class is the main entry point for the JavaFX-based
- * application. It sets up the primary application components, initializes the
- * game state, and configures the user interface. This class extends the
+ * The {@code App} class is the main entry point for the JavaFX-based puzzle. It
+ * sets up the primary application components, initialises the game state, and
+ * configures the user interface. This class extends the
  * {@link javafx.application.Application} class, allowing it to serve as a
  * JavaFX application.
  * <p>
  * The application simulates a word game using a grid-based system, where the
- * user interacts with a graphical interface to play. It utilizes various
- * components like {@link GameState}, {@link WordSet}, {@link CellManager}, and
+ * user interacts with a graphical interface to play. It uses various components
+ * like {@link GameState}, {@link WordSet}, {@link CellManager}, and
  * {@link MainController} to manage game logic, word handling, and the user
  * interface.
  * </p>
  * <p>
  * The main responsibilities of this class include:
  * <ul>
- * <li>Initialization of the game state and core components in the
- * {@link #init()} method.</li>
- * <li>Setting up the primary stage and scene in the {@link #start(Stage)}
- * method.</li>
- * <li>Serving as the entry point for the application via the
- * {@link #main(String[])} method.</li>
+ * <li>
+ * Initialisation of the game state and core components in the
+ * {@link #init()} method.
+ * </li>
+ * <li>
+ * Setting up the primary stage and scene in the {@link #start(Stage)}
+ * method.
+ * </li>
+ * <li>
+ * Serving as the entry point for the application via the
+ * {@link #main(String[])} method.
+ * </li>
  * </ul>
  * </p>
  *
@@ -90,12 +96,12 @@ public class App extends Application {
     private MainView mainPanel;
 
     /**
-     * Initializes the application. This method is called before the
+     * Initialises the application. This method is called before the
      * {@link #start(Stage)} method and is used to set up the game's state and
-     * components. It initializes the game state, word set, cell manager, main
+     * components. It initialises the game state, word set, cell manager, main
      * panel, and controller.
      *
-     * @throws Exception if there is an issue during the initialization process.
+     * @throws Exception if there is an issue during the initialisation process.
      */
     @Override
     public void init() throws Exception {
