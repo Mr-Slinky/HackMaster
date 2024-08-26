@@ -8,6 +8,7 @@ import com.slinky.hackmaster.model.cell.CellManager;
 
 import com.slinky.hackmaster.model.text.WordSet;
 import com.slinky.hackmaster.util.StringUtil;
+import com.slinky.hackmaster.view.InfiniteCurveCanvas;
 import com.slinky.hackmaster.view.LockedOutScreen;
 import com.slinky.hackmaster.view.MainView;
 
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
 import javafx.animation.PauseTransition;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.util.Duration;
 
@@ -81,7 +83,7 @@ public class MainController {
      * The main view responsible for displaying game information to the user,
      * including feedback on their actions.
      */
-    private MainView terminal;
+    private MainView mainView;
 
     /**
      * Contains the set of possible words in the game, including the correct
@@ -106,11 +108,20 @@ public class MainController {
      * game states.
      */
     private boolean clickDisabled = false;
-    
+
+    private InfiniteCurveCanvas curveDisplay;
+
     /**
-     * 
+     * A delayed action that transitions to the lock screen when the game has
+     * been lost.
      */
     private PauseTransition transitionToLockScreen;
+
+    /**
+     * A delayed action that transitions to the winning screen when the game has
+     * been won.
+     */
+    private PauseTransition transitionToWinScreen;
 
     // =========================== Constructors ============================= //
     /**
@@ -124,15 +135,27 @@ public class MainController {
      */
     public MainController(CellManager cellGrid, MainView display, WordSet wordSet) {
         this.cellManager = cellGrid;
-        this.terminal = display;
+        this.mainView = display;
         this.wordSet = wordSet;
         this.correctWord = wordSet.getCorrectWord();
+        
+        System.out.println(correctWord);
+        
+        transitionToLockScreen = new PauseTransition(Duration.seconds(2));
+        transitionToWinScreen = new PauseTransition(Duration.seconds(2));
 
-        transitionToLockScreen = new PauseTransition(Duration.seconds(2)); // 2-second delay
+        transitionToWinScreen.setOnFinished(event -> {
+            curveDisplay = new InfiniteCurveCanvas((int) display.getWidth(), (int) display.getHeight());
+            stage.setScene(new Scene(
+                    new Group(curveDisplay)
+            ));
+            curveDisplay.startAnimation();
+        });
+
         transitionToLockScreen.setOnFinished(event -> {
             stage.setScene(new Scene(
-                    new LockedOutScreen("SYSTEM LOCKED!"), 
-                    display.getWidth(), 
+                    new LockedOutScreen("SYSTEM LOCKED!"),
+                    display.getWidth(),
                     display.getHeight()
             ));
         });
@@ -218,7 +241,7 @@ public class MainController {
         handleRandomEvent(text);
 
         // Display the outcome of the cell click to the terminal.
-        terminal.display(text.toString());
+        mainView.display(text.toString());
     }
 
     /**
@@ -229,7 +252,7 @@ public class MainController {
      */
     private void handleError(Cell cell) {
         // Display an error message along with the content of the erroneous cell.
-        terminal.display(ERROR_MESSAGE + "\n" + cell.getContent());
+        mainView.display(ERROR_MESSAGE + "\n" + cell.getContent());
     }
 
     /**
@@ -266,7 +289,7 @@ public class MainController {
         } else {
             // If guesses remain, append the likeness score and display an entry denied message.
             outputMessage.append(ENTRY_DENIED_MESSAGE).append(getSimilarityText(guess));
-            terminal.display(outputMessage.toString());
+            mainView.display(outputMessage.toString());
         }
     }
 
@@ -296,10 +319,14 @@ public class MainController {
     }
 
     private void triggerGameOver(String message, boolean hasWon) {
-        terminal.display(message);
+        mainView.display(message);
         clickDisabled = true;
-        if (stage != null && !hasWon) {
-            transitionToLockScreen.play(); // Start the pause transition
+        if (stage != null) {
+            if (hasWon) {
+                transitionToWinScreen.play();
+            } else {
+                transitionToLockScreen.play();
+            }
         }
     }
 
