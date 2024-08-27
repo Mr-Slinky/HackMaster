@@ -178,7 +178,7 @@ public interface Cell {
      * </p>
      * <p>
      * For most subclasses, including {@code LetterCell}, this method checks if
-     * the content of both cells is identical. However, for more specialized
+     * the content of both cells is identical. However, for more specialised
      * subclasses like {@code SymbolCell}, the implementation may involve more
      * nuanced rules, such as determining whether certain types of symbols are
      * considered equivalent, even if their content differs.

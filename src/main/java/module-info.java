@@ -15,12 +15,4 @@ module com.slinky.hackmaster {
     requires java.sql;
     requires javafx.controls;
     exports com.slinky.hackmaster;
-
-//    Javadoc Exports - Enable when generating javadoc
-//    exports com.slinky.hackmaster.model;
-//    exports com.slinky.hackmaster.model.cell;
-//    exports com.slinky.hackmaster.model.text;
-//    exports com.slinky.hackmaster.controller;
-//    exports com.slinky.hackmaster.view;
-//    exports com.slinky.hackmaster.util;
 }

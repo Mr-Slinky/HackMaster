@@ -3,7 +3,7 @@ package com.slinky.hackmaster.model.cell;
 import java.util.List;
 
 /**
- * A specialized implementation of {@code AbstractCluster} that groups
+ * A specialised implementation of {@code AbstractCluster} that groups
  * {@code LetterCell}s. This class ensures that only cells containing letter
  * characters are added to the cluster.
  * <p>

@@ -72,7 +72,7 @@ public final class GameState {
     // --------------------------- Constructors ----------------------------- //
     /**
      * Constructs a new {@code GameState} object with the specified word set and
-     * starting number of guesses. The game state is initialized with the
+     * starting number of guesses. The game state is initialised with the
      * provided {@link WordSet}, and the number of guesses is set according to
      * the {@code startingGuesses} parameter. Additionally, the color palette is
      * set to the default {@link FXPalettes#GREEN}.
@@ -177,7 +177,7 @@ public final class GameState {
 // ------------------------------ Static -------------------------------- //
     /**
      * The single instance of {@code GameState} that exists for the duration of
-     * the application's lifecycle. This field is initialized via the
+     * the application's lifecycle. This field is initialised via the
      * {@link #createGameState(WordSet, int)} method and accessed through the
      * {@link #getGameState()} method.
      */

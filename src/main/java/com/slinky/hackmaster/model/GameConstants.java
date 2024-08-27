@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
  * a player has, the default font size for text rendering, and the {@link Font}
  * object used within the application's UI.
  * <p>
- * This class is designed to centralize these key configuration values, ensuring
+ * This class is designed to centralise these key configuration values, ensuring
  * they are consistently used across the application and can be easily
  * referenced or modified if needed (except for final fields which are
  * immutable).
