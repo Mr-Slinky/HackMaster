@@ -31,7 +31,7 @@ public interface WordSet {
      * Retrieves the correct word from the word set.
      * <p>
      * The "correct" word is typically one that is randomly selected during the
-     * initialization of the implementing class. This word can be used as an
+     * initialisation of the implementing class. This word can be used as an
      * answer or reference in word-based games or applications.
      * </p>
      *
