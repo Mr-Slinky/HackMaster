@@ -24,7 +24,7 @@ import javafx.geometry.Insets;
  * <li>{@link TerminalPanel} for showing game messages, logs, or other
  * text-based output.</li>
  * </ul>
- * The {@code MainView} class utilizes a {@link CellManager} to create visual
+ * The {@code MainView} class utilises a {@link CellManager} to create visual
  * representations of the game's cells, which are displayed in the center grid.
  * </p>
  *
@@ -38,12 +38,12 @@ public class MainView extends BorderPane {
     /**
      * The preferred height for the {@link TopPanel}.
      */
-    private static final int TOP_HEIGHT = 100;
+    private static final int TOP_HEIGHT = 90;
 
     /**
      * The preferred width for the {@link TerminalPanel}.
      */
-    private static final int TERMINAL_WIDTH = 225;
+    private static final int TERMINAL_WIDTH = 200;
 
     /**
      * The padding value for the layout, applied uniformly to all sides.
@@ -78,7 +78,7 @@ public class MainView extends BorderPane {
     // --------------------------- Constructors -------------------------------- //
     /**
      * Constructs a new {@code MainView} with the specified {@link CellManager}.
-     * Initializes the main UI components, sets their preferred sizes, and
+     * Initialises the main UI components, sets their preferred sizes, and
      * arranges them within the {@code BorderPane}.
      *
      * @param cellManager the {@link CellManager} responsible for managing the

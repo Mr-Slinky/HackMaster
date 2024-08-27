@@ -108,7 +108,10 @@ public class MainController {
      * game states.
      */
     private boolean clickDisabled = false;
-
+    
+    /**
+     * Displays the Hillbert Curve once the user has won
+     */
     private InfiniteCurveCanvas curveDisplay;
 
     /**
