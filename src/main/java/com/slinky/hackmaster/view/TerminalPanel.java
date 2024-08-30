@@ -38,7 +38,12 @@ public class TerminalPanel extends VBox {
      * cell in the game's grid.
      */
     private static final int LABEL_HEIGHT = GameConstants.FONT_SIZE;
-
+    
+    /**
+     * The height limit before the terminal resets
+     */
+    private static final int HEIGHT = 410;
+    
     // ------------------------------ Fields -------------------------------- //
     /**
      * The current state of the game, used to retrieve game-specific settings
@@ -100,13 +105,12 @@ public class TerminalPanel extends VBox {
             labelCount++;
         }
     }
-    
+
     /**
      * Clears all text from the terminal panel. This method resets the panel to
      * its initial state and prepares it for new content.
      */
     public void clear() {
-        System.out.println("cleared");
         getChildren().clear();
         labelCount = 0;
     }
@@ -122,9 +126,8 @@ public class TerminalPanel extends VBox {
      * terminal; {@code false} otherwise.
      */
     private boolean newLabelWillOverflow(String[] lines) {
-        int y = (labelCount + 1) * LABEL_HEIGHT;
-
-        return y > getHeight() - (LABEL_HEIGHT * lines.length);
+        int y = (labelCount + lines.length) * LABEL_HEIGHT;
+        return y >= HEIGHT;
     }
 
     /**

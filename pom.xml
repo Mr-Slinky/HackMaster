@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.slinky</groupId>
     <artifactId>hackmaster</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.3</version>
     
     <properties>
         <main.class>com.slinky.hackmaster.App</main.class>
@@ -12,9 +12,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         
-        <jpda.listen>true</jpda.listen>
-        <jpda.transport>dt_socket</jpda.transport>
-        <jpda.address>8000</jpda.address>
+        <junit.version>5.11.0</junit.version>
+        <mockito.version>5.11.0</mockito.version>
     </properties>
     
     <dependencies>
@@ -22,31 +21,38 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>22.0.2</version>
         </dependency>
         
-        <!--Test Dependencies-->
+        <!--Junit 5 Dependencies-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         
+        <!--h2 Database-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.3.232</version>
+        </dependency>
+
     </dependencies>
     
     <build>
@@ -56,7 +62,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <release>17</release>
                     <source>${maven.compiler.source}</source>
@@ -76,7 +82,7 @@
                 </configuration>
             </plugin>
             
-            <!--Maven Shade Plugin-->
+            <!-- Maven Shade Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -101,7 +107,7 @@
                     </execution>
                 </executions>
             </plugin>
-           
+            
             <!--Java Maven Plugin with JLink configured -->
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -167,12 +173,10 @@
                             </options>
                         </configuration>
                     </execution>
-                    
                 </executions>
             </plugin>
             
-            
-            <!--JPackage Plugin-->
+            <!-- JPackage Plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

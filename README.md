@@ -100,17 +100,39 @@ The `controller` package contains a single class: `MainController`. This class s
 A user click can trigger various events depending on the game’s state and the specific cell clicked. The behaviour of a click is designed to closely mimic the original game. When a user clicks a single cell that does not belong to any larger group or cluster, an error message is displayed along with the symbol, much like in the original game.
 
 <div align="center">
-  <img src="docs/resources/UI_Snapshot_click3.png" alt="UI Snapshot: Single Cell Click">
+  <img src="docs/resources/UI_Snapshot_SingleCellClick.png" alt="UI Snapshot: Single Cell Click">
 </div>
 
 When a user clicks on a word, or `LetterCluster`, they might win the game (if the guess is correct), lose the game (if the guess is incorrect and guesses run out), or receive feedback on the correctness of the guess. This process also removes a dud from the `WordSet` within the `GameState`. Once a word is clicked, it dissolves as a cluster and is replaced with periods (`.`).
 
 <div align="center">
-  <img src="docs/resources/UI_Snapshot_click1.png" alt="UI Snapshot: Word Click">
+  <img src="docs/resources/UI_Snapshot_WrongWord.png" alt="UI Snapshot: Word Click">
 </div>
 
 Users can also click on valid symbol clusters. These clusters can only be clicked once and dissolve upon clicking, though they are not replaced with periods. Clicking a cluster triggers an event with a 20% chance to reset the guesses and an 80% chance to remove a dud from the grid.
 
 <div align="center">
-  <img src="docs/resources/UI_Snapshot_click2.png" alt="UI Snapshot: Symbol Cluster Click">
+  <img src="docs/resources/UI_Snapshot_BracketHighlight.png" alt="UI Snapshot: Symbol Cluster Highlight">
+</div>
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_BracketDudRemoved.png" alt="UI Snapshot: Symbol Cluster Click Dud Removed">
+</div>
+
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_BracketTriesReset.png" alt="UI Snapshot: Symbol Cluster Click Tries Reset">
+</div>
+
+
+If a player uses all of their guesses, a locked-out message will display and trigger a short 1-2 second timer that will cause the system to lock. The user must exit the game at this point if they wish to retry.
+
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_LockoutMessage.png" alt="UI Snapshot: Symbol Cluster Click">
+</div>
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_LockoutScreen.png" alt="UI Snapshot: Symbol Cluster Click">
+</div>
+
+Should a player win the game, they are rewarded with a Hilbert Curve animation
+<div align="center">
+  <img src="docs/resources/UI_Snapshot_CurveDisplay.png" alt="UI Snapshot: Hilbert Curve Animation">
 </div>

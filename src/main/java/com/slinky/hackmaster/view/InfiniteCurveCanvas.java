@@ -63,7 +63,7 @@ public class InfiniteCurveCanvas extends Canvas {
      * The order of the Hilbert Curve, determining its complexity. Higher orders
      * produce more intricate curves with greater numbers of points.
      */
-    private int order = 2;
+    private int order = 1;
 
     /**
      * An array of {@link Point} objects representing the coordinates of the
