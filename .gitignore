@@ -25,3 +25,6 @@ replay_pid*
 /target/
 /nbproject/
 /config_backup/
+
+# Installers are published as GitHub release assets
+*.exe
